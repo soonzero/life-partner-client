@@ -3,7 +3,7 @@ import { ReactComponent as Logo } from 'static/icons/logo.svg';
 
 const NavBar = () => {
 	return (
-		<nav className="h-16 flex items-center">
+		<nav className="max-w-screen-2xl mx-auto h-16 flex items-center">
 			<ul>
 				<li>
 					<Link to="/">
