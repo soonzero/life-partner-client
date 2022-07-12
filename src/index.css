@@ -52,6 +52,14 @@
 	.vertical {
 		@apply flex flex-col;
 	}
+
+	.center {
+		@apply justify-center items-center;
+	}
+
+	.btn-filter {
+		@apply flex py-2 pl-4 pr-2 bg-white border-1 border-main rounded-full;
+	}
 }
 
 body {

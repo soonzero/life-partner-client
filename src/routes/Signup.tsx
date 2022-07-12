@@ -131,7 +131,7 @@ const Signup = () => {
 								onChange={onChange}
 							/>
 							<label className="auth-label">* 기본 주소</label>
-							<div className="flex items-center mb-3">
+							<div className="flex center mb-3">
 								<input
 									id="address"
 									type="text"

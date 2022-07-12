@@ -9,6 +9,12 @@ module.exports = {
 			borderWidth: {
 				1: '1px',
 			},
+			boxShadow: {
+				main: '0 6px 16px',
+			},
+			boxShadowColor: {
+				main: 'rgba(0, 0, 0, 0.12)',
+			},
 		},
 	},
 	plugins: [],
