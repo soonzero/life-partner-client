@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Header from 'components/Header';
 import bankList from 'data/bankList';
 import useInputs from 'hooks/useInputs';
@@ -48,8 +49,23 @@ const Signup = () => {
 		// 회원가입 api 연동
 	};
 
-	const completeHandler = (data: any) => {
-		setAddress(data.roadAddress);
+	const getLatLng = async (address: string) => {
+		const {
+			data: { addresses },
+		} = await axios({
+			method: 'GET',
+			url: `/map-geocode/v2/geocode?query=${address}`,
+			headers: {
+				'X-NCP-APIGW-API-KEY-ID': `${process.env.REACT_APP_NAVER_API_KEY_ID}`,
+				'X-NCP-APIGW-API-KEY': `${process.env.REACT_APP_NAVER_API_KEY}`,
+			},
+		});
+		return [addresses[0].y, addresses[0].x];
+	};
+
+	const completeHandler = async (data: any) => {
+		const [lng, lat] = await getLatLng(data.roadAddress);
+		setAddress((prev) => `${data.roadAddress},${lat},${lng}`);
 		setIsOpen(false);
 	};
 
@@ -138,7 +154,7 @@ const Signup = () => {
 									className="auth-input mb-0 mr-3 grow"
 									required
 									disabled
-									value={address}
+									value={address.split(',')[0]}
 									onChange={onChange}
 								/>
 								<button
