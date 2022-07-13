@@ -1,7 +1,11 @@
 export type MapInCard = {
-	index: number;
-	lat: number;
-	lon: number;
+	item: {
+		id: number;
+		period: number;
+		price: number;
+		location: string;
+		contents: string;
+	};
 };
 
 export type loginForm = {
