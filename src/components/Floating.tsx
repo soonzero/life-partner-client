@@ -12,12 +12,12 @@ const Floating = () => {
 	const [isUser, setIsUser] = useState<boolean>(false);
 
 	return (
-		<div className="fixed bottom-10 right-10 shadow-main rounded-full transition">
+		<div className="fixed bottom-10 right-10 shadow-main rounded-full transition z-10">
 			<span
-				className="w-12 h-12 flex center rounded-full hover:bg-white border-main fill-white border-1 hover:border-1 hover:fill-main bg-main cursor-pointer transition"
+				className="group w-12 h-12 flex center rounded-full hover:bg-white border-transparent fill-white border-1 hover:border-main bg-main cursor-pointer transition"
 				onClick={() => setSubMenu((prev) => !prev)}
 			>
-				<User className="w-5 h-5" />
+				<User className="w-5 h-5 group-hover:fill-main" />
 			</span>
 			{subMenu && (
 				<ul className="absolute bottom-14 right-0 rounded-lg border-1 w-max divide-y-1 overflow-hidden">

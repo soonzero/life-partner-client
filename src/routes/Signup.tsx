@@ -74,8 +74,8 @@ const Signup = () => {
 					>
 						<fieldset className="vertical mb-6">
 							<legend className="text-xl font-semibold mb-6">필수 항목</legend>
-							<label htmlFor="nickname" className="auth-label">
-								* 닉네임
+							<label htmlFor="nickname" className="auth-label mandatory">
+								닉네임
 							</label>
 							<input
 								id="nickname"
@@ -88,8 +88,8 @@ const Signup = () => {
 								value={nickname}
 								onChange={onChange}
 							/>
-							<label htmlFor="password" className="auth-label">
-								* 비밀번호
+							<label htmlFor="password" className="auth-label mandatory">
+								비밀번호
 							</label>
 							<input
 								id="password"
@@ -102,8 +102,8 @@ const Signup = () => {
 								value={password}
 								onChange={onChange}
 							/>
-							<label htmlFor="passwordConfirm" className="auth-label">
-								* 비밀번호 확인
+							<label htmlFor="passwordConfirm" className="auth-label mandatory">
+								비밀번호 확인
 							</label>
 							<input
 								id="passwordConfirm"
@@ -116,8 +116,8 @@ const Signup = () => {
 								value={passwordConfirm}
 								onChange={onChange}
 							/>
-							<label htmlFor="phone" className="auth-label">
-								* 휴대폰 번호
+							<label htmlFor="phone" className="auth-label mandatory">
+								휴대폰 번호
 							</label>
 							<input
 								id="phone"
@@ -130,7 +130,7 @@ const Signup = () => {
 								value={phone}
 								onChange={onChange}
 							/>
-							<label className="auth-label">* 기본 주소</label>
+							<label className="auth-label mandatory">기본 주소</label>
 							<div className="flex center mb-3">
 								<input
 									id="address"
@@ -149,12 +149,11 @@ const Signup = () => {
 									주소 검색
 								</button>
 							</div>
-							<label className="auth-label">* 상세 주소</label>
+							<label className="auth-label">상세 주소</label>
 							<input
 								id="detailAddress"
 								type="text"
 								className="auth-input"
-								required
 								value={detailAddress}
 								onChange={onChange}
 							/>
@@ -210,6 +209,7 @@ const Signup = () => {
 					style={{
 						overlay: {
 							backgroundColor: 'rgba(0, 0, 0, 0.5)',
+							zIndex: '10',
 						},
 						content: {
 							margin: 'auto',

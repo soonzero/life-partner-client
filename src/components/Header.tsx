@@ -24,7 +24,7 @@ const Header = () => {
 	return (
 		<header
 			className={classNames(
-				'mx-auto sticky top-0 px-8 bg-white transition border-b',
+				'mx-auto sticky top-0 px-8 bg-white transition border-b z-[5]',
 				{
 					'shadow-main': shadow,
 				}
