@@ -1,61 +1,44 @@
-import axios from 'axios';
-import classNames from 'classnames';
 import Header from 'components/Header';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { signUpForm } from 'types/types';
 import bankList from 'data/bankList';
-import useInputs from 'hooks/useInputs';
-import { FormEvent, useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import ReactModal from 'react-modal';
+import axios from 'axios';
+import classNames from 'classnames';
 
-const initialState = {
-	nickname: '',
-	password: '',
-	passwordConfirm: '',
-	phone: '',
-	detailAddress: '',
-	bank: '',
-	account: '',
-	holder: '',
-};
-
-const Signup = () => {
-	const [
-		{
-			nickname,
-			password,
-			passwordConfirm,
-			phone,
-			detailAddress,
-			bank,
-			account,
-			holder,
-		},
-		onChange,
-	] = useInputs(initialState);
-	const [btnActive, setBtnActive] = useState<boolean>(false);
+const NewSignup = () => {
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<signUpForm>();
 	const [address, setAddress] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
+	const onSubmit: SubmitHandler<signUpForm> = (data) => {
 		if (address.length > 0) {
-			console.log(
-				nickname,
-				password,
-				phone,
-				address,
-				detailAddress,
-				bank,
-				account,
-				holder
-			);
+			if (
+				(data.bank === '--선택하세요--' &&
+					(data.holder.length > 0 || data.account.length > 0)) ||
+				(data.bank !== '--선택하세요--' &&
+					(data.holder.length === 0 || data.account.length === 0))
+			) {
+				alert('선택 항목은 모두 입력되거나 모두 비워져있어야 합니다.');
+			} else {
+				// 회원가입 api 연동
+				data.bank = '';
+				console.log(data);
+			}
 		} else {
-			console.log('주소 입력');
+			alert('주소를 입력해주세요');
 		}
-
-		// 회원가입 api 연동
 	};
+
+	const passwordRef = useRef<string | null>(null);
+	passwordRef.current = watch('password');
 
 	const getLatLng = async (address: string) => {
 		const {
@@ -94,7 +77,7 @@ const Signup = () => {
 					<h1 className="mb-6">회원가입</h1>
 					<form
 						className="vertical bg-white rounded-lg border-1 border-gray-200 p-8"
-						onSubmit={onSubmit}
+						onSubmit={handleSubmit(onSubmit)}
 					>
 						<fieldset className="vertical mb-6">
 							<legend className="text-xl font-semibold mb-6">필수 항목</legend>
@@ -104,56 +87,91 @@ const Signup = () => {
 							<input
 								id="nickname"
 								type="text"
-								maxLength={8}
-								minLength={3}
-								placeholder="닉네임을 입력해주세요."
+								placeholder="한글/알파벳/숫자를 이용하여 3-8자로 입력해주세요."
 								className="auth-input"
-								required
-								value={nickname}
-								onChange={onChange}
+								{...register('nickname', {
+									required: true,
+									maxLength: 8,
+									minLength: 3,
+									pattern: /^[가-힣a-zA-Z0-9]*$/,
+								})}
 							/>
+							<span
+								className={classNames('guide-msg', {
+									error: errors.nickname,
+								})}
+							>
+								{errors.nickname &&
+									'한글/알파벳/숫자를 이용하여 3-8자로 입력해주세요.'}
+							</span>
 							<label htmlFor="password" className="auth-label mandatory">
 								비밀번호
 							</label>
 							<input
 								id="password"
 								type="password"
-								maxLength={12}
-								minLength={8}
-								placeholder="비밀번호를 입력해주세요."
+								placeholder="대소문자/특수문자 관계없이 8-12자로 입력해주세요."
 								className="auth-input"
-								required
-								value={password}
-								onChange={onChange}
+								{...register('password', {
+									required: true,
+									maxLength: 12,
+									minLength: 8,
+								})}
 							/>
+							<span
+								className={classNames('guide-msg', {
+									error: errors.password,
+								})}
+							>
+								{errors.password &&
+									'대소문자/특수문자 관계없이 8-12자로 입력해주세요.'}
+							</span>
 							<label htmlFor="passwordConfirm" className="auth-label mandatory">
 								비밀번호 확인
 							</label>
 							<input
 								id="passwordConfirm"
 								type="password"
-								maxLength={12}
-								minLength={8}
 								placeholder="비밀번호를 한 번 더 입력해주세요."
 								className="auth-input"
-								required
-								value={passwordConfirm}
-								onChange={onChange}
+								{...register('passwordConfirm', {
+									required: true,
+									maxLength: 12,
+									minLength: 8,
+									validate: (value: string) => value === passwordRef.current,
+								})}
 							/>
+							<span
+								className={classNames('guide-msg', {
+									error: errors.passwordConfirm,
+								})}
+							>
+								{errors.passwordConfirm &&
+									'비밀번호를 다시 한 번 확인해주세요.'}
+							</span>
 							<label htmlFor="phone" className="auth-label mandatory">
 								휴대폰 번호
 							</label>
 							<input
 								id="phone"
 								type="text"
-								maxLength={11}
 								className="auth-input"
 								placeholder="휴대폰 번호를 숫자만 입력해주세요."
-								pattern="\d*"
-								required
-								value={phone}
-								onChange={onChange}
+								{...register('phone', {
+									required: true,
+									minLength: 10,
+									maxLength: 11,
+									pattern: /[0-9]*$/,
+								})}
 							/>
+							<span
+								className={classNames('guide-msg', {
+									error: errors.phone,
+								})}
+							>
+								{errors.phone &&
+									'휴대폰 번호는 10-11자리의 숫자로 입력해주세요.'}
+							</span>
 							<label className="auth-label mandatory">기본 주소</label>
 							<div className="flex center mb-3">
 								<input
@@ -163,7 +181,6 @@ const Signup = () => {
 									required
 									disabled
 									value={address.split(',')[0]}
-									onChange={onChange}
 								/>
 								<button
 									type="button"
@@ -177,9 +194,11 @@ const Signup = () => {
 							<input
 								id="detailAddress"
 								type="text"
+								placeholder="상세 주소가 필요하다면 입력해주세요."
 								className="auth-input"
-								value={detailAddress}
-								onChange={onChange}
+								{...register('detailAddress', {
+									required: false,
+								})}
 							/>
 						</fieldset>
 						<fieldset className="vertical mb-6">
@@ -190,8 +209,9 @@ const Signup = () => {
 									<select
 										id="bank"
 										className="outline-none h-full border-1 text-center"
-										value={bank}
-										onChange={onChange}
+										{...register('bank', {
+											required: false,
+										})}
 									>
 										<option>--선택하세요--</option>
 										{bankList.map((bank, index) => (
@@ -206,9 +226,11 @@ const Signup = () => {
 									<input
 										id="holder"
 										type="text"
+										placeholder="예금주를 입력해주세요."
 										className="auth-input"
-										value={holder}
-										onChange={onChange}
+										{...register('holder', {
+											required: false,
+										})}
 									/>
 								</div>
 							</div>
@@ -218,16 +240,29 @@ const Signup = () => {
 							<input
 								id="account"
 								type="text"
+								placeholder="계좌번호는 - 없이 숫자만 입력해주세요."
 								className="auth-input"
-								value={account}
-								onChange={onChange}
+								{...register('account', {
+									required: false,
+									pattern: /\d*$/,
+								})}
 							/>
 						</fieldset>
 						<button
 							type="submit"
-							className={classNames('', {
-								'btn-primary': btnActive,
-								'btn-secondary': !btnActive,
+							className={classNames({
+								'btn-primary':
+									!errors.nickname &&
+									!errors.password &&
+									!errors.passwordConfirm &&
+									!errors.phone &&
+									address.length > 0,
+								'btn-secondary disabled':
+									errors.nickname ||
+									errors.password ||
+									errors.passwordConfirm ||
+									errors.phone ||
+									address.split(',')[0].length === 0,
 							})}
 						>
 							회원가입
@@ -258,4 +293,4 @@ const Signup = () => {
 	);
 };
 
-export default Signup;
+export default NewSignup;
