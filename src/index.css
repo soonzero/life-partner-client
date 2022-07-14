@@ -72,6 +72,14 @@
 	.btn-filter {
 		@apply flex py-2 pl-4 pr-2 bg-white border-1 border-main rounded-full;
 	}
+
+	.thead {
+		@apply text-right w-32 border border-transparent;
+	}
+
+	.tbody {
+		@apply border border-transparent;
+	}
 }
 
 body {

@@ -25,3 +25,7 @@ export type signUpForm = {
 };
 
 export type Action = { type: 'CHANGE_INPUT'; id: string; value: string };
+
+export type CurrentMenu = {
+	currentMenu: string;
+};

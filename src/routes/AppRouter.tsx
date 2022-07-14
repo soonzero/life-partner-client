@@ -3,6 +3,7 @@ import Main from './Main';
 import Signup from './Signup';
 import Login from './Login';
 import NewSignup from './NewSignup';
+import MyPage from './MyPage';
 
 const AppRouter = () => {
 	return (
@@ -12,6 +13,7 @@ const AppRouter = () => {
 				<Route path="/signup-outdated" element={<Signup />} />
 				<Route path="/signup" element={<NewSignup />} />
 				<Route path="/login" element={<Login />} />;
+				<Route path="/mypage" element={<MyPage />} />;
 			</Routes>
 		</BrowserRouter>
 	);
