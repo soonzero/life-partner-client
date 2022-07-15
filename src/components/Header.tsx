@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import classNames from 'classnames';
 
-const Header = () => {
+const Header = (props: { noShadow?: boolean }) => {
 	const [shadow, setShadow] = useState(false);
 
 	const handleScroll = () => {
@@ -27,6 +27,7 @@ const Header = () => {
 				'mx-auto sticky top-0 px-8 bg-white transition border-b z-[5]',
 				{
 					'shadow-main': shadow,
+					'shadow-none': props.noShadow,
 				}
 			)}
 		>
