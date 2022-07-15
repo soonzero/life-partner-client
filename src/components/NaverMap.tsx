@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { MapInCard } from 'types/types';
 
-const NaverMap = ({ item }: MapInCard) => {
+const NaverMap = ({ item, detail }: MapInCard) => {
 	const [_, lat, lng] = item.location.split(',');
 	useEffect(() => {
 		let map;
@@ -16,7 +16,9 @@ const NaverMap = ({ item }: MapInCard) => {
 				position: new naver.maps.LatLng(Number(lng), Number(lat)),
 				map: map,
 				icon: {
-					url: `https://user-images.githubusercontent.com/95613159/178690536-ec7d542c-fcb0-401d-afbf-cb3317bc0aeb.png`,
+					url: detail
+						? `https://user-images.githubusercontent.com/95613159/179005516-aa95271c-7ca3-4bea-9e5f-5dd0a4f262b8.png`
+						: `https://user-images.githubusercontent.com/95613159/178690536-ec7d542c-fcb0-401d-afbf-cb3317bc0aeb.png`,
 					size: new naver.maps.Size(50, 50),
 					anchor: new naver.maps.Point(25, 25),
 				},

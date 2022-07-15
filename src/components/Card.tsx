@@ -2,11 +2,11 @@ import NaverMap from './NaverMap';
 import { MapInCard } from 'types/types';
 import { addCommasToNumber } from 'functions/common';
 
-const Card = ({ item }: MapInCard) => {
+const Card = ({ item, detail }: MapInCard) => {
 	return (
 		<article className="group vertical w-60 h-72 rounded-xl border-1 cursor-pointer hover:opacity-90 hover:shadow-main transition overflow-hidden bg-white">
 			<map className="block w-full h-1/2 z-[2] shrink-0">
-				<NaverMap item={item} />
+				<NaverMap item={item} detail={detail} />
 			</map>
 			<figcaption className="vertical grow m-3 overflow-hidden">
 				<h4 className="text-lg font-bold truncate shrink-0 group-hover:animate-marquee group-hover:w-max">

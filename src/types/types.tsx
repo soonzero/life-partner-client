@@ -6,6 +6,7 @@ export type MapInCard = {
 		location: string;
 		contents: string;
 	};
+	detail: boolean;
 };
 
 export type loginForm = {
