@@ -14,7 +14,7 @@ const NewSignup = () => {
 		handleSubmit,
 		watch,
 		formState: { errors },
-	} = useForm<signUpForm>();
+	} = useForm<signUpForm>({ mode: 'onChange' });
 	const [address, setAddress] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
