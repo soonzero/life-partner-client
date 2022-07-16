@@ -26,6 +26,10 @@
 	a {
 		@apply hover:underline;
 	}
+
+	input {
+		@apply outline-none;
+	}
 }
 
 @layer components {
@@ -50,7 +54,7 @@
 	}
 
 	.btn-primary {
-		@apply py-2 px-4 bg-main text-white font-semibold rounded-lg hover:bg-opacity-90;
+		@apply py-2 px-4 bg-main text-white font-semibold rounded-lg hover:bg-opacity-90 active:scale-95 transition;
 	}
 
 	.btn-secondary {
@@ -83,6 +87,14 @@
 
 	.tbody {
 		@apply border border-transparent;
+	}
+
+	.article-label {
+		@apply font-medium;
+	}
+
+	.article-btn {
+		@apply py-1 px-2 text-sm bg-white text-main font-medium rounded-lg border-main border-1 cursor-pointer hover:bg-main hover:text-white active:scale-95 transition;
 	}
 }
 

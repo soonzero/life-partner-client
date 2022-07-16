@@ -4,6 +4,7 @@ import Signup from './Signup';
 import Login from './Login';
 import NewSignup from './NewSignup';
 import MyPage from './MyPage';
+import NewArticle from './NewArticle';
 
 const AppRouter = () => {
 	return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
 				<Route path="/signup" element={<NewSignup />} />
 				<Route path="/login" element={<Login />} />;
 				<Route path="/mypage" element={<MyPage />} />;
+				<Route path="/articles/write" element={<NewArticle />} />
 			</Routes>
 		</BrowserRouter>
 	);
