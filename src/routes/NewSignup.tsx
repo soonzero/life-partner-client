@@ -2,11 +2,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { signUpForm } from 'types/types';
 import bankList from 'data/bankList';
 import { useState, useEffect, useRef } from 'react';
-import DaumPostcode from 'react-daum-postcode';
-import ReactModal from 'react-modal';
-import axios from 'axios';
+import getLatLng from 'functions/getLatLng';
 import classNames from 'classnames';
 import Layout from 'components/Layout';
+import PostCode from 'components/PostCode';
 
 const NewSignup = () => {
 	const {
@@ -14,16 +13,18 @@ const NewSignup = () => {
 		handleSubmit,
 		watch,
 		formState: { errors },
-	} = useForm<signUpForm>({ mode: 'onChange' });
+	} = useForm<signUpForm>({
+		mode: 'onChange',
+	});
 	const [address, setAddress] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const onSubmit: SubmitHandler<signUpForm> = (data) => {
 		if (address.length > 0) {
 			if (
-				(data.bank === '--선택하세요--' &&
+				(data.bank === '--은행 선택--' &&
 					(data.holder.length > 0 || data.account.length > 0)) ||
-				(data.bank !== '--선택하세요--' &&
+				(data.bank !== '--은행 선택--' &&
 					(data.holder.length === 0 || data.account.length === 0))
 			) {
 				alert('선택 항목은 모두 입력되거나 모두 비워져있어야 합니다.');
@@ -39,20 +40,6 @@ const NewSignup = () => {
 
 	const passwordRef = useRef<string | null>(null);
 	passwordRef.current = watch('password');
-
-	const getLatLng = async (address: string) => {
-		const {
-			data: { addresses },
-		} = await axios({
-			method: 'GET',
-			url: `/map-geocode/v2/geocode?query=${address}`,
-			headers: {
-				'X-NCP-APIGW-API-KEY-ID': `${process.env.REACT_APP_NAVER_API_KEY_ID}`,
-				'X-NCP-APIGW-API-KEY': `${process.env.REACT_APP_NAVER_API_KEY}`,
-			},
-		});
-		return [addresses[0].y, addresses[0].x];
-	};
 
 	const completeHandler = async (data: any) => {
 		const [lng, lat] = await getLatLng(data.roadAddress);
@@ -209,7 +196,7 @@ const NewSignup = () => {
 										required: false,
 									})}
 								>
-									<option>--선택하세요--</option>
+									<option>--은행 선택--</option>
 									{bankList.map((bank, index) => (
 										<option key={index}>{bank}</option>
 									))}
@@ -265,22 +252,7 @@ const NewSignup = () => {
 					</button>
 				</form>
 			</section>
-			<ReactModal
-				isOpen={isOpen}
-				style={{
-					overlay: {
-						backgroundColor: 'rgba(0, 0, 0, 0.5)',
-						zIndex: '10',
-					},
-					content: {
-						margin: 'auto',
-						width: '50%',
-						height: '80%',
-					},
-				}}
-			>
-				<DaumPostcode onComplete={completeHandler} style={{ height: '100%' }} />
-			</ReactModal>
+			<PostCode isOpen={isOpen} completeHandler={completeHandler} />
 		</Layout>
 	);
 };
