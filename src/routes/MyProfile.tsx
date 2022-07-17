@@ -4,14 +4,14 @@ import dummyData from 'data/dummyData';
 import { addCommasToNumber } from 'functions/common';
 import Layout from 'components/Layout';
 
-const MyPage = () => {
+const MyProfile = () => {
 	const user = dummyData.user;
 	return (
 		<Layout>
 			<section className="flex space-x-6">
-				<Sidebar currentMenu="마이페이지" />
+				<Sidebar currentMenu="내 정보" />
 				<article className="grow border-2 border-main p-6 rounded-xl">
-					<h1 className="mb-6">마이페이지</h1>
+					<h1 className="mb-6">내 정보</h1>
 					<div className="flex items-center">
 						<figure className="flex center bg-slate-200 w-40 h-40 rounded-full">
 							<Profile className="w-16 fill-white" />
@@ -65,4 +65,4 @@ const MyPage = () => {
 	);
 };
 
-export default MyPage;
+export default MyProfile;

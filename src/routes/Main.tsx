@@ -20,7 +20,7 @@ const Main = () => {
 			<section className="vertical">
 				<div className="flex mb-3 justify-between items-center">
 					<h1>파트너를 구해요</h1>
-					<Link to="/articles/write">
+					<Link to="/articles/new">
 						<button type="button" className="btn-primary">
 							파트너 구하기
 						</button>

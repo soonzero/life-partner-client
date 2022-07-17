@@ -3,7 +3,7 @@ import Main from './Main';
 import Signup from './Signup';
 import Login from './Login';
 import NewSignup from './NewSignup';
-import MyPage from './MyPage';
+import MyProfile from './MyProfile';
 import NewArticle from './NewArticle';
 
 const AppRouter = () => {
@@ -14,8 +14,8 @@ const AppRouter = () => {
 				<Route path="/signup-outdated" element={<Signup />} />
 				<Route path="/signup" element={<NewSignup />} />
 				<Route path="/login" element={<Login />} />;
-				<Route path="/mypage" element={<MyPage />} />;
-				<Route path="/articles/write" element={<NewArticle />} />
+				<Route path="/mypage/profile" element={<MyProfile />} />;
+				<Route path="/articles/new" element={<NewArticle />} />
 			</Routes>
 		</BrowserRouter>
 	);
