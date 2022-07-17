@@ -5,8 +5,8 @@ import Layout from 'components/Layout';
 import { Link } from 'react-router-dom';
 
 const Main = () => {
-	const priceList = dummyData.cards.map((i) => i.price);
-	const periodList = dummyData.cards.map((i) => i.period);
+	const priceList = dummyData.posts.map((i) => i.price);
+	const periodList = dummyData.posts.map((i) => i.period);
 	const [minPrice, maxPrice] = [Math.min(...priceList), Math.max(...priceList)];
 	const [minPeriod, maxPeriod] = [
 		Math.min(...periodList),
@@ -20,7 +20,7 @@ const Main = () => {
 			<section className="vertical">
 				<div className="flex mb-3 justify-between items-center">
 					<h1>파트너를 구해요</h1>
-					<Link to="/articles/new">
+					<Link to="/posts/write">
 						<button type="button" className="btn-primary">
 							파트너 구하기
 						</button>
@@ -28,7 +28,7 @@ const Main = () => {
 				</div>
 				<Filter price={[minPrice, maxPrice]} period={[minPeriod, maxPeriod]} />
 				<article className="grid grid-cols-4 gap-3">
-					{dummyData.cards.map((i) => (
+					{dummyData.posts.map((i) => (
 						<Card key={i.id} item={i} detail={false} />
 					))}
 				</article>

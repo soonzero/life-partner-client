@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { signUpForm } from 'types/types';
+import { SignUpForm } from 'types/types';
 import bankList from 'data/bankList';
 import { useState, useEffect, useRef } from 'react';
 import getLatLng from 'functions/getLatLng';
@@ -13,13 +13,13 @@ const NewSignup = () => {
 		handleSubmit,
 		watch,
 		formState: { errors },
-	} = useForm<signUpForm>({
+	} = useForm<SignUpForm>({
 		mode: 'onChange',
 	});
 	const [address, setAddress] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const onSubmit: SubmitHandler<signUpForm> = (data) => {
+	const onSubmit: SubmitHandler<SignUpForm> = (data) => {
 		if (address.length > 0) {
 			if (
 				(data.bank === '--은행 선택--' &&

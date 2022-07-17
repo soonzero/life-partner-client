@@ -1,7 +1,7 @@
 import { ReactComponent as User } from 'static/icons/user.svg';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import subMenuList from 'data/subMenuList';
+import menuList from 'data/menuList';
 
 const Floating = () => {
 	const navigate = useCallback(useNavigate(), []);
@@ -9,7 +9,7 @@ const Floating = () => {
 	const [subMenu, setSubMenu] = useState<boolean>(false);
 
 	// 로그인 o/x api 연동
-	const [isUser, setIsUser] = useState<boolean>(false);
+	const [isUser, setIsUser] = useState<boolean>(true);
 
 	return (
 		<div className="fixed bottom-10 right-10 shadow-main rounded-full transition z-10">
@@ -21,16 +21,22 @@ const Floating = () => {
 			</span>
 			{subMenu && (
 				<ul className="absolute bottom-14 right-0 rounded-lg border-1 w-max divide-y-1 overflow-hidden">
-					{(isUser ? subMenuList.isUser : subMenuList.isNotUser).map(
-						([title, url], index) => (
-							<li
-								key={index}
-								className="pl-3 py-2 pr-8 bg-white hover:bg-gray-200 cursor-pointer"
-								onClick={() => navigate(url)}
-							>
-								{title}
-							</li>
-						)
+					{(isUser
+						? menuList.floatingMenu.isUser
+						: menuList.floatingMenu.isNotUser
+					).map(([title, url], index) => (
+						<li
+							key={index}
+							className="pl-3 py-2 pr-8 bg-white hover:bg-gray-200 cursor-pointer"
+							onClick={() => navigate(url)}
+						>
+							{title}
+						</li>
+					))}
+					{isUser && (
+						<li className="pl-3 py-2 pr-8 bg-white hover:bg-gray-200 cursor-pointer">
+							로그아웃
+						</li>
 					)}
 				</ul>
 			)}

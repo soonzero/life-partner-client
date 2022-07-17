@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { MapInCard } from 'types/types';
+import { MapInPost } from 'types/types';
 
-const NaverMap = ({ item, detail }: MapInCard) => {
-	const [_, lat, lng] = item.location.split(',');
+const NaverMap = ({ item: { id, location }, detail }: MapInPost) => {
+	const [_, lat, lng] = location.split(',');
 	useEffect(() => {
 		let map;
 		let marker;
 		const initMap = () => {
-			map = new naver.maps.Map(`map${item.id}`, {
+			map = new naver.maps.Map(`map${id}`, {
 				center: new naver.maps.LatLng(Number(lng), Number(lat)),
 				zoom: 14,
 			});
@@ -42,7 +42,7 @@ const NaverMap = ({ item, detail }: MapInCard) => {
 		initMap();
 	}, []);
 
-	return <div id={`map${item.id}`} style={{ width: '100%', height: '100%' }} />;
+	return <div id={`map${id}`} style={{ width: '100%', height: '100%' }} />;
 };
 
 export default NaverMap;

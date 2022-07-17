@@ -89,11 +89,11 @@
 		@apply border border-transparent;
 	}
 
-	.article-label {
+	.post-label {
 		@apply font-medium;
 	}
 
-	.article-btn {
+	.post-btn {
 		@apply py-1 px-2 text-sm bg-white text-main font-medium rounded-lg border-main border-1 cursor-pointer hover:bg-main hover:text-white active:scale-95 transition;
 	}
 }

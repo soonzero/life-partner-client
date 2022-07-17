@@ -4,11 +4,11 @@ import Layout from 'components/Layout';
 import bankList from 'data/bankList';
 import { addCommasToNumber } from 'functions/common';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Article } from 'types/types';
+import { NewPost } from 'types/types';
 import dummyData from 'data/dummyData';
 import { useState, useEffect, ChangeEvent } from 'react';
 
-const NewArticle = () => {
+const WriteNewPost = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [address, setAddress] = useState<string>(
 		dummyData.user.address.split(',')[0]
@@ -17,7 +17,7 @@ const NewArticle = () => {
 		dummyData.user.bank !== ''
 	);
 	const [locationChangeMode, setLocationChangeMode] = useState<boolean>(false);
-	const { register, handleSubmit, watch, setValue } = useForm<Article>({
+	const { register, handleSubmit, watch, setValue } = useForm<NewPost>({
 		defaultValues: {
 			title: '',
 			contents: '',
@@ -29,12 +29,9 @@ const NewArticle = () => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<Article> = (data: Article) => {
+	const onSubmit: SubmitHandler<NewPost> = (data: NewPost) => {
 		data.location = address;
-		data.point_earned =
-			data.use_point > 0
-				? (data.price - data.use_point) * 0.1
-				: data.price * 0.1;
+		data.point_earned = data.price * 0.5;
 		// 글쓰기 api 연동
 	};
 
@@ -117,7 +114,7 @@ const NewArticle = () => {
 						/>
 						<div className="flex items-center space-x-6">
 							<div className="space-x-3">
-								<label htmlFor="period" className="article-label">
+								<label htmlFor="period" className="post-label">
 									소요 시간(분)
 								</label>
 								<input
@@ -135,7 +132,7 @@ const NewArticle = () => {
 								/>
 							</div>
 							<div className="space-x-3">
-								<label htmlFor="price" className="article-label">
+								<label htmlFor="price" className="post-label">
 									금액(원)
 								</label>
 								<input
@@ -152,7 +149,7 @@ const NewArticle = () => {
 									})}
 								/>
 							</div>
-							<label className="article-label">현재 포인트</label>
+							<label className="post-label">현재 포인트</label>
 							<input
 								type="text"
 								className="w-20 p-1 border-1"
@@ -160,7 +157,7 @@ const NewArticle = () => {
 								value={`${addCommasToNumber(dummyData.user.current_point)}점`}
 							/>
 							<div className="space-x-3">
-								<label htmlFor="use-point" className="article-label">
+								<label htmlFor="use-point" className="post-label">
 									사용 포인트
 								</label>
 								<input
@@ -201,7 +198,7 @@ const NewArticle = () => {
 										onChange={changeMode}
 										className="hidden"
 									/>
-									<label htmlFor="location" className="article-label mr-3">
+									<label htmlFor="location" className="post-label mr-3">
 										기본 주소
 									</label>
 									<input
@@ -220,10 +217,7 @@ const NewArticle = () => {
 									</button>
 								</div>
 								<div className="flex items-center">
-									<label
-										htmlFor="detail_location"
-										className="article-label mr-3"
-									>
+									<label htmlFor="detail_location" className="post-label mr-3">
 										상세 주소
 									</label>
 									<input
@@ -238,7 +232,7 @@ const NewArticle = () => {
 									/>
 								</div>
 							</div>
-							<label htmlFor="change-location-mode" className="article-btn">
+							<label htmlFor="change-location-mode" className="post-btn">
 								{locationChangeMode
 									? '기존 주소 사용하기'
 									: '다른 주소 사용하기'}
@@ -275,7 +269,7 @@ const NewArticle = () => {
 											<option key={i}>{b}</option>
 										))}
 									</select>
-									<label htmlFor="post_holder" className="article-label mr-3">
+									<label htmlFor="post_holder" className="post-label mr-3">
 										예금주
 									</label>
 									<input
@@ -291,7 +285,7 @@ const NewArticle = () => {
 									/>
 								</div>
 								<div className="flex items-center">
-									<label htmlFor="post_account" className="article-label mr-3">
+									<label htmlFor="post_account" className="post-label mr-3">
 										계좌번호
 									</label>
 									<input
@@ -308,7 +302,7 @@ const NewArticle = () => {
 									/>
 								</div>
 							</div>
-							<label htmlFor="change-account-mode" className="article-btn">
+							<label htmlFor="change-account-mode" className="post-btn">
 								{dummyData.user.bank !== '' && !accountChangeMode
 									? '기존 계좌 사용하기'
 									: dummyData.user.bank !== '' && accountChangeMode
@@ -329,4 +323,4 @@ const NewArticle = () => {
 	);
 };
 
-export default NewArticle;
+export default WriteNewPost;

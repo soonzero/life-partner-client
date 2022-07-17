@@ -1,8 +1,8 @@
 import { useReducer } from 'react';
 import { useCallback, ChangeEvent } from 'react';
-import { loginForm, signUpForm, Action } from 'types/types';
+import { LoginForm, SignUpForm, Action } from 'types/types';
 
-function reducer(state: signUpForm | loginForm, action: Action) {
+function reducer(state: SignUpForm | LoginForm, action: Action) {
 	switch (action.type) {
 		case 'CHANGE_INPUT':
 			return {
@@ -14,8 +14,8 @@ function reducer(state: signUpForm | loginForm, action: Action) {
 	}
 }
 
-const useInputs: signUpForm | loginForm | any = (
-	initialForm: signUpForm | loginForm
+const useInputs: SignUpForm | LoginForm | any = (
+	initialForm: SignUpForm | LoginForm
 ) => {
 	const [form, dispatch] = useReducer(reducer, initialForm);
 
