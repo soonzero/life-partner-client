@@ -5,8 +5,9 @@ import Layout from 'components/Layout';
 import { Link } from 'react-router-dom';
 
 const Main = () => {
-	const priceList = dummyData.posts.map((i) => i.price);
-	const periodList = dummyData.posts.map((i) => i.period);
+	const displayData = dummyData.posts.filter((p) => p.status === 'waiting');
+	const priceList = displayData.map((i) => i.price);
+	const periodList = displayData.map((i) => i.period);
 	const [minPrice, maxPrice] = [Math.min(...priceList), Math.max(...priceList)];
 	const [minPeriod, maxPeriod] = [
 		Math.min(...periodList),
@@ -28,7 +29,7 @@ const Main = () => {
 				</div>
 				<Filter price={[minPrice, maxPrice]} period={[minPeriod, maxPeriod]} />
 				<article className="grid grid-cols-4 gap-3">
-					{dummyData.posts.map((i) => (
+					{displayData.map((i) => (
 						<Card key={i.id} item={i} detail={false} />
 					))}
 				</article>
