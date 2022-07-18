@@ -1,10 +1,15 @@
 import NaverMap from './NaverMap';
 import { MapInPost } from 'types/types';
 import { addCommasToNumber } from 'functions/common';
+import { useNavigate } from 'react-router-dom';
 
 const Card = ({ item, detail }: MapInPost) => {
+	const navigate = useNavigate();
 	return (
-		<article className="group vertical w-full h-72 rounded-xl border-1 cursor-pointer hover:opacity-90 transition overflow-hidden bg-white">
+		<article
+			className="group vertical w-full h-72 rounded-xl border-1 cursor-pointer hover:opacity-90 transition overflow-hidden bg-white"
+			onClick={() => navigate(`/articles/${item.id}`)}
+		>
 			<map className="block w-full h-1/2 z-[2] shrink-0">
 				<NaverMap id={item.id} location={item.location} detail={detail} />
 			</map>

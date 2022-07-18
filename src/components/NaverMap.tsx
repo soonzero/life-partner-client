@@ -25,18 +25,18 @@ const NaverMap = ({ id, location, detail }: Map) => {
 			});
 
 			map.setOptions({
-				draggable: false,
-				pinchZoom: false,
-				scrollWheel: false,
+				draggable: detail ? true : false,
+				pinchZoom: detail ? true : false,
+				scrollWheel: detail ? true : false,
 				keyboardShortcuts: false,
 				scaleControl: false,
 				logoControl: false,
 				mapDataControl: false,
-				zoomControl: false,
+				zoomControl: detail ? true : false,
 				mapTypeControl: false,
-				disableDoubleTapZoom: true,
-				disableDoubleClickZoom: true,
-				disableTwoFingerTapZoom: true,
+				disableDoubleTapZoom: detail ? false : true,
+				disableDoubleClickZoom: detail ? false : true,
+				disableTwoFingerTapZoom: detail ? false : true,
 			});
 		};
 		initMap();
