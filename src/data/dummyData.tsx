@@ -155,6 +155,58 @@ const dummyData = {
 		holder: '',
 		current_point: 3500,
 	},
+	point_history: [
+		{
+			point_earned: 350,
+			postId: 1,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 2,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 3,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 4,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 5,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 6,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 7,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 8,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 9,
+			dateTime: new Date(),
+		},
+		{
+			point_earned: 350,
+			postId: 10,
+			dateTime: new Date(),
+		},
+	],
 };
 
 export default dummyData;

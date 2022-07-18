@@ -17,3 +17,11 @@ const Layout = (props: {
 };
 
 export default Layout;
+
+export const MyPageLayout = (props: { children: ReactNode }) => {
+	return (
+		<article className="grow border-2 border-main p-6 rounded-xl">
+			{props.children}
+		</article>
+	);
+};

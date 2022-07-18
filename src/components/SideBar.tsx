@@ -9,8 +9,9 @@ const Sidebar = ({ currentMenu }: CurrentMenu) => {
 			<nav>
 				<h3 className="px-6 py-3 text-white bg-main">마이페이지</h3>
 				<ul className="p-6 space-y-2">
-					{menuList.sideBarMenu.map(([title, to]) => (
+					{menuList.sideBarMenu.map(([title, to], id) => (
 						<li
+							key={id}
 							className={classNames('text-sm', {
 								'text-slate-500': currentMenu !== title,
 							})}
