@@ -7,6 +7,12 @@ export interface Post {
 	contents: string;
 }
 
+export interface Map {
+	id: number;
+	location: string;
+	detail: boolean;
+}
+
 export interface MapInPost {
 	item: Post;
 	detail: boolean;

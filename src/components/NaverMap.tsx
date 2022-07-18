@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { MapInPost } from 'types/types';
+import { Map } from 'types/types';
 
-const NaverMap = ({ item: { id, location }, detail }: MapInPost) => {
+const NaverMap = ({ id, location, detail }: Map) => {
 	const [_, lat, lng] = location.split(',');
 	useEffect(() => {
 		let map;

@@ -31,7 +31,7 @@ const WriteNewPost = () => {
 
 	const onSubmit: SubmitHandler<NewPost> = (data: NewPost) => {
 		data.location = address;
-		data.point_earned = data.price * 0.5;
+		data.point_earned = data.price * 0.05;
 		// 글쓰기 api 연동
 	};
 
@@ -98,7 +98,8 @@ const WriteNewPost = () => {
 						<input
 							id="title"
 							type="text"
-							placeholder="제목을 입력하세요. (요청 업무를 간략하게 적어주세요!)"
+							maxLength={15}
+							placeholder="제목을 입력하세요. (공백 포함 최대 15자)"
 							className="font-semibold text-xl border-b-1 px-2 py-1 mb-3"
 							{...register('title', {
 								required: true,

@@ -43,7 +43,12 @@ const NewSignup = () => {
 
 	const completeHandler = async (data: any) => {
 		const [lng, lat] = await getLatLng(data.roadAddress);
-		setAddress((prev) => `${data.roadAddress},${lat},${lng}`);
+		setAddress(
+			(prev) =>
+				`${data.roadAddress},${lat},${lng},${
+					data.bname === '' ? data.bname1 : data.bname
+				}`
+		);
 		setIsOpen(false);
 	};
 
