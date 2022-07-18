@@ -6,6 +6,7 @@ import NewSignup from './NewSignup';
 import MyProfile from './MyProfile';
 import WriteNewPost from './WriteNewPost';
 import Point from './Point';
+import Logout from './Logout';
 
 const AppRouter = () => {
 	return (
@@ -14,8 +15,9 @@ const AppRouter = () => {
 				<Route path="/" element={<Main />} />
 				<Route path="/signup-outdated" element={<Signup />} />
 				<Route path="/signup" element={<NewSignup />} />
-				<Route path="/login" element={<Login />} />;
-				<Route path="/mypage/profile" element={<MyProfile />} />;
+				<Route path="/login" element={<Login />} />
+				<Route path="/logout" element={<Logout />} />
+				<Route path="/mypage/profile" element={<MyProfile />} />
 				<Route path="/posts/write" element={<WriteNewPost />} />
 				<Route path="/mypage/point" element={<Point />} />
 			</Routes>

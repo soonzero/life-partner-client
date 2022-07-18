@@ -11,6 +11,12 @@ const Floating = () => {
 	// 로그인 o/x api 연동
 	const [isUser, setIsUser] = useState<boolean>(true);
 
+	const logout = () => {
+		setSubMenu(false);
+		setIsUser(false);
+		navigate('/logout');
+	};
+
 	return (
 		<div className="fixed bottom-10 right-10 shadow-main rounded-full transition z-10">
 			<span
@@ -34,7 +40,10 @@ const Floating = () => {
 						</li>
 					))}
 					{isUser && (
-						<li className="pl-3 py-2 pr-8 bg-white hover:bg-gray-200 cursor-pointer">
+						<li
+							className="pl-3 py-2 pr-8 bg-white hover:bg-gray-200 cursor-pointer"
+							onClick={logout}
+						>
 							로그아웃
 						</li>
 					)}
