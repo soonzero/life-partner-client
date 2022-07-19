@@ -1,6 +1,7 @@
 import { MouseEvent, useState } from 'react';
 import { ReactComponent as ChevronDownSVG } from 'static/icons/chevron-down.svg';
 import { addCommasToNumber } from 'functions/common';
+import classNames from 'classnames';
 
 const Filter = (props: { price: number[]; period: number[] }) => {
 	const [maxPrice, setMaxPrice] = useState<number>(props.price[1]);
@@ -39,9 +40,19 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 	return (
 		<ul className="flex mb-3 space-x-3 sticky top-[65px] py-3 bg-white z-[5] border-b-1">
 			<li className="relative">
-				<button name="price" className="btn-filter center" onClick={openFilter}>
+				<button
+					name="price"
+					className={classNames('btn-filter center transition', {
+						'bg-main text-white font-semibold': openedFilter === 'price',
+					})}
+					onClick={openFilter}
+				>
 					<span className="mr-1 text-sm">금액</span>
-					<ChevronDownSVG />
+					<ChevronDownSVG
+						className={classNames('transition h-5 w-5', {
+							'rotate-180': openedFilter === 'price',
+						})}
+					/>
 				</button>
 				{isOpen && openedFilter === 'price' && (
 					<form className="absolute top-12 z-[3] w-96 h-32 border-1 rounded-lg bg-white flex center space-x-6">
@@ -81,11 +92,17 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 			<li className="relative">
 				<button
 					name="period"
-					className="btn-filter center"
+					className={classNames('btn-filter center transition', {
+						'bg-main text-white font-semibold': openedFilter === 'period',
+					})}
 					onClick={openFilter}
 				>
 					<span className="mr-1 text-sm">소요 시간</span>
-					<ChevronDownSVG />
+					<ChevronDownSVG
+						className={classNames('transition h-5 w-5', {
+							'rotate-180': openedFilter === 'period',
+						})}
+					/>
 				</button>
 				{isOpen && openedFilter === 'period' && (
 					<form className="absolute top-12 z-[3] w-96 h-32 border-1 rounded-lg bg-white flex center space-x-6">
