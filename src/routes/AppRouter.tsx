@@ -8,6 +8,7 @@ import WriteNewPost from './WriteNewPost';
 import Point from './Point';
 import Logout from './Logout';
 import PostDetail from './PostDetail';
+import ChangeInfo from './ChangeInfo';
 
 const AppRouter = () => {
 	return (
@@ -22,6 +23,7 @@ const AppRouter = () => {
 				<Route path="/posts/write" element={<WriteNewPost />} />
 				<Route path="/mypage/point" element={<Point />} />
 				<Route path="/articles/:id" element={<PostDetail />} />
+				<Route path="/mypage/change/info" element={<ChangeInfo />} />
 			</Routes>
 		</BrowserRouter>
 	);

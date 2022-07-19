@@ -4,7 +4,7 @@ const dummyData = {
 			id: 1,
 			author: 'zero',
 			period: 120,
-			location: '도로명 기본 주소,127.0231651,37.5182112',
+			location: '서울 강남구 가로수길 5,127.0231651,37.5182112',
 			price: 10000,
 			title: '제목은 공백 포함 15자 가능',
 			contents: '요청 업무 요청 업무 요청 업무 요청 업무 요청 업무 요청 업무',
@@ -202,7 +202,7 @@ const dummyData = {
 	user: {
 		nickname: 'zero',
 		phone: '010-0000-0000',
-		address: '서울 강남구 가로수길 5,위도,경도',
+		address: '서울 강남구 가로수길 5,127.0231651,37.5182112',
 		detail_address: '201호',
 		bank: '',
 		account: '',

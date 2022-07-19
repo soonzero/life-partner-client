@@ -3,6 +3,8 @@ import { ReactComponent as Profile } from 'static/icons/user.svg';
 import dummyData from 'data/dummyData';
 import { addCommasToNumber } from 'functions/common';
 import Layout, { MyPageLayout } from 'components/Layout';
+import addDashes from 'functions/addDashes';
+import { Link } from 'react-router-dom';
 
 const MyProfile = () => {
 	const user = dummyData.user;
@@ -24,7 +26,7 @@ const MyProfile = () => {
 								</tr>
 								<tr>
 									<th className="thead">휴대폰 번호</th>
-									<td className="tbody">{user.phone}</td>
+									<td className="tbody">{addDashes(user.phone)}</td>
 								</tr>
 								<tr>
 									<th className="thead">주소</th>
@@ -35,19 +37,31 @@ const MyProfile = () => {
 								<tr>
 									<th className="thead">은행명</th>
 									<td className="tbody">
-										{user.bank.length > 0 ? user.bank : '-'}
+										{user.bank.length > 0 ? (
+											user.bank
+										) : (
+											<Link to="/mypage/change/info">미등록</Link>
+										)}
 									</td>
 								</tr>
 								<tr>
 									<th className="thead">계좌번호</th>
 									<td className="tbody">
-										{user.account.length > 0 ? user.account : '-'}
+										{user.account.length > 0 ? (
+											user.account
+										) : (
+											<Link to="/mypage/change/info">미등록</Link>
+										)}
 									</td>
 								</tr>
 								<tr>
 									<th className="thead">예금주</th>
 									<td className="tbody">
-										{user.holder.length > 0 ? user.holder : '-'}
+										{user.holder.length > 0 ? (
+											user.holder
+										) : (
+											<Link to="/mypage/change/info">미등록</Link>
+										)}
 									</td>
 								</tr>
 								<tr>

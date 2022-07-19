@@ -6,6 +6,7 @@ import getLatLng from 'functions/getLatLng';
 import classNames from 'classnames';
 import Layout from 'components/Layout';
 import PostCode from 'components/PostCode';
+import addDashes from 'functions/addDashes';
 
 const NewSignup = () => {
 	const {
@@ -31,6 +32,7 @@ const NewSignup = () => {
 			} else {
 				// 회원가입 api 연동
 				data.bank = '';
+				data.phone = addDashes(data.phone);
 				console.log(data);
 			}
 		} else {
