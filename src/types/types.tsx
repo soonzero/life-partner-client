@@ -32,6 +32,12 @@ export interface SignUpForm extends LoginForm {
 	holder: string;
 }
 
+export interface PasswordChangeForm {
+	oldPassword: string;
+	newPassword: string;
+	newPasswordConfirm: string;
+}
+
 export interface Action {
 	type: 'CHANGE_INPUT';
 	id: string;

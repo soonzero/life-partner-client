@@ -9,6 +9,7 @@ import Point from './Point';
 import Logout from './Logout';
 import PostDetail from './PostDetail';
 import ChangeInfo from './ChangeInfo';
+import ChangePassword from './ChangePassword';
 
 const AppRouter = () => {
 	return (
@@ -24,6 +25,7 @@ const AppRouter = () => {
 				<Route path="/mypage/point" element={<Point />} />
 				<Route path="/articles/:id" element={<PostDetail />} />
 				<Route path="/mypage/change/info" element={<ChangeInfo />} />
+				<Route path="/mypage/change/password" element={<ChangePassword />} />
 			</Routes>
 		</BrowserRouter>
 	);
