@@ -187,7 +187,14 @@ const WriteNewPost = () => {
 						</div>
 					</fieldset>
 					<fieldset className="py-3">
-						<h3 className="mb-3">주소</h3>
+						<div className="flex items-center mb-3 space-x-6">
+							<h3>주소</h3>
+							<label htmlFor="change-location-mode" className="post-btn">
+								{locationChangeMode
+									? '기존 주소 사용하기'
+									: '다른 주소 사용하기'}
+							</label>
+						</div>
 						<div className="flex items-center space-x-6">
 							<div className="flex w-1/2 vertical space-y-1">
 								<div className="flex items-center">
@@ -233,15 +240,19 @@ const WriteNewPost = () => {
 									/>
 								</div>
 							</div>
-							<label htmlFor="change-location-mode" className="post-btn">
-								{locationChangeMode
-									? '기존 주소 사용하기'
-									: '다른 주소 사용하기'}
-							</label>
 						</div>
 					</fieldset>
 					<fieldset className="py-3">
-						<h3 className="mb-3">환불 계좌</h3>
+						<div className="flex items-center space-x-6 mb-3">
+							<h3>환불 계좌</h3>
+							<label htmlFor="change-account-mode" className="post-btn">
+								{dummyData.user.bank !== '' && !accountChangeMode
+									? '기존 계좌 사용하기'
+									: dummyData.user.bank !== '' && accountChangeMode
+									? '다른 계좌 사용하기'
+									: '사용할 계좌 입력'}
+							</label>
+						</div>
 						<div className="flex items-center space-x-6">
 							<div className="w-1/2">
 								<div className="flex items-center mb-1">
@@ -303,13 +314,6 @@ const WriteNewPost = () => {
 									/>
 								</div>
 							</div>
-							<label htmlFor="change-account-mode" className="post-btn">
-								{dummyData.user.bank !== '' && !accountChangeMode
-									? '기존 계좌 사용하기'
-									: dummyData.user.bank !== '' && accountChangeMode
-									? '다른 계좌 사용하기'
-									: '사용할 계좌 입력'}
-							</label>
 						</div>
 					</fieldset>
 					<div className="flex justify-end">
