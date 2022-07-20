@@ -2,7 +2,7 @@ import Layout, { MyPageLayout } from 'components/Layout';
 import SideBar from 'components/SideBar';
 import dummyData from 'data/dummyData';
 import { FormEvent, useState, useEffect } from 'react';
-import addDashes from 'functions/addDashes';
+import { leaveOnlyNumber } from 'functions/dashes';
 import getLatLng from 'functions/getLatLng';
 import PostCode from 'components/PostCode';
 import bankList from 'data/bankList';
@@ -26,9 +26,7 @@ const ChangeInfo = () => {
 	const submitHandler = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (mode === 'phone') {
-			if (newPhone.length === 11) {
-				const dashedNumber = addDashes(newPhone);
-				console.log(dashedNumber);
+			if (leaveOnlyNumber(newPhone).length === 11) {
 				// 휴대폰 번호 변경 api 연동
 			} else {
 				alert('휴대폰 번호를 다시 한 번 확인해주세요.');
@@ -57,6 +55,7 @@ const ChangeInfo = () => {
 					user.account !== account ||
 					user.holder !== holder
 				) {
+					const accountOnlyWithNumber = leaveOnlyNumber(account);
 					// 계좌 변경 api 연동
 				} else {
 					alert('변경할 계좌의 정보가 이전 계좌의 정보와 같습니다.');
@@ -124,36 +123,36 @@ const ChangeInfo = () => {
 					{mode === 'phone' && (
 						<form
 							name="phone"
-							className="flex space-x-6 items-center py-3"
+							className="vertical p-3 max-w-md space-y-2"
 							onSubmit={submitHandler}
 						>
-							<label htmlFor="phone" className="mx-3 font-medium">
+							<label htmlFor="phone" className="font-medium">
 								휴대폰 번호
 							</label>
 							<input
 								id="phone"
 								type="text"
-								className="p-1 border-1 grow"
+								className="auth-input grow"
 								placeholder="사용할 휴대폰 번호를 숫자만 입력해주세요"
 								maxLength={11}
 								onChange={(e) => setNewPhone((prev) => e.target.value)}
 							/>
-							<button className="btn-primary" type="submit">
-								변경
+							<button className="btn-primary w-max" type="submit">
+								휴대폰 번호 변경
 							</button>
 						</form>
 					)}
 					{mode === 'address' && (
 						<form
 							name="address"
-							className="flex space-x-6 py-3"
+							className="vertical p-3 max-w-md space-y-2"
 							onSubmit={submitHandler}
 						>
 							<div className="grow vertical space-y-2">
-								<fieldset className="flex space-x-2 items-center">
+								<fieldset className="vertical space-y-2">
 									<label
 										htmlFor="new-detail-address"
-										className="mx-3 font-medium min-w-max"
+										className="font-medium min-w-max"
 									>
 										주소
 									</label>
@@ -161,7 +160,7 @@ const ChangeInfo = () => {
 										<div className="flex items-center space-x-2">
 											<input
 												type="text"
-												className="p-1 border-1 grow"
+												className="auth-input grow"
 												value={address.split(',')[0]}
 												disabled
 											/>
@@ -177,7 +176,7 @@ const ChangeInfo = () => {
 											id="new-detail-address"
 											type="text"
 											placeholder=""
-											className="p-1 border-1 grow"
+											className="auth-input grow"
 											value={detailAddress}
 											onChange={(e) =>
 												setDetailAddress((prev) => e.target.value)
@@ -187,50 +186,57 @@ const ChangeInfo = () => {
 								</fieldset>
 							</div>
 							<button className="btn-primary" type="submit">
-								변경
+								주소 변경
 							</button>
 						</form>
 					)}
 					{mode === 'account' && (
-						<form className="py-3" onSubmit={submitHandler}>
-							<div className="flex space-x-6">
-								<div className="vertical space-y-2 w-full">
-									<fieldset className="flex items-center space-x-3">
-										<label className="mx-3 font-medium min-w-max">은행</label>
-										<select
-											className="grow outline-none text-center border-1 p-1"
-											value={bank}
-											onChange={(e) => setBank((prev) => e.target.value)}
-										>
-											<option>--은행 선택--</option>
-											{bankList.map((b, id) => (
-												<option key={id}>{b}</option>
-											))}
-										</select>
-										<label className="mx-3 font-medium min-w-max">예금주</label>
-										<input
-											type="text"
-											value={holder}
-											className="grow p-1 border-1"
-											placeholder="예금주를 입력하세요."
-											onChange={(e) => setHolder((prev) => e.target.value)}
-										/>
-									</fieldset>
-									<fieldset className="flex items-center space-x-3">
-										<label className="mx-3 font-medium min-w-max">계좌</label>
-										<input
-											type="text"
-											value={account}
-											className="grow p-1 border-1"
-											placeholder="계좌번호를 입력하세요."
-											onChange={(e) => setAccount((prev) => e.target.value)}
-										/>
-									</fieldset>
-								</div>
-								<button className="btn-primary min-w-max" type="submit">
-									변경
-								</button>
-							</div>
+						<form
+							className="vertical p-3 max-w-md space-y-2"
+							onSubmit={submitHandler}
+						>
+							<fieldset className="flex items-center space-x-3">
+								<label className="font-medium min-w-[3rem]">은행</label>
+								<select
+									className="grow auth-input text-center"
+									value={bank}
+									onChange={(e) => setBank((prev) => e.target.value)}
+								>
+									<option>--은행 선택--</option>
+									{bankList.map((b, id) => (
+										<option key={id}>{b}</option>
+									))}
+								</select>
+							</fieldset>
+							<fieldset className="flex items-center space-x-3">
+								<label htmlFor="holder" className="font-medium min-w-[3rem]">
+									예금주
+								</label>
+								<input
+									id="holder"
+									type="text"
+									value={holder}
+									className="auth-input grow"
+									placeholder="예금주를 입력해주세요."
+									onChange={(e) => setHolder((prev) => e.target.value)}
+								/>
+							</fieldset>
+							<fieldset className="flex items-center space-x-3">
+								<label htmlFor="account" className="font-medium min-w-[3rem]">
+									계좌
+								</label>
+								<input
+									id="account"
+									type="text"
+									value={account}
+									className="auth-input grow"
+									placeholder="계좌번호를 입력해주세요."
+									onChange={(e) => setAccount((prev) => e.target.value)}
+								/>
+							</fieldset>
+							<button className="btn-primary min-w-max" type="submit">
+								계좌 변경
+							</button>
 						</form>
 					)}
 				</MyPageLayout>

@@ -3,7 +3,7 @@ import { ReactComponent as Profile } from 'static/icons/user.svg';
 import dummyData from 'data/dummyData';
 import { addCommasToNumber } from 'functions/common';
 import Layout, { MyPageLayout } from 'components/Layout';
-import addDashes from 'functions/addDashes';
+import { addDashes } from 'functions/dashes';
 import { Link } from 'react-router-dom';
 
 const MyProfile = () => {
