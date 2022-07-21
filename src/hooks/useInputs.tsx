@@ -1,8 +1,11 @@
 import { useReducer } from 'react';
 import { useCallback, ChangeEvent } from 'react';
-import { LoginForm, Action, PasswordChangeForm } from 'types/types';
+import { LoginForm, ActionChangeInput, PasswordChangeForm } from 'types/types';
 
-function reducer(state: LoginForm | PasswordChangeForm, action: Action) {
+function reducer(
+	state: LoginForm | PasswordChangeForm,
+	action: ActionChangeInput
+) {
 	switch (action.type) {
 		case 'CHANGE_INPUT':
 			return {
