@@ -21,18 +21,18 @@ const Point = () => {
 									{addCommasToNumber(dummyData.user.current_point)}
 								</td>
 							</tr>
-							<tr>
+							{/* <tr>
 								<td className="border-1 text-center">추후 적립 예정</td>
 								<td className="border-1 text-center">
 									{addCommasToNumber(1400)}
 								</td>
-							</tr>
+							</tr> */}
 							<tr>
 								<td className="bg-main text-white border-1 text-center font-semibold">
 									현재 사용 가능
 								</td>
 								<td className="bg-main text-white border-1 text-center font-semibold">
-									{addCommasToNumber(dummyData.user.current_point - 1400)}
+									{addCommasToNumber(dummyData.user.current_point)}
 								</td>
 							</tr>
 						</tbody>
@@ -53,12 +53,23 @@ const Point = () => {
 							</tr>
 						</thead>
 						<tbody>
+							<tr className="bg-main text-white">
+								<td className="border-1 h-10 text-center text-sm">
+									{convertTime(new Date())}
+								</td>
+								<td className="border-1 h-10 text-center text-sm">
+									현재 사용 가능 포인트
+								</td>
+								<td className="border-1 h-10 pr-3 text-right text-sm font-semibold">
+									{addCommasToNumber(dummyData.user.current_point)}
+								</td>
+							</tr>
 							{dummyData.point_history.map((i) => {
 								const idx = dummyData.posts.findIndex((p) => p.id === i.postId);
 								return (
 									<tr key={i.postId}>
 										<td className="border-1 h-10 text-center text-sm">
-											{convertTime(i.dateTime)}
+											{i.date}
 										</td>
 										<td className="border-1 h-10 text-center text-sm">
 											<Link to={`/articles/${i.postId}`}>
@@ -67,11 +78,21 @@ const Point = () => {
 										</td>
 										<td className="border-1 h-10 pr-3 text-right text-sm font-semibold">
 											{i.point_earned > 0 ? `+ ` : `- `}
-											{addCommasToNumber(i.point_earned)}
+											{addCommasToNumber(Math.abs(i.point_earned))}
 										</td>
 									</tr>
 								);
 							})}
+							<tr>
+								<td className="border-1 h-10 text-center text-sm">
+									{/* 포인트 1,000점 지급된 날짜로 */}
+									회원가입 일자 표기
+								</td>
+								<td className="border-1 h-10 text-center text-sm">회원가입</td>
+								<td className="border-1 h-10 pr-3 text-right text-sm font-semibold">
+									+ {addCommasToNumber(1000)}
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</MyPageLayout>

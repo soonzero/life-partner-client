@@ -16,7 +16,7 @@ const convertTime = (date: Date) => {
 		}
 	};
 
-	return `${year}.${month()}.${day()}`;
+	return `${year}-${month()}-${day()}`;
 };
 
 export default convertTime;
