@@ -57,25 +57,35 @@ export interface NewPost extends Post {
 	post_holder: string;
 }
 
+// export interface Range {
+// 	price: {
+// 		minPrice: number;
+// 		maxPrice?: number;
+// 	};
+// 	period: {
+// 		minPeriod?: number;
+// 		maxPeriod: number;
+// 	};
+// }
+
 export interface Range {
-	price: {
-		minPrice: number;
-		maxPrice: number;
-	};
-	period: {
-		minPeriod: number;
-		maxPeriod: number;
-	};
+	minPrice: number;
+	maxPeriod: number;
 }
 
-export interface ActionChangePrice {
-	type: 'CHANGE_PRICE';
-	id: string;
-	value: number;
-}
+// export interface ActionChangePrice {
+// 	type: 'CHANGE_PRICE';
+// 	id: string;
+// 	value: number;
+// }
 
-export interface ActionChangePeriod {
-	type: 'CHANGE_PERIOD';
-	id: string;
+// export interface ActionChangePeriod {
+// 	type: 'CHANGE_PERIOD';
+// 	id: string;
+// 	value: number;
+// }
+
+export interface ActionChangeRange {
+	type: 'CHANGE_PRICE' | 'CHANGE_PERIOD';
 	value: number;
 }
