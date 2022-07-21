@@ -2,12 +2,30 @@ import { MouseEvent, useState } from 'react';
 import { ReactComponent as ChevronDownSVG } from 'static/icons/chevron-down.svg';
 import { addCommasToNumber } from 'functions/common';
 import classNames from 'classnames';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 const Filter = (props: { price: number[]; period: number[] }) => {
+	const [minPrice, setMinPrice] = useState<number>(props.price[0]);
 	const [maxPrice, setMaxPrice] = useState<number>(props.price[1]);
+	const [minPeriod, setMinPeriod] = useState<number>(props.period[0]);
 	const [maxPeriod, setMaxPeriod] = useState<number>(props.period[1]);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [openedFilter, setOpenedFilter] = useState<string>('');
+
+	const changeRange = (data: number | number[]) => {
+		if (openedFilter === 'price') {
+			if (Array.isArray(data)) {
+				setMinPrice((prev) => data[0]);
+				setMaxPrice((prev) => data[1]);
+			}
+		} else if (openedFilter === 'period') {
+			if (Array.isArray(data)) {
+				setMinPeriod((prev) => data[0]);
+				setMaxPeriod((prev) => data[1]);
+			}
+		}
+	};
 
 	const openFilter = (e: MouseEvent<HTMLButtonElement>) => {
 		const target = e.currentTarget.getAttribute('name');
@@ -29,6 +47,17 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 				setIsOpen((prev) => !prev);
 				setOpenedFilter((prev) => target);
 			}
+		}
+	};
+
+	const resetRange = (e: MouseEvent<HTMLButtonElement>) => {
+		const target = e.currentTarget.getAttribute('name');
+		if (target === 'price') {
+			setMinPrice((prev) => props.price[0]);
+			setMaxPrice((prev) => props.price[1]);
+		} else if (target === 'period') {
+			setMinPeriod((prev) => props.period[0]);
+			setMaxPeriod((prev) => props.period[1]);
 		}
 	};
 
@@ -55,24 +84,41 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 					/>
 				</button>
 				{isOpen && openedFilter === 'price' && (
-					<form className="absolute top-12 z-[3] w-96 h-32 border-1 rounded-lg bg-white flex center space-x-6">
-						<fieldset className="w-2/3">
-							<legend className="text-sm inline-block mb-3">
-								최대 금액: {addCommasToNumber(maxPrice)}원
+					<form className="absolute top-12 z-[3] w-96 h-40 border-1 rounded-lg bg-white vertical px-12 py-6 justify-center space-y-6">
+						<fieldset className="text-center w-full space-y-3">
+							<legend className="text-sm inline-block">
+								{`선택한 범위: ${addCommasToNumber(
+									minPrice
+								)}원 ~ ${addCommasToNumber(maxPrice)}원`}
 							</legend>
-							<input
-								className="slider"
-								type="range"
+							<Slider
+								range
 								min={props.price[0]}
-								step={500}
-								defaultValue={maxPrice}
 								max={props.price[1]}
-								onChange={(e) => setMaxPrice(() => Number(e.target.value))}
+								step={1000}
+								value={[minPrice, maxPrice]}
+								defaultValue={[props.price[0], props.price[1]]}
+								allowCross={true}
+								onChange={changeRange}
 							/>
 						</fieldset>
-						<button className="btn-primary text-sm" onClick={closeFilter}>
-							적용
-						</button>
+						<div className="flex justify-center space-x-6">
+							<button
+								name="price"
+								type="button"
+								className="btn-secondary text-sm"
+								onClick={resetRange}
+							>
+								초기화
+							</button>
+							<button
+								name="price"
+								className="btn-primary text-sm"
+								onClick={closeFilter}
+							>
+								적용
+							</button>
+						</div>
 					</form>
 				)}
 			</li>
@@ -105,24 +151,39 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 					/>
 				</button>
 				{isOpen && openedFilter === 'period' && (
-					<form className="absolute top-12 z-[3] w-96 h-32 border-1 rounded-lg bg-white flex center space-x-6">
-						<fieldset className="w-2/3">
-							<legend className="text-sm inline-block mb-3">
-								최대 소요 시간: {maxPeriod}분
+					<form className="absolute top-12 z-[3] w-96 h-40 border-1 rounded-lg bg-white vertical px-12 py-6 justify-center space-y-6">
+						<fieldset className="w-full text-center space-y-2">
+							<legend className="text-sm inline-block">
+								{`선택한 범위: ${minPeriod}분 ~ ${maxPeriod}분`}
 							</legend>
-							<input
-								className="slider"
-								type="range"
+							<Slider
+								range
 								min={props.period[0]}
-								step={5}
-								defaultValue={maxPeriod}
 								max={props.period[1]}
-								onChange={(e) => setMaxPeriod(() => Number(e.target.value))}
+								step={10}
+								value={[minPeriod, maxPeriod]}
+								defaultValue={[props.period[0], props.period[1]]}
+								allowCross={true}
+								onChange={changeRange}
 							/>
 						</fieldset>
-						<button className="btn-primary text-sm" onClick={closeFilter}>
-							적용
-						</button>
+						<div className="flex justify-center space-x-6">
+							<button
+								type="button"
+								name="period"
+								className="btn-secondary text-sm"
+								onClick={resetRange}
+							>
+								초기화
+							</button>
+							<button
+								name="period"
+								className="btn-primary text-sm"
+								onClick={closeFilter}
+							>
+								적용
+							</button>
+						</div>
 					</form>
 				)}
 			</li>
