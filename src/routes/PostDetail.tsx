@@ -16,6 +16,12 @@ const PostDetail = () => {
 	const selectPartner = (nickname: string) => {
 		console.log(nickname);
 	};
+
+	// 파트너 지원 api
+	const applyForPartner = () => {
+		console.log('apply');
+	};
+
 	return (
 		<Layout>
 			<section>
@@ -53,7 +59,9 @@ const PostDetail = () => {
 				</article>
 				<div className="flex justify-end space-x-3">
 					{data.author !== me && (
-						<button className="btn-primary">파트너로 지원하기</button>
+						<button className="btn-primary" onClick={applyForPartner}>
+							파트너로 지원하기
+						</button>
 					)}
 					<button
 						className="btn-secondary hover:bg-opacity-90 active:scale-95 transition"
