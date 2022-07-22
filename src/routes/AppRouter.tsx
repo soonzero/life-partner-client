@@ -10,6 +10,7 @@ import Logout from './Logout';
 import PostDetail from './PostDetail';
 import ChangeInfo from './ChangeInfo';
 import ChangePassword from './ChangePassword';
+import DeleteAccount from './DeleteAccount';
 
 const AppRouter = () => {
 	return (
@@ -26,6 +27,7 @@ const AppRouter = () => {
 				<Route path="/articles/:id" element={<PostDetail />} />
 				<Route path="/mypage/change/info" element={<ChangeInfo />} />
 				<Route path="/mypage/change/password" element={<ChangePassword />} />
+				<Route path="/mypage/delete-account" element={<DeleteAccount />} />
 			</Routes>
 		</BrowserRouter>
 	);
