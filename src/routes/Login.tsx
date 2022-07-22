@@ -1,7 +1,8 @@
+import axios from 'axios';
 import Layout from 'components/Layout';
 import useInputs from 'hooks/useInputs';
 import { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const initialState = {
 	nickname: '',
@@ -9,12 +10,27 @@ const initialState = {
 };
 
 const Login = () => {
+	const navigate = useNavigate();
 	const [{ nickname, password }, onChange] = useInputs(initialState);
 
-	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(nickname, password);
-		// 로그인 api 연동
+		try {
+			const { data } = await axios({
+				method: 'POST',
+				url: 'http://15.164.225.61/api/users/login',
+				data: {
+					nickname,
+					password,
+				},
+			});
+			if (data.result) {
+				window.sessionStorage.setItem('token', data.token);
+				navigate('/');
+			}
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	return (

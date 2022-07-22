@@ -7,8 +7,11 @@ import classNames from 'classnames';
 import Layout from 'components/Layout';
 import PostCode from 'components/PostCode';
 import { leaveOnlyNumber } from 'functions/dashes';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const NewSignup = () => {
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -32,11 +35,29 @@ const NewSignup = () => {
 			) {
 				alert('선택 항목은 모두 입력되거나 모두 비워져있어야 합니다.');
 			} else {
-				// 회원가입 api 연동
-				if (data.bank === '--은행 선택--') data.bank = '';
-				data.phone = leaveOnlyNumber(data.phone);
-				data.gu = gu;
-				data.dong = dong;
+				try {
+					const result = await axios({
+						method: 'POST',
+						url: 'http://15.164.225.61/api/users/signup',
+						data: {
+							nickname: data.nickname,
+							password: data.password,
+							phone: leaveOnlyNumber(data.phone),
+							address: address,
+							detail_address: data.detail_address,
+							gu: gu,
+							dong: dong,
+							bank: data.bank === '--은행 선택--' ? '' : data.bank,
+							account: data.account,
+							holder: data.holder,
+						},
+					});
+					if (result) {
+						navigate('/login');
+					}
+				} catch (e) {
+					console.log(e);
+				}
 			}
 		} else {
 			alert('주소를 입력해주세요');
