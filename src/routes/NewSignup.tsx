@@ -18,9 +18,11 @@ const NewSignup = () => {
 		mode: 'onChange',
 	});
 	const [address, setAddress] = useState<string>('');
+	const [gu, setGu] = useState<string>('');
+	const [dong, setDong] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const onSubmit: SubmitHandler<SignUpForm> = (data) => {
+	const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
 		if (address.length > 0) {
 			if (
 				(data.bank === '--은행 선택--' &&
@@ -31,9 +33,10 @@ const NewSignup = () => {
 				alert('선택 항목은 모두 입력되거나 모두 비워져있어야 합니다.');
 			} else {
 				// 회원가입 api 연동
-				data.bank = '';
+				if (data.bank === '--은행 선택--') data.bank = '';
 				data.phone = leaveOnlyNumber(data.phone);
-				console.log(data);
+				data.gu = gu;
+				data.dong = dong;
 			}
 		} else {
 			alert('주소를 입력해주세요');
@@ -45,12 +48,9 @@ const NewSignup = () => {
 
 	const completeHandler = async (data: any) => {
 		const [lng, lat] = await getLatLng(data.roadAddress);
-		setAddress(
-			(prev) =>
-				`${data.roadAddress},${lat},${lng},${
-					data.bname === '' ? data.bname1 : data.bname
-				}`
-		);
+		setAddress((prev) => `${data.roadAddress},${lat},${lng}`);
+		setGu((prev) => data.sigungu);
+		setDong((prev) => (data.bname === '' ? data.bname1 : data.bname));
 		setIsOpen(false);
 	};
 
@@ -186,7 +186,7 @@ const NewSignup = () => {
 							type="text"
 							placeholder="상세 주소가 필요하다면 입력해주세요."
 							className="auth-input"
-							{...register('detailAddress', {
+							{...register('detail_address', {
 								required: false,
 							})}
 						/>

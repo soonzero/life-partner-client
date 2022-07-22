@@ -10,9 +10,9 @@ import { useState, useEffect, ChangeEvent } from 'react';
 
 const WriteNewPost = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [address, setAddress] = useState<string>(
-		dummyData.user.address.split(',')[0]
-	);
+	const [address, setAddress] = useState<string>(dummyData.user.address);
+	const [gu, setGu] = useState<string>(dummyData.user.gu);
+	const [dong, setDong] = useState<string>(dummyData.user.dong);
 	const [accountChangeMode, setAccountChangeMode] = useState<boolean>(
 		dummyData.user.bank !== ''
 	);
@@ -32,6 +32,8 @@ const WriteNewPost = () => {
 	const onSubmit: SubmitHandler<NewPost> = (data: NewPost) => {
 		data.location = address;
 		data.point_earned = data.price * 0.05;
+		data.dong = dong;
+		data.gu = gu;
 		// 글쓰기 api 연동
 	};
 
@@ -63,6 +65,8 @@ const WriteNewPost = () => {
 	const completeHandler = async (data: any) => {
 		const [lng, lat] = await getLatLng(data.roadAddress);
 		setAddress((prev) => `${data.roadAddress},${lat},${lng}`);
+		setDong((prev) => (data.bname === '' ? data.bname1 : data.bname));
+		setGu((prev) => data.sigungu);
 		setIsOpen(false);
 	};
 
