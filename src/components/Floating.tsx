@@ -3,15 +3,16 @@ import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import menuList from 'data/menuList';
 
-const Floating = () => {
+const Floating = (props: { isLogin: boolean }) => {
 	const navigate = useCallback(useNavigate(), []);
 
 	const [subMenu, setSubMenu] = useState<boolean>(false);
 
 	// 로그인 o/x api 연동
-	const [isUser, setIsUser] = useState<boolean>(true);
+	const [isUser, setIsUser] = useState<boolean>(props.isLogin);
 
 	const logout = () => {
+		window.sessionStorage.removeItem('token');
 		setSubMenu(false);
 		setIsUser(false);
 		navigate('/logout');

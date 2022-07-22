@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import Floating from 'components/Floating';
 import Header from 'components/Header';
 
@@ -7,11 +7,15 @@ const Layout = (props: {
 	noShadow?: boolean;
 	floating?: boolean;
 }) => {
+	const [isLogin, setIsLogin] = useState(
+		sessionStorage.getItem('token') ? true : false
+	);
+
 	return (
 		<>
 			<Header noShadow={props.noShadow} />
 			<main>{props.children}</main>
-			{props.floating && <Floating />}
+			{props.floating && <Floating isLogin={isLogin} />}
 		</>
 	);
 };
