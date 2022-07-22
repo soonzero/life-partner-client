@@ -26,10 +26,13 @@ export interface LoginForm {
 export interface SignUpForm extends LoginForm {
 	passwordConfirm: string;
 	phone: string;
-	detailAddress: string;
+	address: string;
+	detail_address: string;
 	bank: string;
 	account: string;
 	holder: string;
+	gu: string;
+	dong: string;
 }
 
 export interface PasswordChangeForm {
@@ -50,6 +53,8 @@ export interface CurrentMenu {
 
 export interface NewPost extends Post {
 	detail_location: string;
+	gu: string;
+	dong: string;
 	use_point: number;
 	point_earned: number;
 	post_bank: string;
@@ -88,4 +93,13 @@ export interface Range {
 export interface ActionChangeRange {
 	type: 'CHANGE_PRICE' | 'CHANGE_PERIOD';
 	value: number;
+}
+
+export interface Daejeon {
+	[index: string]: string[];
+	대덕구: string[];
+	중구: string[];
+	동구: string[];
+	서구: string[];
+	유성구: string[];
 }

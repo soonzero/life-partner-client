@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { ActionChangeRange, Range } from 'types/types';
+import LocationFilter from './LocationFilter';
 
 // const initialState = {
 //  price: {
@@ -136,6 +137,35 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 		<ul className="flex mb-3 space-x-3 sticky top-[65px] py-3 bg-white z-[5] border-b-1">
 			<li className="relative">
 				<button
+					type="button"
+					name="location"
+					className={classNames('btn-filter center transition', {
+						'bg-main text-white font-semibold': openedFilter === 'location',
+					})}
+					onClick={openFilter}
+				>
+					<span className="mr-1 text-sm">위치</span>
+					<ChevronDownSVG
+						className={classNames('transition h-5 w-5', {
+							'rotate-180': openedFilter === 'location',
+						})}
+					/>
+				</button>
+				<form
+					className={classNames(
+						'absolute top-12 z-[3] w-80 h-max border-1 rounded-lg bg-white vertical p-3 justify-center space-y-3',
+						{
+							visible: isOpen && openedFilter === 'location',
+							hidden: !isOpen || openedFilter !== 'location',
+						}
+					)}
+					onSubmit={submitHandler}
+				>
+					<LocationFilter closeFilter={closeFilter} />
+				</form>
+			</li>
+			<li className="relative">
+				<button
 					name="price"
 					type="button"
 					className={classNames('btn-filter center transition', {
@@ -166,7 +196,7 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 							{/* {`선택한 범위: ${addCommasToNumber(
                   minPrice
                 )}원 ~ ${addCommasToNumber(maxPrice)}원`} */}
-							{`최저 금액 ${addCommasToNumber(minPrice)}원`}
+							{`최저 ${addCommasToNumber(minPrice)}원부터`}
 						</legend>
 						<Slider
 							// range
@@ -201,20 +231,6 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 					</div>
 				</form>
 			</li>
-			{/* <li className="relative">
-        <button
-					type="button"
-          name="location"
-          className="btn-filter center"
-          onClick={openFilter}
-        >
-          <span className="mr-1 text-sm">위치</span>
-          <ChevronDownSVG />
-        </button>
-        {isOpen && openedFilter === 'location' && (
-          <div className="absolute z-[3]">위치</div>
-        )}
-      </li> */}
 			<li className="relative">
 				<button
 					name="period"
@@ -245,7 +261,7 @@ const Filter = (props: { price: number[]; period: number[] }) => {
 					<fieldset className="w-full text-center space-y-2">
 						<legend className="text-sm inline-block">
 							{/* {`선택한 범위: ${minPeriod}분 ~ ${maxPeriod}분`} */}
-							{`최장 소요 시간: ${maxPeriod}분`}
+							{`최장 ${maxPeriod}분 소요`}
 						</legend>
 						<Slider
 							// range
