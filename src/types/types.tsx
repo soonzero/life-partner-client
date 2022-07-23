@@ -96,10 +96,21 @@ export interface ActionChangeRange {
 }
 
 export interface Daejeon {
-	[index: string]: string[];
+	[gu: string]: string[];
 	대덕구: string[];
 	중구: string[];
 	동구: string[];
 	서구: string[];
 	유성구: string[];
+}
+
+export interface AccountInfo {
+	nickname: string;
+	phone: string;
+	address: string;
+	detail_address: string;
+	bank: string;
+	account: string;
+	holder: string;
+	current_point: number;
 }
