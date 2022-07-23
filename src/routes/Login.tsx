@@ -1,31 +1,30 @@
 import axios from 'axios';
 import Layout from 'components/Layout';
-import useInputs from 'hooks/useInputs';
-import { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-const initialState = {
-	nickname: '',
-	password: '',
-};
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { LoginForm } from 'types/types';
+import classNames from 'classnames';
 
 const Login = () => {
 	const navigate = useNavigate();
-	const [{ nickname, password }, onChange] = useInputs(initialState);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<LoginForm>({
+		mode: 'onChange',
+	});
 
-	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const onSubmit: SubmitHandler<LoginForm> = async (data) => {
+		console.log(data);
 		try {
-			const { data } = await axios({
+			const result = await axios({
 				method: 'POST',
 				url: 'http://15.164.225.61/api/users/login',
-				data: {
-					nickname,
-					password,
-				},
+				data,
 			});
-			if (data.result) {
-				window.sessionStorage.setItem('token', data.token);
+			if (result.data.result) {
+				window.sessionStorage.setItem('token', result.data.token);
 				navigate('/');
 			}
 		} catch (e) {
@@ -38,29 +37,55 @@ const Login = () => {
 			<section className="max-w-sm">
 				<h1 className="mb-6">로그인</h1>
 				<form
-					onSubmit={onSubmit}
+					onSubmit={handleSubmit(onSubmit)}
 					className="vertical rounded-lg border-1 border-gray-200 p-8"
 				>
 					<fieldset className="vertical mb-6">
 						<div className="vertical mb-2">
-							<label htmlFor="nickname" className="auth-label">
-								닉네임
-							</label>
+							<div className="flex items-center justify-between">
+								<label htmlFor="nickname" className="auth-label">
+									닉네임
+								</label>
+								<span
+									className={classNames('guide-msg', {
+										error: errors.nickname,
+									})}
+								>
+									{errors.nickname &&
+										(errors.nickname.type === 'pattern'
+											? '닉네임은 한글과 숫자만 포함할 수 있습니다.'
+											: '닉네임을 3-8자로 입력해주세요.')}
+								</span>
+							</div>
 							<input
 								id="nickname"
 								type="text"
 								maxLength={8}
 								minLength={3}
-								placeholder="닉네임을 입력해주세요."
+								placeholder="한글/숫자를 이용하여 3-8자로 입력해주세요."
 								className="auth-input"
-								required
-								value={nickname}
-								onChange={onChange}
+								{...register('nickname', {
+									required: true,
+									minLength: 3,
+									maxLength: 8,
+									pattern: /^[가-힣0-9]*$/,
+								})}
 							/>
 						</div>
-						<label htmlFor="password" className="auth-label">
-							비밀번호
-						</label>
+						<div className="flex items-center justify-between">
+							<label htmlFor="password" className="auth-label">
+								비밀번호
+							</label>
+							<span
+								className={classNames('guide-msg', {
+									error: errors.password,
+								})}
+							>
+								{errors.password &&
+									errors.password.type === 'pattern' &&
+									'비밀번호는 한글을 포함할 수 없습니다.'}
+							</span>
+						</div>
 						<input
 							id="password"
 							type="password"
@@ -68,9 +93,12 @@ const Login = () => {
 							minLength={8}
 							placeholder="비밀번호를 입력해주세요."
 							className="auth-input"
-							required
-							value={password}
-							onChange={onChange}
+							{...register('password', {
+								required: true,
+								minLength: 8,
+								maxLength: 12,
+								pattern: /^[^ㄱ-ㅎ가-힣]*$/,
+							})}
 						/>
 					</fieldset>
 					<button type="submit" className="btn-primary">
