@@ -8,8 +8,10 @@ import bankList from 'data/bankList';
 import classNames from 'classnames';
 import axios from 'axios';
 import { AccountInfo } from 'types/types';
+import { useNavigate } from 'react-router-dom';
 
 const ChangeInfo = () => {
+	const navigate = useNavigate();
 	const [mode, setMode] = useState<string>('phone');
 	const [newPhone, setNewPhone] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -37,7 +39,10 @@ const ChangeInfo = () => {
 							phone: leaveOnlyNumber(newPhone),
 						},
 					});
-					console.log(result);
+					if (result.status === 200) {
+						alert('휴대폰 번호가 변경되었습니다.');
+						navigate('/mypage/profile');
+					}
 				} catch (e) {
 					console.log(e);
 				}
@@ -61,7 +66,10 @@ const ChangeInfo = () => {
 								dong: dong,
 							},
 						});
-						console.log(result);
+						if (result.status === 200) {
+							alert('주소가 변경되었습니다.');
+							navigate('/mypage/profile');
+						}
 					} catch (e) {
 						console.log(e);
 					}
@@ -70,24 +78,28 @@ const ChangeInfo = () => {
 						alert(
 							'변경된 주소가 이전 주소와 같습니다. 다시 한 번 확인해주세요.'
 						);
-					}
-					try {
-						const result = await axios({
-							method: 'PATCH',
-							url: 'http://15.164.225.61/api/users/user-info/address',
-							headers: {
-								authorization: `Bearer ${sessionStorage.getItem('token')}`,
-							},
-							data: {
-								address,
-								detail_address: detailAddress,
-								gu: gu,
-								dong: dong,
-							},
-						});
-						console.log(result);
-					} catch (e) {
-						console.log(e);
+					} else {
+						try {
+							const result = await axios({
+								method: 'PATCH',
+								url: 'http://15.164.225.61/api/users/user-info/address',
+								headers: {
+									authorization: `Bearer ${sessionStorage.getItem('token')}`,
+								},
+								data: {
+									address,
+									detail_address: detailAddress,
+									gu: gu,
+									dong: dong,
+								},
+							});
+							if (result.status === 200) {
+								alert('주소가 변경되었습니다.');
+								navigate('/mypage/profile');
+							}
+						} catch (e) {
+							console.log(e);
+						}
 					}
 				}
 			} else {
@@ -119,7 +131,10 @@ const ChangeInfo = () => {
 								holder,
 							},
 						});
-						console.log(result);
+						if (result.status === 200) {
+							alert('계좌 정보가 변경되었습니다.');
+							navigate('/mypage/profile');
+						}
 					} catch (e) {
 						console.log(e);
 					}
