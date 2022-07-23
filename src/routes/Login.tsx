@@ -16,7 +16,6 @@ const Login = () => {
 	});
 
 	const onSubmit: SubmitHandler<LoginForm> = async (data) => {
-		console.log(data);
 		try {
 			const result = await axios({
 				method: 'POST',
@@ -28,7 +27,9 @@ const Login = () => {
 				navigate('/');
 			}
 		} catch (e) {
-			console.log(e);
+			if (e instanceof Error && e.message === 'Network Error') {
+				alert('존재하지 않는 아이디입니다.');
+			}
 		}
 	};
 
