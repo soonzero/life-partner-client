@@ -3,8 +3,11 @@ import Sidebar from 'components/SideBar';
 import classNames from 'classnames';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { PasswordChangeForm } from 'types/types';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ChangePassword = () => {
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -14,7 +17,29 @@ const ChangePassword = () => {
 		mode: 'onChange',
 	});
 
-	const onSubmit: SubmitHandler<PasswordChangeForm> = (data) => {};
+	const onSubmit: SubmitHandler<PasswordChangeForm> = async (data) => {
+		try {
+			const response = await axios({
+				method: 'PATCH',
+				url: 'http://15.164.225.61/api/users/user-info/password',
+				headers: {
+					authorization: `Bearer ${sessionStorage.getItem('token')}`,
+				},
+				data: {
+					password: data.oldPassword,
+					modifiedPassword: data.newPassword,
+				},
+			});
+			if (response.data.result) {
+				sessionStorage.removeItem('token');
+				alert('비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요!');
+				navigate('/login');
+			}
+			console.log(response);
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	return (
 		<Layout>
