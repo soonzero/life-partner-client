@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginForm } from 'types/types';
 import classNames from 'classnames';
+import { emit } from 'process';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -27,8 +28,11 @@ const Login = () => {
 				navigate('/');
 			}
 		} catch (e) {
-			if (e instanceof Error && e.message === 'Network Error') {
-				alert('존재하지 않는 아이디입니다.');
+			console.log(e);
+			if (e instanceof Error) {
+				if (e.message === 'Network Error') alert('존재하지 않는 아이디입니다.');
+				else if (e.message === 'Request failed with status code 400')
+					alert('비밀번호가 틀립니다.');
 			}
 		}
 	};
