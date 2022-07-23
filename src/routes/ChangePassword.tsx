@@ -84,7 +84,9 @@ const ChangePassword = () => {
 										})}
 									>
 										{errors.newPassword &&
-											'대소문자/특수문자 관계없이 8-12자로 입력해주세요.'}
+											(errors.newPassword.type === 'pattern'
+												? '비밀번호는 한글을 포함할 수 없습니다.'
+												: '한글을 제외한 문자를 8-12자로 입력해주세요.')}
 									</span>
 								</div>
 								<input
@@ -98,6 +100,7 @@ const ChangePassword = () => {
 									{...register('newPassword', {
 										minLength: 8,
 										maxLength: 12,
+										pattern: /^[^ㄱ-ㅎ가-힣]*$/,
 									})}
 								/>
 							</fieldset>

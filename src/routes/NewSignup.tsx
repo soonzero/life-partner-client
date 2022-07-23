@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { SignUpForm } from 'types/types';
 import bankList from 'data/bankList';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import getLatLng from 'functions/getLatLng';
 import classNames from 'classnames';
 import Layout from 'components/Layout';
@@ -64,9 +64,6 @@ const NewSignup = () => {
 		}
 	};
 
-	const passwordRef = useRef<string | null>(null);
-	passwordRef.current = watch('password');
-
 	const completeHandler = async (data: any) => {
 		const [lng, lat] = await getLatLng(data.roadAddress);
 		setAddress((prev) => `${data.roadAddress},${lat},${lng}`);
@@ -100,13 +97,13 @@ const NewSignup = () => {
 						<input
 							id="nickname"
 							type="text"
-							placeholder="한글/알파벳/숫자를 이용하여 3-8자로 입력해주세요."
+							placeholder="한글/숫자를 이용하여 3-8자로 입력해주세요."
 							className="auth-input"
 							{...register('nickname', {
 								required: true,
 								maxLength: 8,
 								minLength: 3,
-								pattern: /^[가-힣a-zA-Z0-9]*$/,
+								pattern: /^[가-힣0-9]*$/,
 							})}
 						/>
 						<span
@@ -114,8 +111,7 @@ const NewSignup = () => {
 								error: errors.nickname,
 							})}
 						>
-							{errors.nickname &&
-								'한글/알파벳/숫자를 이용하여 3-8자로 입력해주세요.'}
+							{errors.nickname && '한글/숫자를 이용하여 3-8자로 입력해주세요.'}
 						</span>
 						<label htmlFor="password" className="auth-label mandatory">
 							비밀번호
@@ -123,12 +119,13 @@ const NewSignup = () => {
 						<input
 							id="password"
 							type="password"
-							placeholder="대소문자/특수문자 관계없이 8-12자로 입력해주세요."
+							placeholder="한글을 제외하고 8-12자로 입력해주세요."
 							className="auth-input"
 							{...register('password', {
 								required: true,
 								maxLength: 12,
 								minLength: 8,
+								pattern: /^[^ㄱ-ㅎ가-힣]*$/,
 							})}
 						/>
 						<span
@@ -137,7 +134,9 @@ const NewSignup = () => {
 							})}
 						>
 							{errors.password &&
-								'대소문자/특수문자 관계없이 8-12자로 입력해주세요.'}
+								(errors.password.type === 'pattern'
+									? '비밀번호에 한글이 포함되어 있어요.'
+									: '비밀번호는 8-12자로 입력해주세요.')}
 						</span>
 						<label htmlFor="passwordConfirm" className="auth-label mandatory">
 							비밀번호 확인
@@ -151,7 +150,7 @@ const NewSignup = () => {
 								required: true,
 								maxLength: 12,
 								minLength: 8,
-								validate: (value: string) => value === passwordRef.current,
+								validate: (value: string) => value === watch('password'),
 							})}
 						/>
 						<span
@@ -173,7 +172,7 @@ const NewSignup = () => {
 								required: true,
 								minLength: 10,
 								maxLength: 11,
-								pattern: /[0-9]*$/,
+								pattern: /^[0-9]*$/,
 							})}
 						/>
 						<span
@@ -181,7 +180,10 @@ const NewSignup = () => {
 								error: errors.phone,
 							})}
 						>
-							{errors.phone && '휴대폰 번호는 10-11자리의 숫자로 입력해주세요.'}
+							{errors.phone &&
+								(errors.phone.type === 'pattern'
+									? '숫자만 입력해주세요.'
+									: '휴대폰 번호는 10-11자리로 입력해주세요.')}
 						</span>
 						<label className="auth-label mandatory">기본 주소</label>
 						<div className="flex center mb-3">
@@ -205,7 +207,7 @@ const NewSignup = () => {
 						<input
 							id="detailAddress"
 							type="text"
-							placeholder="상세 주소가 필요하다면 입력해주세요."
+							placeholder="상세 주소가 필요한 경우 입력해주세요."
 							className="auth-input"
 							{...register('detail_address', {
 								required: false,
