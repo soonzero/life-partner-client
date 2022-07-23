@@ -1,9 +1,12 @@
+import axios from 'axios';
 import classNames from 'classnames';
 import Layout, { MyPageLayout } from 'components/Layout';
 import Sidebar from 'components/SideBar';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const DeleteAccount = () => {
+	const navigate = useNavigate();
 	const [word, setWord] = useState<string>('');
 
 	const deleteAccount = async () => {
@@ -14,7 +17,18 @@ const DeleteAccount = () => {
 				)
 			) {
 				try {
-					console.log('회원 탈퇴 성공');
+					const result = await axios({
+						method: 'DELETE',
+						url: 'http://15.164.225.61/api/users/withdraw',
+						headers: {
+							authorization: `Bearer ${sessionStorage.getItem('token')}`,
+						},
+					});
+					if (result.status === 200) {
+						sessionStorage.removeItem('token');
+						alert('회원 탈퇴되었습니다. 메인 페이지로 이동합니다.');
+						navigate('/');
+					}
 				} catch (e) {
 					console.log(e);
 				}
