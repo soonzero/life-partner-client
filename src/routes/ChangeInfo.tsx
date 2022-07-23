@@ -1,62 +1,128 @@
 import Layout, { MyPageLayout } from 'components/Layout';
 import SideBar from 'components/SideBar';
-import dummyData from 'data/dummyData';
 import { FormEvent, useState, useEffect } from 'react';
 import { leaveOnlyNumber } from 'functions/dashes';
 import getLatLng from 'functions/getLatLng';
 import PostCode from 'components/PostCode';
 import bankList from 'data/bankList';
 import classNames from 'classnames';
+import axios from 'axios';
+import { AccountInfo } from 'types/types';
 
 const ChangeInfo = () => {
-	const user = dummyData.user;
 	const [mode, setMode] = useState<string>('phone');
 	const [newPhone, setNewPhone] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [address, setAddress] = useState<string>(user.address.split(',')[0]);
-	const [detailAddress, setDetailAddress] = useState<string>(
-		user.detail_address
-	);
-	const [bank, setBank] = useState<string>(
-		user.bank == '' ? '--은행 선택--' : user.bank
-	);
+	const [data, setData] = useState<AccountInfo | null>(null);
+	const [address, setAddress] = useState<string>('');
+	const [detailAddress, setDetailAddress] = useState<string>('');
+	const [bank, setBank] = useState<string>('');
 	const [holder, setHolder] = useState<string>('');
 	const [account, setAccount] = useState<string>('');
+	const [gu, setGu] = useState<string>('');
+	const [dong, setDong] = useState<string>('');
 
-	const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+	const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (mode === 'phone') {
 			if (leaveOnlyNumber(newPhone).length === 11) {
-				// 휴대폰 번호 변경 api 연동
+				try {
+					const result = await axios({
+						method: 'PATCH',
+						url: 'http://15.164.225.61/api/users/user-info/phone',
+						headers: {
+							authorization: `Bearer ${sessionStorage.getItem('token')}`,
+						},
+						data: {
+							phone: leaveOnlyNumber(newPhone),
+						},
+					});
+					console.log(result);
+				} catch (e) {
+					console.log(e);
+				}
 			} else {
 				alert('휴대폰 번호를 다시 한 번 확인해주세요.');
 			}
 		} else if (mode === 'address') {
 			if (address.length > 0) {
-				if (user.address.split(',')[0] !== address.split(',')[0]) {
-					console.log(address);
-					console.log(detailAddress);
-					// 주소 변경 api 연동
+				if (data?.address.split(',')[0] !== address.split(',')[0]) {
+					try {
+						const result = await axios({
+							method: 'PATCH',
+							url: 'http://15.164.225.61/api/users/user-info/address',
+							headers: {
+								authorization: `Bearer ${sessionStorage.getItem('token')}`,
+							},
+							data: {
+								address,
+								detail_address: detailAddress,
+								gu: gu,
+								dong: dong,
+							},
+						});
+						console.log(result);
+					} catch (e) {
+						console.log(e);
+					}
 				} else {
-					if (user.detail_address === detailAddress) {
+					if (data?.detail_address === detailAddress) {
 						alert(
 							'변경된 주소가 이전 주소와 같습니다. 다시 한 번 확인해주세요.'
 						);
 					}
-					// 주소 변경 api 연동
+					try {
+						const result = await axios({
+							method: 'PATCH',
+							url: 'http://15.164.225.61/api/users/user-info/address',
+							headers: {
+								authorization: `Bearer ${sessionStorage.getItem('token')}`,
+							},
+							data: {
+								address,
+								detail_address: detailAddress,
+								gu: gu,
+								dong: dong,
+							},
+						});
+						console.log(result);
+					} catch (e) {
+						console.log(e);
+					}
 				}
 			} else {
 				alert('주소를 입력해주세요.');
 			}
 		} else {
-			if (bank.length > 0 && account.length > 0 && holder.length > 0) {
+			if (
+				bank !== '--은행 선택--' &&
+				bank.length > 0 &&
+				account.length > 0 &&
+				holder.length > 0
+			) {
 				if (
-					user.bank !== bank ||
-					user.account !== account ||
-					user.holder !== holder
+					data?.bank !== bank ||
+					data?.account !== account ||
+					data?.holder !== holder
 				) {
 					const accountOnlyWithNumber = leaveOnlyNumber(account);
-					// 계좌 변경 api 연동
+					try {
+						const result = await axios({
+							method: 'PATCH',
+							url: 'http://15.164.225.61/api/users/user-info/bank-account',
+							headers: {
+								authorization: `Bearer ${sessionStorage.getItem('token')}`,
+							},
+							data: {
+								bank,
+								account: accountOnlyWithNumber,
+								holder,
+							},
+						});
+						console.log(result);
+					} catch (e) {
+						console.log(e);
+					}
 				} else {
 					alert('변경할 계좌의 정보가 이전 계좌의 정보와 같습니다.');
 				}
@@ -68,14 +134,35 @@ const ChangeInfo = () => {
 
 	const completeHandler = async (data: any) => {
 		const [lng, lat] = await getLatLng(data.roadAddress);
-		setAddress(
-			(prev) =>
-				`${data.roadAddress},${lat},${lng},${
-					data.bname === '' ? data.bname1 : data.bname
-				}`
-		);
+		setAddress((prev) => `${data.roadAddress},${lat},${lng}`);
+		setGu((prev) => data.sigungu);
+		setDong((prev) => (data.bname === '' ? data.bname1 : data.bname));
 		setIsOpen(false);
 	};
+
+	const getInfo = async () => {
+		try {
+			const { data } = await axios({
+				method: 'GET',
+				url: 'http://15.164.225.61/api/users/user-info',
+				headers: {
+					authorization: `Bearer ${sessionStorage.getItem('token')}`,
+				},
+			});
+			setData((prev) => data);
+			setAddress((prev) => data.address);
+			setDetailAddress((prev) => data.detail_address);
+			setBank((prev) => data.bank);
+			setAccount((prev) => data.account);
+			setHolder((prev) => data.holder);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	useEffect(() => {
+		getInfo();
+	}, []);
 
 	useEffect(() => {
 		if (isOpen) {
@@ -199,7 +286,7 @@ const ChangeInfo = () => {
 								<label className="font-medium min-w-[3rem]">은행</label>
 								<select
 									className="grow auth-input text-center"
-									value={bank}
+									value={bank === '' ? '--은행 선택--' : bank}
 									onChange={(e) => setBank((prev) => e.target.value)}
 								>
 									<option>--은행 선택--</option>
