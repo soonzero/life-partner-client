@@ -13,13 +13,7 @@ const initialState = {
 
 const LocationFilter = (props: { closeFilter: any }) => {
 	const [selectedGu, setSelectedGu] = useState<string>('');
-	const [selectedDong, setSelectedDong] = useState<Daejeon>({
-		대덕구: [],
-		동구: [],
-		서구: [],
-		중구: [],
-		유성구: [],
-	});
+	const [selectedDong, setSelectedDong] = useState<Daejeon>(initialState);
 
 	const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
 		const target = e.currentTarget.getAttribute('name');
