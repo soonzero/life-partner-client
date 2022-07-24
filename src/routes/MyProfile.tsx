@@ -21,7 +21,6 @@ const MyProfile = () => {
 						authorization: `Bearer ${sessionStorage.getItem('token')}`,
 					},
 				});
-				console.log(response);
 				setData((prev) => response.data);
 			}
 		} catch (e) {
