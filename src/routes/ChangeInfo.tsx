@@ -21,7 +21,6 @@ const ChangeInfo = () => {
 	const [bank, setBank] = useState<string>('');
 	const [holder, setHolder] = useState<string>('');
 	const [account, setAccount] = useState<string>('');
-	const [gu, setGu] = useState<string>('');
 	const [dong, setDong] = useState<string>('');
 
 	const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -62,7 +61,6 @@ const ChangeInfo = () => {
 							data: {
 								address,
 								detail_address: detailAddress,
-								gu: gu,
 								dong: dong,
 							},
 						});
@@ -89,7 +87,6 @@ const ChangeInfo = () => {
 								data: {
 									address,
 									detail_address: detailAddress,
-									gu: gu,
 									dong: dong,
 								},
 							});
@@ -150,7 +147,6 @@ const ChangeInfo = () => {
 	const completeHandler = async (data: any) => {
 		const [lng, lat] = await getLatLng(data.roadAddress);
 		setAddress((prev) => `${data.roadAddress},${lat},${lng}`);
-		setGu((prev) => data.sigungu);
 		setDong((prev) => (data.bname === '' ? data.bname1 : data.bname));
 		setIsOpen(false);
 	};
