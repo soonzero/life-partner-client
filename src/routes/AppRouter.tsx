@@ -10,6 +10,7 @@ import PostDetail from './PostDetail';
 import ChangeInfo from './ChangeInfo';
 import ChangePassword from './ChangePassword';
 import DeleteAccount from './DeleteAccount';
+import History from './History';
 
 const AppRouter = () => {
 	return (
@@ -26,6 +27,7 @@ const AppRouter = () => {
 				<Route path="/mypage/change/info" element={<ChangeInfo />} />
 				<Route path="/mypage/change/password" element={<ChangePassword />} />
 				<Route path="/mypage/delete-account" element={<DeleteAccount />} />
+				<Route path="/mypage/history" element={<History />} />
 			</Routes>
 		</BrowserRouter>
 	);
