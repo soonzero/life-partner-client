@@ -1,19 +1,14 @@
 import classNames from 'classnames';
 import daejeon from 'data/location';
-import { useState, MouseEvent } from 'react';
-import { Daejeon } from 'types/types';
+import { useState, MouseEvent, Dispatch, SetStateAction } from 'react';
+import { Condition } from 'types/types';
 
-const initialState = {
-	대덕구: [],
-	동구: [],
-	서구: [],
-	중구: [],
-	유성구: [],
-};
-
-const LocationFilter = (props: { closeFilter: any }) => {
+const LocationFilter = (props: {
+	closeFilter: () => void;
+	setFilter: Dispatch<SetStateAction<Condition>>;
+}) => {
 	const [selectedGu, setSelectedGu] = useState<string>('');
-	const [selectedDong, setSelectedDong] = useState<Daejeon>(initialState);
+	const [selectedDong, setSelectedDong] = useState<string[]>([]);
 
 	const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
 		const target = e.currentTarget.getAttribute('name');
@@ -25,34 +20,32 @@ const LocationFilter = (props: { closeFilter: any }) => {
 	const manageDong = (e: MouseEvent<HTMLLIElement>) => {
 		const target = e.currentTarget.getAttribute('id');
 		if (target) {
-			if (!selectedDong[selectedGu].includes(target)) {
-				if (
-					selectedDong.대덕구.length +
-						selectedDong.동구.length +
-						selectedDong.서구.length +
-						selectedDong.유성구.length +
-						selectedDong.중구.length >=
-					3
-				) {
+			if (!selectedDong.includes(target)) {
+				if (selectedDong.length > 2) {
 					alert('총 세 개의 동까지만 검색이 가능해요!');
 				} else {
-					setSelectedDong((prev) => ({
-						...prev,
-						[selectedGu]: selectedDong[selectedGu].concat(target),
-					}));
+					setSelectedDong((prev) => [...prev, target]);
 				}
 			} else {
-				setSelectedDong((prev) => ({
-					...prev,
-					[selectedGu]: selectedDong[selectedGu].filter((i) => i !== target),
-				}));
+				setSelectedDong((prev) => prev.filter((i) => i !== target));
 			}
 		}
 	};
 
 	const resetRange = () => {
 		setSelectedGu((prev) => '');
-		setSelectedDong((prev) => initialState);
+		setSelectedDong((prev) => []);
+	};
+
+	const applyFilter = () => {
+		const [location1, location2, location3] = selectedDong;
+		props.setFilter((prev) => ({
+			...prev,
+			location1: location1 ? location1 : '* *',
+			location2: location2 ? location2 : 'not location',
+			location3: location3 ? location3 : 'not location',
+		}));
+		props.closeFilter();
 	};
 
 	return (
@@ -64,10 +57,13 @@ const LocationFilter = (props: { closeFilter: any }) => {
 							<button
 								key={idx}
 								name={gu}
-								className={classNames('p-2 cursor-pointer', {
-									'bg-main text-white font-semibold': selectedGu === gu,
-									'hover:bg-gray-100': selectedGu !== gu,
-								})}
+								className={classNames(
+									'p-2 cursor-pointer text-sm sm:text-base',
+									{
+										'bg-main text-white font-semibold': selectedGu === gu,
+										'hover:bg-gray-100': selectedGu !== gu,
+									}
+								)}
 								onClick={onClickHandler}
 							>
 								{gu}
@@ -77,15 +73,21 @@ const LocationFilter = (props: { closeFilter: any }) => {
 				</div>
 				<div className="border-1 overflow-scroll">
 					<ul className="vertical h-16">
-						{daejeon[selectedGu]?.map((g) => (
+						{daejeon[selectedGu]?.map((g: string) => (
 							<li
-								id={g}
+								id={`${selectedGu} ${g}`}
 								key={g}
-								className={classNames('text-center p-2 cursor-pointer', {
-									'bg-main text-white font-semibold':
-										selectedDong[selectedGu].includes(g),
-									'hover:bg-gray-100': !selectedDong[selectedGu].includes(g),
-								})}
+								className={classNames(
+									'text-center p-2 cursor-pointer text-sm sm:text-base',
+									{
+										'bg-main text-white font-semibold': selectedDong.includes(
+											`${selectedGu} ${g}`
+										),
+										'hover:bg-gray-100': !selectedDong.includes(
+											`${selectedGu} ${g}`
+										),
+									}
+								)}
 								onClick={manageDong}
 							>
 								{g}
@@ -95,28 +97,11 @@ const LocationFilter = (props: { closeFilter: any }) => {
 				</div>
 			</div>
 			<div className="flex space-x-2">
-				{selectedDong['대덕구'].map((i) => (
-					<div key={i} className="rounded-full border-1 px-2 py-1 text-xs">
-						{i}
-					</div>
-				))}
-				{selectedDong['동구'].map((i) => (
-					<div key={i} className="rounded-full border-1 px-2 py-1 text-xs">
-						{i}
-					</div>
-				))}
-				{selectedDong['서구'].map((i) => (
-					<div key={i} className="rounded-full border-1 px-2 py-1 text-xs">
-						{i}
-					</div>
-				))}
-				{selectedDong['유성구'].map((i) => (
-					<div key={i} className="rounded-full border-1 px-2 py-1 text-xs">
-						{i}
-					</div>
-				))}
-				{selectedDong['중구'].map((i) => (
-					<div key={i} className="rounded-full border-1 px-2 py-1 text-xs">
+				{selectedDong.map((i) => (
+					<div
+						key={i}
+						className="rounded-full border-1 px-2 py-1 text-[0.5rem] sm:text-xs"
+					>
 						{i}
 					</div>
 				))}
@@ -139,7 +124,7 @@ const LocationFilter = (props: { closeFilter: any }) => {
 					name="location"
 					type="submit"
 					className="btn-primary text-sm"
-					onClick={props.closeFilter}
+					onClick={applyFilter}
 				>
 					적용
 				</button>
