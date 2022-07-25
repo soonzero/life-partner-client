@@ -109,17 +109,19 @@ const PostDetail = () => {
 			{data && (
 				<section>
 					<h1 className="mb-3">파트너를 구하고 있어요</h1>
-					<article className="flex vertical border-1 p-6 mb-3 divide-y-1">
+					<article className="flex vertical border-1 p-4 mb-3 divide-y-1 sm:p-6">
 						<div>
 							<h2 className="pb-3 mb-3 border-b-1">{data.title}</h2>
-							<p className="min-h-[20vh]">{data.contents}</p>
-							<p className="py-3 text-right font-semibold">
+							<p className="min-h-[20vh] text-sm sm:text-base">
+								{data.contents}
+							</p>
+							<p className="py-3 text-right font-semibold text-sm sm:text-base">
 								{data.period}분 소요 / {addCommasToNumber(data.price)}원
 							</p>
 						</div>
 						<div className="flex vertical">
 							<h3 className="py-3">위치</h3>
-							<map className="w-full h-96">
+							<map className="w-full h-48 sm:h-72 md:h-96">
 								<NaverMap
 									id={data.id}
 									location={data.location}
