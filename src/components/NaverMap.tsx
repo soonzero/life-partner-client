@@ -9,7 +9,7 @@ const NaverMap = ({ id, location, detail }: Map) => {
 		const initMap = () => {
 			map = new naver.maps.Map(`map${id}`, {
 				center: new naver.maps.LatLng(Number(lng), Number(lat)),
-				zoom: 14,
+				zoom: 15,
 			});
 
 			marker = new naver.maps.Marker({
@@ -20,7 +20,9 @@ const NaverMap = ({ id, location, detail }: Map) => {
 						? `https://user-images.githubusercontent.com/95613159/179005516-aa95271c-7ca3-4bea-9e5f-5dd0a4f262b8.png`
 						: `https://user-images.githubusercontent.com/95613159/178690536-ec7d542c-fcb0-401d-afbf-cb3317bc0aeb.png`,
 					size: new naver.maps.Size(50, 50),
-					anchor: new naver.maps.Point(25, 25),
+					anchor: detail
+						? new naver.maps.Point(25, 50)
+						: new naver.maps.Point(25, 25),
 				},
 			});
 
