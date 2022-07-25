@@ -12,8 +12,8 @@ import { useNavigate } from 'react-router-dom';
 const WriteNewPost = () => {
 	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [data, setData] = useState<AccountInfo>();
-	const [address, setAddress] = useState<string>(data?.address || '');
+	const [info, setInfo] = useState<AccountInfo>();
+	const [address, setAddress] = useState<string>(info?.address || '');
 	const [dong, setDong] = useState<string>('');
 	const [accountChangeMode, setAccountChangeMode] = useState<boolean>(false);
 	const [locationChangeMode, setLocationChangeMode] = useState<boolean>(false);
@@ -23,10 +23,40 @@ const WriteNewPost = () => {
 
 	const onSubmit: SubmitHandler<NewPost> = async (data: NewPost) => {
 		if (isNaN(data.use_point)) data.use_point = 0;
+
+		// 은행 선택 안 한 유저에게 은행 선택하라는 알림창
+		if (data.post_bank === '--은행 선택--') {
+			alert('은행을 선택해주세요.');
+			return;
+		}
+
+		// 회원정보에 계좌 미등록했던 사람에게 계좌 정보 기본값으로 저장할 지 확인
+		if (info?.bank === '') {
+			if (window.confirm('계좌의 정보를 업데이트하시겠어요?')) {
+				try {
+					const response = await axios({
+						method: 'PATCH',
+						url: 'http://15.164.225.61/api/users/user-info/bank-account',
+						headers: {
+							authorization: `Bearer ${sessionStorage.getItem('token')}`,
+						},
+						data: {
+							bank: data.post_bank,
+							account: data.post_account,
+							holder: data.post_holder,
+						},
+					});
+				} catch (e) {
+					console.log(e);
+				}
+			}
+		}
 		data.point_earned = data.price * 0.05;
 		data.location = address;
 		data.dong = dong;
 		data.gu = data.location.split(' ')[1];
+
+		// 게시글 등록 api
 		try {
 			const response = await axios({
 				method: 'POST',
@@ -50,16 +80,16 @@ const WriteNewPost = () => {
 		if (name === 'location') {
 			setLocationChangeMode((prev) => !prev);
 			if (locationChangeMode) {
-				setAddress((prev) => data?.address.split(',')[0] || '');
-				setValue('detail_location', data?.detail_address || '');
+				setAddress((prev) => info?.address.split(',')[0] || '');
+				setValue('detail_location', info?.detail_address || '');
 			}
 		} else if (name === 'account') {
-			if (data?.bank !== '--은행 선택--') {
+			if (info?.bank !== '') {
 				setAccountChangeMode((prev) => !prev);
 				if (!accountChangeMode) {
-					setValue('post_bank', data?.bank || '--은행 선택--');
-					setValue('post_account', data?.account || '');
-					setValue('post_holder', data?.holder || '');
+					setValue('post_bank', info?.bank || '--은행 선택--');
+					setValue('post_account', info?.account || '');
+					setValue('post_holder', info?.holder || '');
 				}
 			}
 		}
@@ -83,7 +113,7 @@ const WriteNewPost = () => {
 		} else {
 			setValue(
 				'use_point',
-				Math.min(...[watch('price'), data?.current_point || 0])
+				Math.min(...[watch('price'), info?.current_point || 0])
 			);
 		}
 	};
@@ -98,7 +128,7 @@ const WriteNewPost = () => {
 				},
 			});
 			console.log(result.data);
-			setData((prev) => result.data);
+			setInfo((prev) => result.data);
 			setAddress((prev) => result.data.address);
 			setDong((prev) => result.data.dong);
 			setValue('detail_location', result.data.detail_address);
@@ -131,7 +161,7 @@ const WriteNewPost = () => {
 		<Layout>
 			<section>
 				<h1 className="mb-3">파트너 구하기</h1>
-				{data && (
+				{info && (
 					<form
 						className="border-1 rounded-lg p-8"
 						onSubmit={handleSubmit(onSubmit)}
@@ -197,7 +227,7 @@ const WriteNewPost = () => {
 									type="text"
 									className="w-20 p-1 border-1"
 									disabled
-									value={`${addCommasToNumber(data.current_point)}점`}
+									value={`${addCommasToNumber(info.current_point)}점`}
 								/>
 								<div className="space-x-3">
 									<label htmlFor="use-point" className="post-label">
@@ -210,7 +240,7 @@ const WriteNewPost = () => {
 										placeholder="10점 단위"
 										min={0}
 										step={10}
-										max={Math.min(...[watch('price'), data.current_point])}
+										max={Math.min(...[watch('price'), info.current_point])}
 										{...register('use_point', {
 											required: false,
 											valueAsNumber: true,
@@ -254,7 +284,7 @@ const WriteNewPost = () => {
 											type="text"
 											className="grow border-1 p-1 mr-1"
 											disabled
-											value={data.address.split(',')[0]}
+											value={info.address.split(',')[0]}
 										/>
 										<button
 											type="button"
@@ -279,7 +309,7 @@ const WriteNewPost = () => {
 											{...register('detail_location', {
 												required: true,
 											})}
-											defaultValue={data.detail_address}
+											defaultValue={info.detail_address}
 										/>
 									</div>
 								</div>
@@ -289,11 +319,11 @@ const WriteNewPost = () => {
 							<div className="flex items-center space-x-6 mb-3">
 								<h3>환불 계좌</h3>
 								<label htmlFor="change-account-mode" className="post-btn">
-									{data.bank !== '--은행 선택--' && accountChangeMode
+									{info.bank !== '' && accountChangeMode
 										? '기존 계좌 사용하기'
-										: data.bank !== '--은행 선택--' && !accountChangeMode
+										: info.bank !== '' && !accountChangeMode
 										? '다른 계좌 사용하기'
-										: '사용할 계좌 입력'}
+										: '사용할 계좌를 입력하세요'}
 								</label>
 							</div>
 							<div className="flex items-center space-x-6">
@@ -314,7 +344,7 @@ const WriteNewPost = () => {
 												required: true,
 											})}
 											defaultValue={
-												data.bank === '' ? '--은행 선택--' : data.bank
+												info.bank === '' ? '--은행 선택--' : info.bank
 											}
 										>
 											<option>--은행 선택--</option>
@@ -334,7 +364,7 @@ const WriteNewPost = () => {
 											{...register('post_holder', {
 												required: true,
 											})}
-											defaultValue={data.holder}
+											defaultValue={info.holder}
 										/>
 									</div>
 									<div className="flex items-center">
@@ -351,7 +381,7 @@ const WriteNewPost = () => {
 												required: true,
 												pattern: /\d*$/,
 											})}
-											defaultValue={data.account}
+											defaultValue={info.account}
 										/>
 									</div>
 								</div>
