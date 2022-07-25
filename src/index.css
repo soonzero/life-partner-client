@@ -73,6 +73,10 @@
 		@apply flex flex-col;
 	}
 
+	.horizontal {
+		@apply flex flex-row;
+	}
+
 	.center {
 		@apply justify-center items-center;
 	}
@@ -94,15 +98,15 @@
 	}
 
 	.post-label {
-		@apply font-medium text-xs sm:text-base;
+		@apply font-medium text-xs md:text-sm lg:text-base;
 	}
 
 	.post-input {
-		@apply p-1 border-1 w-20 text-xs;
+		@apply p-1 border-1 w-20 text-xs md:w-32 md:text-sm lg:text-base;
 	}
 
 	.post-btn {
-		@apply py-1 px-2 text-xs bg-white text-main font-medium rounded-lg border-main border-1 cursor-pointer hover:bg-main hover:text-white active:scale-95 transition sm:text-sm;
+		@apply py-1 px-2 text-xs bg-white text-main font-medium rounded-lg border-main border-1 cursor-pointer hover:bg-main hover:text-white active:scale-95 transition md:text-sm;
 	}
 
 	.space-between {
