@@ -24,14 +24,15 @@ const Header = (props: { noShadow?: boolean }) => {
 	return (
 		<header
 			className={classNames(
-				'mx-auto sticky top-0 px-8 bg-white transition border-b z-[5]',
+				'mx-auto sticky top-0 xs:px-4 sm:px-8 transition z-[5]',
 				{
-					'shadow-main': shadow,
-					'shadow-none': props.noShadow,
+					'shadow-main bg-main': shadow && !props.noShadow,
+					'border-b bg-white': !shadow,
+					'shadow-none bg-white': props.noShadow,
 				}
 			)}
 		>
-			<NavBar />
+			<NavBar shadow={shadow} noShadow={props.noShadow} />
 		</header>
 	);
 };
