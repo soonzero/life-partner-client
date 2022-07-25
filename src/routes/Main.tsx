@@ -1,35 +1,56 @@
 import Card from 'components/Card';
-import dummyData from 'data/dummyData';
 import Filter from 'components/Filter';
 import Layout from 'components/Layout';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Post } from 'types/types';
 
 const Main = () => {
-	const displayData = dummyData.posts.filter((p) => p.status === 'waiting');
-	const priceList = displayData.map((i) => i.price);
-	const periodList = displayData.map((i) => i.period);
-	const [minPrice, maxPrice] = [Math.min(...priceList), Math.max(...priceList)];
-	const [minPeriod, maxPeriod] = [
-		Math.min(...periodList),
-		Math.max(...periodList),
-	];
+	const [data, setData] = useState<Post[]>([]);
+	const [isUser, setIsUser] = useState<boolean>();
 
-	// 게시글 불러오기 api 연동하고, isUser가 true면 글쓰기 버튼 보여주기
+	const getPosts = async () => {
+		try {
+			const { data } = await axios({
+				method: 'GET',
+				url: 'http://15.164.225.61/api/articles',
+				headers: {
+					authorization: sessionStorage.getItem('token')
+						? `Bearer ${sessionStorage.getItem('token')}`
+						: 'NOT user',
+				},
+			});
+			setData((prev) => data.articles);
+			if (data.is_user) {
+				setIsUser(true);
+			}
+		} catch (e) {
+			setIsUser(false);
+			console.log(e);
+		}
+	};
+
+	useEffect(() => {
+		getPosts();
+	}, []);
 
 	return (
 		<Layout noShadow floating>
 			<section className="vertical">
 				<div className="flex mb-3 justify-between items-center">
 					<h1>파트너를 구해요</h1>
-					<Link to="/posts/write">
-						<button type="button" className="btn-primary">
-							파트너 구하기
-						</button>
-					</Link>
+					{isUser && (
+						<Link to="/posts/write">
+							<button type="button" className="btn-primary">
+								파트너 구하기
+							</button>
+						</Link>
+					)}
 				</div>
-				<Filter price={[minPrice, maxPrice]} period={[minPeriod, maxPeriod]} />
+				<Filter price={[2000, 30000]} period={[10, 120]} />
 				<article className="grid grid-cols-4 gap-3">
-					{displayData.map((i) => (
+					{data?.map((i) => (
 						<Card key={i.id} item={i} detail={false} />
 					))}
 				</article>
