@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { daejeon } from 'data/dummyData';
+import daejeon from 'data/location';
 import { useState, MouseEvent } from 'react';
 import { Daejeon } from 'types/types';
 

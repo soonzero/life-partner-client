@@ -1,10 +1,22 @@
 export interface Post {
 	id: number;
-	period: number;
-	price: number;
-	location: string;
+	date: string;
+	status: string;
+	writer: string;
 	title: string;
 	contents: string;
+	location: string;
+	detail_location: string;
+	gu: string;
+	dong: string;
+	price: number;
+	period: number;
+	post_bank: string;
+	post_account: string;
+	post_holder: string;
+	point_earned: number;
+	use_point: number;
+	partner: string;
 }
 
 export interface Map {
@@ -113,4 +125,16 @@ export interface AccountInfo {
 	account: string;
 	holder: string;
 	current_point: number;
+}
+
+export interface PointHistory {
+	id: number;
+	point_earned: number;
+	date: string;
+}
+
+export interface PointInfo {
+	current_point: number;
+	result: boolean;
+	history: PointHistory[];
 }
