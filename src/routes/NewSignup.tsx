@@ -282,7 +282,11 @@ const NewSignup = () => {
 					</button>
 				</form>
 			</section>
-			<PostCode isOpen={isOpen} completeHandler={completeHandler} />
+			<PostCode
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+				completeHandler={completeHandler}
+			/>
 		</Layout>
 	);
 };

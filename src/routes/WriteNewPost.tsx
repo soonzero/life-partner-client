@@ -409,7 +409,11 @@ const WriteNewPost = () => {
 								등록
 							</button>
 						</div>
-						<PostCode isOpen={isOpen} completeHandler={completeHandler} />
+						<PostCode
+							isOpen={isOpen}
+							setIsOpen={setIsOpen}
+							completeHandler={completeHandler}
+						/>
 					</form>
 				)}
 			</section>
