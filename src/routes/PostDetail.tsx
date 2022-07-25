@@ -1,76 +1,154 @@
+import axios from 'axios';
 import Layout from 'components/Layout';
 import NaverMap from 'components/NaverMap';
-import dummyData from 'data/dummyData';
 import { addCommasToNumber } from 'functions/common';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Post } from 'types/types';
 
 const PostDetail = () => {
 	const navigate = useNavigate();
 	const params = useParams();
+	const [data, setData] = useState<Post>();
+	const [writer, setWriter] = useState<string>('');
+	const [nickname, setNickname] = useState<string>('');
 
-	// 파트너 명단 조회 api
-	const data = dummyData.posts.filter((p) => p.id === Number(params.id))[0];
-	const me = 'zero';
+	// 로그인한 유저 정보 조회 + 게시글 상세 내역 조회
+	const getDetail = async () => {
+		try {
+			// 로그인한 유저 정보 조회
+			let nickname;
+			if (window.sessionStorage.getItem('token')) {
+				const { data } = await axios({
+					method: 'GET',
+					url: 'http://15.164.225.61/api/users/user-info',
+					headers: {
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					},
+				});
+				nickname = data.nickname;
+				setNickname((prev) => data.nickname);
+			}
 
-	// 파트너 선택 api
-	const selectPartner = (nickname: string) => {
-		console.log(nickname);
+			// 게시글 상세 내역 조회
+			const { data } = await axios({
+				method: 'GET',
+				url: `http://15.164.225.61/api/articles/detail/${params.id}`,
+				headers: {
+					authorization: sessionStorage.getItem('token')
+						? `Bearer ${sessionStorage.getItem('token')}`
+						: 'NOT user',
+				},
+			});
+			// 게시글 상태가 waiting이 아닌 경우, 작성자만 확인할 수 있음
+			if (
+				data.article[0].status !== 'waiting' &&
+				data.article[0].writer !== nickname
+			) {
+				alert('접근할 수 없는 게시글입니다.');
+				navigate('/');
+			} else {
+				setWriter((prev) => data.article[0].writer);
+				setData((prev) => data.article[0]);
+			}
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	// 파트너 지원 api
-	const applyForPartner = () => {
-		console.log('apply');
+	const applyForPartner = async () => {
+		try {
+			if (window.confirm('파트너로 지원하시겠습니까?')) {
+				const response = await axios({
+					method: 'POST',
+					url: `http://15.164.225.61/api/partners/${params.id}/post`,
+					headers: {
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					},
+				});
+				if (response.status === 200) {
+					alert('파트너로 지원하셨습니다.');
+				}
+			}
+		} catch (e) {
+			console.log(e);
+		}
 	};
+
+	// 게시글 삭제 api
+	const deletePost = async () => {
+		try {
+			if (window.confirm('게시글을 삭제하시겠습니까?')) {
+				const { data } = await axios({
+					method: 'PATCH',
+					url: `http://15.164.225.61/api/articles/${params.id}`,
+					headers: {
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					},
+					data: {
+						status: 'deleted',
+					},
+				});
+				if (data.result) {
+					alert('게시글이 삭제되었습니다!');
+					navigate('/');
+				}
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	useEffect(() => {
+		getDetail();
+	}, []);
 
 	return (
 		<Layout>
-			<section>
-				<h1 className="mb-3">파트너를 구하고 있어요</h1>
-				<article className="flex vertical border-1 p-6 mb-3 divide-y-1">
-					<div>
-						<h2 className="pb-3 mb-3 border-b-1">{data.title}</h2>
-						<p className="min-h-[20vh]">{data.contents}</p>
-						<p className="py-3 text-right font-semibold">
-							{data.period}분 소요 / {addCommasToNumber(data.price)}원
-						</p>
-					</div>
-					<div className="flex vertical">
-						<h3 className="py-3">위치 찾기</h3>
-						<map className="w-full h-96 mb-6">
-							<NaverMap id={data.id} location={data.location} detail={false} />
-						</map>
-					</div>
-					{data.author === me && (
+			{data && (
+				<section>
+					<h1 className="mb-3">파트너를 구하고 있어요</h1>
+					<article className="flex vertical border-1 p-6 mb-3 divide-y-1">
 						<div>
-							<h3 className="py-3 flex items-center">파트너 선택</h3>
-							<p className="box-border space-x-2">
-								{data.partners.map((p, id) => (
-									<button
-										key={id}
-										className="px-4 py-1 border-1 border-main rounded-full hover:bg-main hover:text-white transition"
-										onClick={() => selectPartner(p)}
-									>
-										{p}
-									</button>
-								))}
+							<h2 className="pb-3 mb-3 border-b-1">{data.title}</h2>
+							<p className="min-h-[20vh]">{data.contents}</p>
+							<p className="py-3 text-right font-semibold">
+								{data.period}분 소요 / {addCommasToNumber(data.price)}원
 							</p>
 						</div>
-					)}
-				</article>
-				<div className="flex justify-end space-x-3">
-					{data.author !== me && (
-						<button className="btn-primary" onClick={applyForPartner}>
-							파트너로 지원하기
+						<div className="flex vertical">
+							<h3 className="py-3">위치</h3>
+							<map className="w-full h-96">
+								<NaverMap
+									id={data.id}
+									location={data.location}
+									detail={false}
+								/>
+							</map>
+						</div>
+					</article>
+					<div className="flex justify-end space-x-3">
+						{writer !== nickname ? (
+							<button className="btn-primary" onClick={applyForPartner}>
+								파트너로 지원하기
+							</button>
+						) : (
+							data.status !== 'deleted' && (
+								<button className="btn-primary" onClick={deletePost}>
+									삭제
+								</button>
+							)
+						)}
+						<button
+							className="btn-secondary hover:bg-opacity-90 active:scale-95 transition"
+							onClick={() => navigate('/')}
+						>
+							목록
 						</button>
-					)}
-					<button
-						className="btn-secondary hover:bg-opacity-90 active:scale-95 transition"
-						onClick={() => navigate('/')}
-					>
-						목록
-					</button>
-				</div>
-			</section>
+					</div>
+				</section>
+			)}
 		</Layout>
 	);
 };
