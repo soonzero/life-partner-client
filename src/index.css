@@ -12,11 +12,11 @@
 	}
 
 	h1 {
-		@apply text-2xl font-bold md:text-3xl;
+		@apply text-lg font-bold md:text-xl mb-3 md:mb-6;
 	}
 
 	h2 {
-		@apply text-xl font-bold md:text-2xl;
+		@apply font-bold mb-3 md:mb-6;
 	}
 
 	h3 {
@@ -34,11 +34,15 @@
 	input {
 		@apply outline-none;
 	}
+
+	fieldset {
+		@apply vertical;
+	}
 }
 
 @layer components {
 	.auth-label {
-		@apply mb-1 text-sm;
+		@apply mb-1 text-sm md:text-base;
 	}
 
 	.mandatory {
@@ -46,15 +50,15 @@
 	}
 
 	.auth-input {
-		@apply border-1 enabled:hover:border-gray-400 transition p-2 outline-none font-medium last:mb-0;
+		@apply border-1 grow enabled:hover:border-gray-400 transition p-2 outline-none font-medium last:mb-0 text-xs md:text-base;
 	}
 
 	.guide-msg {
-		@apply text-red-400 text-sm mb-1 font-semibold;
+		@apply text-red-400 text-xs md:text-sm mb-1 font-semibold;
 	}
 
 	.auth-button {
-		@apply border-1 border-gray-400 hover:bg-gray-200 transition rounded-md inline-block cursor-pointer h-full;
+		@apply border-1 border-gray-400 hover:bg-gray-200 transition rounded-md inline-block cursor-pointer h-full text-xs py-1 px-2 lg:shrink-0;
 	}
 
 	.btn-primary {
@@ -111,6 +115,34 @@
 
 	.space-between {
 		@apply flex items-center justify-between;
+	}
+
+	.point-sub {
+		@apply text-base mb-1 md:text-lg md:mb-2;
+	}
+
+	.signup-fieldset {
+		@apply vertical mb-3 w-full md:mb-6;
+	}
+
+	.mypage-layout {
+		@apply space-y-6 md:flex md:space-x-6 md:space-y-0;
+	}
+
+	.mypage-form {
+		@apply vertical p-3 max-w-md space-y-2;
+	}
+
+	.filter-form {
+		@apply absolute top-12 z-[3] rounded-lg border-1 w-72 h-max bg-white vertical px-12 py-6 justify-center space-y-6 sm:w-96;
+	}
+
+	.auth-form {
+		@apply vertical bg-white rounded-lg border-1 border-gray-200 p-8;
+	}
+
+	.mypage-label {
+		@apply text-sm md:text-base font-medium;
 	}
 }
 
