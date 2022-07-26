@@ -33,17 +33,17 @@ const MyProfile = () => {
 	}, []);
 
 	return (
-		<Layout>
-			<section className="flex space-x-6">
+		<Layout noShadow>
+			<section className="mypage-layout">
 				<Sidebar currentMenu="내 정보" />
 				{data && (
 					<MyPageLayout>
-						<h1 className="mb-6">내 정보</h1>
-						<div className="flex items-center">
-							<figure className="flex center bg-slate-200 w-40 h-40 rounded-full">
-								<Profile className="w-16 fill-white" />
+						<h1>내 정보</h1>
+						<div className="vertical center space-y-6 sm:space-y-0 sm:flex sm:flex-row sm:justify-start sm:items-center">
+							<figure className="flex center bg-slate-200 w-20 h-20 sm:w-32 sm:h-32 rounded-full">
+								<Profile className="w-8 h-8 sm:w-16 sm:h-16 fill-white" />
 							</figure>
-							<table className="grow border-separate border-spacing-x-3 border-spacing-y-1">
+							<table className="xs:grow text-xs lg:text-base sm:w-max md:grow border-separate border-spacing-x-3 border-spacing-y-1">
 								<tbody>
 									<tr>
 										<th className="thead">닉네임</th>
@@ -55,9 +55,10 @@ const MyProfile = () => {
 									</tr>
 									<tr>
 										<th className="thead">주소</th>
-										<td className="tbody">{`${data.address.split(',')[0]}, ${
-											data.detail_address
-										}`}</td>
+										<td className="tbody whitespace-pre-line md:whitespace-normal">
+											{`${data.address.split(',')[0]}, 
+											${data.detail_address}`}
+										</td>
 									</tr>
 									<tr>
 										<th className="thead">은행명</th>
@@ -90,7 +91,7 @@ const MyProfile = () => {
 										</td>
 									</tr>
 									<tr>
-										<th className="thead">사용 가능 포인트</th>
+										<th className="thead">가용 포인트</th>
 										<td className="tbody">
 											{addCommasToNumber(data.current_point)}
 										</td>

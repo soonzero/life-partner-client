@@ -51,15 +51,20 @@ const BreakDown = (props: {
 	};
 
 	return (
-		<tr key={props.item.id}>
-			<td>{props.item.date}</td>
+		<tr
+			key={props.item.id}
+			className="border-b-1 border-dotted last:border-b-0"
+		>
+			<td className="py-2">{props.item.date}</td>
 			<td>
-				<h4>
+				<h4 className="text-sm">
 					<Link to={`/articles/${props.item.id}`}>{props.item.title}</Link>
 				</h4>
 			</td>
-			<td>{props.item.location.split(',')[0]}</td>
-			<td className="py-2">
+			<td className="hidden md:table-cell">
+				{props.item.location.split(',')[0]}
+			</td>
+			<td className="py-2 hidden lg:table-cell">
 				{props.item.partner === null ? (
 					<button
 						className="btn-primary text-xs"
@@ -71,7 +76,7 @@ const BreakDown = (props: {
 					props.item.partner
 				)}
 			</td>
-			<td className="py-2 space-x-3">
+			<td className="py-2 space-x-3 hidden lg:table-cell">
 				{props.item.status === 'waiting' && (
 					<button
 						className="btn-secondary text-xs"

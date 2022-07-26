@@ -49,20 +49,20 @@ const History = () => {
 	}, []);
 
 	return (
-		<Layout>
-			<section className="flex space-x-6">
+		<Layout noShadow>
+			<section className="mypage-layout">
 				<Sidebar currentMenu="나의 이용 내역" />
 				<MyPageLayout>
-					<h1 className="mb-6">나의 이용 내역</h1>
+					<h1>나의 이용 내역</h1>
 					{list && (
 						<table className="w-full text-sm text-center table-auto">
 							<thead className="border-b-1">
-								<tr className="font-bold">
+								<tr className="font-medium">
 									<td>게시글 등록일자</td>
 									<td>게시글 제목</td>
-									<td>장소</td>
-									<td>파트너</td>
-									<td>관리</td>
+									<td className="hidden md:table-cell">장소</td>
+									<td className="hidden lg:table-cell">파트너</td>
+									<td className="hidden lg:table-cell">관리</td>
 								</tr>
 							</thead>
 							<tbody>
