@@ -159,14 +159,14 @@ const WriteNewPost = () => {
 	return (
 		<Layout>
 			<section>
-				<h1 className="mb-3">파트너 구하기</h1>
+				<h1 className="text-2xl md:text-3xl">파트너 구하기</h1>
 				{info && (
 					<form
-						className="vertical border-1 rounded-lg p-2 sm:p-4"
+						className="auth-form p-2 sm:p-4"
 						onSubmit={handleSubmit(onSubmit)}
 					>
 						{/* 제목 + 내용 + 소요 시간 + 금액 + 현재 포인트 + 사용 포인트 */}
-						<fieldset className="vertical py-3">
+						<fieldset className="py-3">
 							{/* 제목 */}
 							<input
 								id="title"
@@ -301,7 +301,7 @@ const WriteNewPost = () => {
 										/>
 										<button
 											type="button"
-											className="auth-button text-xs py-1 px-2 lg:shrink-0"
+											className="auth-button"
 											onClick={searchLocation}
 										>
 											주소 검색
