@@ -6,7 +6,7 @@ const Logout = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const moveToMain = setTimeout(() => navigate('/'), 10000);
+		const moveToMain = setTimeout(() => navigate('/'), 5000);
 
 		return () => {
 			clearTimeout(moveToMain);
@@ -16,9 +16,11 @@ const Logout = () => {
 	return (
 		<Layout>
 			<section className="flex h-[calc(100vh-89px)] vertical center mt-0">
-				<h1 className="mb-3">로그아웃이 완료되었습니다.</h1>
-				<h2 className="mb-6">10초 뒤 메인화면으로 이동됩니다.</h2>
-				<p className="text-gray-400">
+				<h1>로그아웃이 완료되었습니다.</h1>
+				<h2 className="text-sm md:text-base">
+					5초 뒤 메인화면으로 이동됩니다.
+				</h2>
+				<p className="text-gray-400 text-xs md:text-sm">
 					<Link to="/" className="text-main">
 						여기
 					</Link>

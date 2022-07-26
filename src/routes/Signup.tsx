@@ -83,21 +83,20 @@ const NewSignup = () => {
 
 	return (
 		<Layout>
-			<section className="max-w-lg">
-				<h1 className="mb-6">회원가입</h1>
-				<form
-					className="vertical bg-white rounded-lg border-1 border-gray-200 p-8"
-					onSubmit={handleSubmit(onSubmit)}
-				>
-					<fieldset className="vertical mb-6">
-						<legend className="text-xl font-semibold mb-6">필수 항목</legend>
+			<section className="max-w-md">
+				<h1 className="text-2xl md:text-3xl">회원가입</h1>
+				<form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+					<fieldset className="mb-3 w-full md:mb-6">
+						<legend className="text-base md:text-xl font-semibold mb-3 md:mb-6">
+							필수 항목
+						</legend>
 						<label htmlFor="nickname" className="auth-label mandatory">
 							닉네임
 						</label>
 						<input
 							id="nickname"
 							type="text"
-							placeholder="한글/숫자를 이용하여 3-8자로 입력해주세요."
+							placeholder="한글/숫자를 3-8자로 입력해주세요."
 							className="auth-input"
 							{...register('nickname', {
 								required: true,
@@ -186,18 +185,18 @@ const NewSignup = () => {
 									: '휴대폰 번호는 10-11자리로 입력해주세요.')}
 						</span>
 						<label className="auth-label mandatory">기본 주소</label>
-						<div className="flex center mb-3">
+						<div className="flex items-center mb-3 w-full space-x-3">
 							<input
 								id="address"
 								type="text"
-								className="auth-input mb-0 mr-3 grow"
+								className="auth-input w-full"
 								required
 								disabled
 								value={address.split(',')[0]}
 							/>
 							<button
 								type="button"
-								className="auth-button text-sm py-1 px-2"
+								className="auth-button shrink-0"
 								onClick={() => setIsOpen(true)}
 							>
 								주소 검색
@@ -214,14 +213,16 @@ const NewSignup = () => {
 							})}
 						/>
 					</fieldset>
-					<fieldset className="vertical mb-6">
-						<legend className="text-xl font-semibold mb-6">선택 항목</legend>
-						<div className="flex space-x-5 mb-3">
+					<fieldset className="mb-3 w-full md:mb-6">
+						<legend className="text-base md:text-xl font-semibold mb-3 md:mb-6">
+							선택 항목
+						</legend>
+						<div className="vertical space-y-2 md:horizontal md:space-x-5 md:space-y-0 md:mb-3">
 							<div className="vertical justify-start flex-1">
 								<label className="auth-label">은행</label>
 								<select
 									id="bank"
-									className="outline-none h-full border-1 text-center"
+									className="auth-input"
 									{...register('bank', {
 										required: false,
 									})}
@@ -247,19 +248,21 @@ const NewSignup = () => {
 								/>
 							</div>
 						</div>
-						<label htmlFor="account" className="auth-label">
-							계좌번호
-						</label>
-						<input
-							id="account"
-							type="text"
-							placeholder="계좌번호는 - 없이 숫자만 입력해주세요."
-							className="auth-input"
-							{...register('account', {
-								required: false,
-								pattern: /\d*$/,
-							})}
-						/>
+						<div className="mt-2 vertical md:mt-0">
+							<label htmlFor="account" className="auth-label">
+								계좌번호
+							</label>
+							<input
+								id="account"
+								type="text"
+								placeholder="계좌번호는 - 없이 숫자만 입력해주세요."
+								className="auth-input"
+								{...register('account', {
+									required: false,
+									pattern: /\d*$/,
+								})}
+							/>
+						</div>
 					</fieldset>
 					<button
 						type="submit"

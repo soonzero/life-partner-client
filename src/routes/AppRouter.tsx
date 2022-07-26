@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './Main';
 import Login from './Login';
-import NewSignup from './NewSignup';
+import Signup from './Signup';
 import MyProfile from './MyProfile';
 import WriteNewPost from './WriteNewPost';
 import Point from './Point';
@@ -17,7 +17,7 @@ const AppRouter = () => {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Main />} />
-				<Route path="/signup" element={<NewSignup />} />
+				<Route path="/signup" element={<Signup />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />
 				<Route path="/mypage/profile" element={<MyProfile />} />

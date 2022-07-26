@@ -39,13 +39,10 @@ const Login = () => {
 
 	return (
 		<Layout>
-			<section className="max-w-sm">
-				<h1 className="mb-6">로그인</h1>
-				<form
-					onSubmit={handleSubmit(onSubmit)}
-					className="vertical rounded-lg border-1 border-gray-200 p-8"
-				>
-					<fieldset className="vertical mb-6">
+			<section className="max-w-md">
+				<h1 className="text-2xl md:text-3xl">로그인</h1>
+				<form onSubmit={handleSubmit(onSubmit)} className="auth-form">
+					<fieldset className="mb-6">
 						<div className="vertical mb-2">
 							<div className="flex items-center justify-between">
 								<label htmlFor="nickname" className="auth-label">
@@ -58,8 +55,8 @@ const Login = () => {
 								>
 									{errors.nickname &&
 										(errors.nickname.type === 'pattern'
-											? '닉네임은 한글과 숫자만 포함할 수 있습니다.'
-											: '닉네임을 3-8자로 입력해주세요.')}
+											? '한글과 숫자만 포함할 수 있습니다.'
+											: '3-8자로 입력해주세요.')}
 								</span>
 							</div>
 							<input
@@ -67,7 +64,7 @@ const Login = () => {
 								type="text"
 								maxLength={8}
 								minLength={3}
-								placeholder="한글/숫자를 이용하여 3-8자로 입력해주세요."
+								placeholder="닉네임을 입력해주세요."
 								className="auth-input"
 								{...register('nickname', {
 									required: true,
@@ -88,7 +85,7 @@ const Login = () => {
 							>
 								{errors.password &&
 									errors.password.type === 'pattern' &&
-									'비밀번호는 한글을 포함할 수 없습니다.'}
+									'한글을 포함할 수 없습니다.'}
 							</span>
 						</div>
 						<input
