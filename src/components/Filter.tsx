@@ -130,13 +130,10 @@ const Filter = (props: {
 					/>
 				</button>
 				<form
-					className={classNames(
-						'absolute top-12 z-[3] w-64 h-max border-1 rounded-lg bg-white vertical p-3 justify-center space-y-3 sm:w-80',
-						{
-							visible: isOpen && openedFilter === 'location',
-							hidden: !isOpen || openedFilter !== 'location',
-						}
-					)}
+					className={classNames('filter-form w-64 p-3 space-y-3 sm:w-80', {
+						visible: isOpen && openedFilter === 'location',
+						hidden: !isOpen || openedFilter !== 'location',
+					})}
 					onSubmit={submitHandler}
 				>
 					<LocationFilter
@@ -163,16 +160,13 @@ const Filter = (props: {
 				</button>
 				<form
 					name="price"
-					className={classNames(
-						'absolute top-12 -left-[5.5rem] z-[3] w-72 h-40 border-1 rounded-lg bg-white vertical px-12 py-6 justify-center space-y-6 sm:w-96',
-						{
-							visible: isOpen && openedFilter === 'price',
-							hidden: !isOpen || openedFilter !== 'price',
-						}
-					)}
+					className={classNames('filter-form -left-[5.5rem]', {
+						visible: isOpen && openedFilter === 'price',
+						hidden: !isOpen || openedFilter !== 'price',
+					})}
 					onSubmit={submitHandler}
 				>
-					<fieldset className="text-center w-full space-y-3">
+					<fieldset className="w-full text-center space-y-3">
 						<legend className="text-sm inline-block">
 							{`최저 ${addCommasToNumber(minPrice)}원부터`}
 						</legend>
@@ -225,13 +219,10 @@ const Filter = (props: {
 				</button>
 				<form
 					name="period"
-					className={classNames(
-						'absolute top-12 -left-[11rem] z-[3] w-72 h-40 border-1 rounded-lg bg-white vertical px-12 py-6 justify-center space-y-6 sm:w-96',
-						{
-							visible: isOpen && openedFilter === 'period',
-							hidden: !isOpen || openedFilter !== 'period',
-						}
-					)}
+					className={classNames('filter-form -left-[11rem]', {
+						visible: isOpen && openedFilter === 'period',
+						hidden: !isOpen || openedFilter !== 'period',
+					})}
 					onSubmit={submitHandler}
 				>
 					<fieldset className="w-full text-center space-y-2">

@@ -74,33 +74,10 @@ export interface NewPost extends Post {
 	post_holder: string;
 }
 
-// export interface Range {
-// 	price: {
-// 		minPrice: number;
-// 		maxPrice?: number;
-// 	};
-// 	period: {
-// 		minPeriod?: number;
-// 		maxPeriod: number;
-// 	};
-// }
-
 export interface Range {
 	minPrice: number;
 	maxPeriod: number;
 }
-
-// export interface ActionChangePrice {
-// 	type: 'CHANGE_PRICE';
-// 	id: string;
-// 	value: number;
-// }
-
-// export interface ActionChangePeriod {
-// 	type: 'CHANGE_PERIOD';
-// 	id: string;
-// 	value: number;
-// }
 
 export interface ActionChangeRange {
 	type: 'CHANGE_PRICE' | 'CHANGE_PERIOD';
@@ -137,4 +114,12 @@ export interface PointInfo {
 	current_point: number;
 	result: boolean;
 	history: PointHistory[];
+}
+
+export interface Condition {
+	minprice: number;
+	maxperiod: number;
+	location1: string;
+	location2: string;
+	location3: string;
 }
