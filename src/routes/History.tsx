@@ -33,7 +33,11 @@ const History = () => {
 					authorization,
 				},
 			});
-			setList((prev) => articles.filter((i: Post) => i.writer === nickname));
+			setList((prev) =>
+				articles.filter(
+					(i: Post) => i.writer === nickname && i.status !== 'deleted'
+				)
+			);
 		} catch (e) {
 			console.log(e);
 		}

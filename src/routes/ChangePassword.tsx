@@ -43,25 +43,22 @@ const ChangePassword = () => {
 
 	return (
 		<Layout>
-			<section className="flex space-x-6">
+			<section className="mypage-layout">
 				<Sidebar currentMenu="비밀번호 변경" />
 				<MyPageLayout>
-					<h1 className="pb-3 mb-3 border-b-1">비밀번호 변경</h1>
-					<form
-						className="vertical space-y-6 max-w-md p-3"
-						onSubmit={handleSubmit(onSubmit)}
-					>
+					<h1 className="md:pb-3">비밀번호 변경</h1>
+					<form className="mypage-form" onSubmit={handleSubmit(onSubmit)}>
 						<div className="grow vertical space-y-3">
-							<fieldset className="vertical space-y-1">
+							<fieldset className="space-y-1">
 								<div className="flex items-end justify-between">
-									<label htmlFor="oldPassword" className="font-medium">
+									<label htmlFor="oldPassword" className="mypage-label">
 										기존 비밀번호
 									</label>
 								</div>
 								<input
 									id="oldPassword"
 									type="password"
-									className="auth-input grow"
+									className="auth-input"
 									placeholder="기존에 사용하던 비밀번호를 입력해주세요."
 									required
 									minLength={8}
@@ -73,9 +70,9 @@ const ChangePassword = () => {
 									})}
 								/>
 							</fieldset>
-							<fieldset className="vertical space-y-1">
-								<div className="flex items-end justify-between">
-									<label htmlFor="newPassword" className="font-medium">
+							<fieldset className="space-y-1">
+								<div className="vertical md:horizontal md:items-end md:justify-between">
+									<label htmlFor="newPassword" className="mypage-label">
 										신규 비밀번호
 									</label>
 									<span
@@ -85,14 +82,14 @@ const ChangePassword = () => {
 									>
 										{errors.newPassword &&
 											(errors.newPassword.type === 'pattern'
-												? '비밀번호는 한글을 포함할 수 없습니다.'
-												: '한글을 제외한 문자를 8-12자로 입력해주세요.')}
+												? '한글을 포함할 수 없습니다.'
+												: '한글을 제외하고 8-12자로 입력해주세요.')}
 									</span>
 								</div>
 								<input
 									id="newPassword"
 									type="password"
-									className="auth-input grow"
+									className="auth-input"
 									required
 									minLength={8}
 									maxLength={12}
@@ -104,9 +101,9 @@ const ChangePassword = () => {
 									})}
 								/>
 							</fieldset>
-							<fieldset className="vertical space-y-1">
-								<div className="flex items-end justify-between">
-									<label htmlFor="newPasswordConfirm" className="font-medium">
+							<fieldset className="space-y-1">
+								<div className="vertical md:horizontal md:items-end md:justify-between">
+									<label htmlFor="newPasswordConfirm" className="mypage-label">
 										비밀번호 확인
 									</label>
 									<span
@@ -116,14 +113,14 @@ const ChangePassword = () => {
 									>
 										{errors.newPasswordConfirm &&
 											(errors.newPasswordConfirm.type === 'validate'
-												? '비밀번호가 다릅니다. 다시 한 번 확인해주세요.'
-												: '대소문자/특수문자 관계없이 8-12자로 입력해주세요.')}
+												? '비밀번호가 다릅니다.'
+												: '한글을 제외하고 8-12자로 입력해주세요.')}
 									</span>
 								</div>
 								<input
 									id="newPasswordConfirm"
 									type="password"
-									className="auth-input grow"
+									className="auth-input"
 									placeholder="새로운 비밀번호를 한 번 더 입력해주세요."
 									{...register('newPasswordConfirm', {
 										minLength: 8,
@@ -133,7 +130,10 @@ const ChangePassword = () => {
 								/>
 							</fieldset>
 						</div>
-						<button type="submit" className="btn-primary w-max">
+						<button
+							type="submit"
+							className="btn-primary w-full md:w-max text-xs md:text-base"
+						>
 							비밀번호 변경
 						</button>
 					</form>

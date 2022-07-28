@@ -186,56 +186,46 @@ const ChangeInfo = () => {
 
 	return (
 		<Layout>
-			<section className="flex space-x-6">
+			<section className="mypage-layout">
 				<SideBar currentMenu="회원정보 수정" />
 				<MyPageLayout>
-					<h1 className="mb-1">회원정보 수정</h1>
-					<nav className="font-bold text-gray-300">
+					<h1>회원정보 수정</h1>
+					<nav className="text-sm md:text-base  text-gray-300">
 						<ul className="flex border-b-1">
-							<li
-								className={classNames('px-3 py-2 cursor-pointer transition', {
-									'text-main': mode === 'phone',
-								})}
-								onClick={() => setMode((prev) => 'phone')}
-							>
-								휴대폰 번호
-							</li>
-							<li
-								className={classNames('px-3 py-2 cursor-pointer transition', {
-									'text-main': mode === 'address',
-								})}
-								onClick={() => setMode((prev) => 'address')}
-							>
-								주소
-							</li>
-							<li
-								className={classNames('px-3 py-2 cursor-pointer transition', {
-									'text-main': mode === 'account',
-								})}
-								onClick={() => setMode((prev) => 'account')}
-							>
-								계좌
-							</li>
+							{[
+								['휴대폰 번호', 'phone'],
+								['주소', 'address'],
+								['계좌', 'account'],
+							].map(([title, name], idx) => (
+								<li
+									key={idx}
+									className={classNames('px-3 py-2 cursor-pointer transition', {
+										'font-bold text-main': mode === name,
+									})}
+									onClick={() => setMode((prev) => name)}
+								>
+									{title}
+								</li>
+							))}
 						</ul>
 					</nav>
 					{mode === 'phone' && (
-						<form
-							name="phone"
-							className="vertical p-3 max-w-md space-y-2"
-							onSubmit={submitHandler}
-						>
-							<label htmlFor="phone" className="font-medium">
+						<form name="phone" className="mypage-form" onSubmit={submitHandler}>
+							<label htmlFor="phone" className="mypage-label">
 								휴대폰 번호
 							</label>
 							<input
 								id="phone"
 								type="text"
-								className="auth-input grow"
+								className="auth-input"
 								placeholder="사용할 휴대폰 번호를 숫자만 입력해주세요"
 								maxLength={11}
 								onChange={(e) => setNewPhone((prev) => e.target.value)}
 							/>
-							<button className="btn-primary w-max" type="submit">
+							<button
+								className="btn-primary w-full md:w-max text-xs md:text-base"
+								type="submit"
+							>
 								휴대폰 번호 변경
 							</button>
 						</form>
@@ -243,14 +233,14 @@ const ChangeInfo = () => {
 					{mode === 'address' && (
 						<form
 							name="address"
-							className="vertical p-3 max-w-md space-y-2"
+							className="mypage-form"
 							onSubmit={submitHandler}
 						>
 							<div className="grow vertical space-y-2">
-								<fieldset className="vertical space-y-2">
+								<fieldset className="space-y-2">
 									<label
 										htmlFor="new-detail-address"
-										className="font-medium min-w-max"
+										className="mypage-label min-w-max"
 									>
 										주소
 									</label>
@@ -258,13 +248,13 @@ const ChangeInfo = () => {
 										<div className="flex items-center space-x-2">
 											<input
 												type="text"
-												className="auth-input grow"
+												className="auth-input"
 												value={address.split(',')[0]}
 												disabled
 											/>
 											<button
 												type="button"
-												className="auth-button text-sm py-1 px-2"
+												className="auth-button text-xs md:text-sm py-1 px-2"
 												onClick={() => setIsOpen(true)}
 											>
 												주소 검색
@@ -273,8 +263,7 @@ const ChangeInfo = () => {
 										<input
 											id="new-detail-address"
 											type="text"
-											placeholder=""
-											className="auth-input grow"
+											className="auth-input"
 											value={detailAddress}
 											onChange={(e) =>
 												setDetailAddress((prev) => e.target.value)
@@ -283,20 +272,20 @@ const ChangeInfo = () => {
 									</div>
 								</fieldset>
 							</div>
-							<button className="btn-primary" type="submit">
+							<button
+								className="btn-primary w-full md:w-max text-xs md:text-base"
+								type="submit"
+							>
 								주소 변경
 							</button>
 						</form>
 					)}
 					{mode === 'account' && (
-						<form
-							className="vertical p-3 max-w-md space-y-2"
-							onSubmit={submitHandler}
-						>
-							<fieldset className="flex items-center space-x-3">
-								<label className="font-medium min-w-[3rem]">은행</label>
+						<form className="mypage-form" onSubmit={submitHandler}>
+							<fieldset className="horizontal items-center space-x-3">
+								<label className="min-w-[3rem] mypage-label">은행</label>
 								<select
-									className="grow auth-input text-center"
+									className="auth-input text-center"
 									value={bank === '' ? '--은행 선택--' : bank}
 									onChange={(e) => setBank((prev) => e.target.value)}
 								>
@@ -306,35 +295,40 @@ const ChangeInfo = () => {
 									))}
 								</select>
 							</fieldset>
-							<fieldset className="flex items-center space-x-3">
-								<label htmlFor="holder" className="font-medium min-w-[3rem]">
+							<fieldset className="horizontal items-center space-x-3">
+								<label htmlFor="holder" className="min-w-[3rem] mypage-label">
 									예금주
 								</label>
 								<input
 									id="holder"
 									type="text"
 									value={holder}
-									className="auth-input grow"
+									className="auth-input"
 									placeholder="예금주를 입력해주세요."
 									onChange={(e) => setHolder((prev) => e.target.value)}
 								/>
 							</fieldset>
-							<fieldset className="flex items-center space-x-3">
-								<label htmlFor="account" className="font-medium min-w-[3rem]">
+							<fieldset className="horizontal items-center space-x-3">
+								<label htmlFor="account" className="min-w-[3rem] mypage-label">
 									계좌
 								</label>
 								<input
 									id="account"
 									type="text"
 									value={account}
-									className="auth-input grow"
+									className="auth-input"
 									placeholder="계좌번호를 입력해주세요."
 									onChange={(e) => setAccount((prev) => e.target.value)}
 								/>
 							</fieldset>
-							<button className="btn-primary min-w-max" type="submit">
-								계좌 변경
-							</button>
+							<div className="flex w-full md:justify-end">
+								<button
+									className="btn-primary w-full md:w-max text-xs md:text-base"
+									type="submit"
+								>
+									계좌 변경
+								</button>
+							</div>
 						</form>
 					)}
 				</MyPageLayout>
