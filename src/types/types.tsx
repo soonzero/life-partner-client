@@ -74,14 +74,15 @@ export interface NewPost extends Post {
 	post_holder: string;
 }
 
-export interface Range {
+export interface Condition {
 	minPrice: number;
 	maxPeriod: number;
+	location: string[];
 }
 
 export interface ActionChangeRange {
-	type: 'CHANGE_PRICE' | 'CHANGE_PERIOD';
-	value: number;
+	type: 'CHANGE_PRICE' | 'CHANGE_PERIOD' | 'CHANGE_LOCATION';
+	value: any;
 }
 
 export interface Daejeon {
@@ -114,12 +115,4 @@ export interface PointInfo {
 	current_point: number;
 	result: boolean;
 	history: PointHistory[];
-}
-
-export interface Condition {
-	minprice: number;
-	maxperiod: number;
-	location1: string;
-	location2: string;
-	location3: string;
 }

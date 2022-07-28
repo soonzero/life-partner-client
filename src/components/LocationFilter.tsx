@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 import daejeon from 'data/location';
-import { useState, MouseEvent, Dispatch, SetStateAction } from 'react';
-import { Condition } from 'types/types';
+import { useState, MouseEvent, Dispatch } from 'react';
+import { ActionChangeRange } from 'types/types';
 
 const LocationFilter = (props: {
 	closeFilter: () => void;
-	setFilter: Dispatch<SetStateAction<Condition>>;
+	dispatch: Dispatch<ActionChangeRange>;
+	getPosts: () => void;
 }) => {
 	const [selectedGu, setSelectedGu] = useState<string>('');
 	const [selectedDong, setSelectedDong] = useState<string[]>([]);
@@ -25,9 +26,17 @@ const LocationFilter = (props: {
 					alert('총 세 개의 동까지만 검색이 가능해요!');
 				} else {
 					setSelectedDong((prev) => [...prev, target]);
+					props.dispatch({
+						type: 'CHANGE_LOCATION',
+						value: [...selectedDong, target],
+					});
 				}
 			} else {
 				setSelectedDong((prev) => prev.filter((i) => i !== target));
+				props.dispatch({
+					type: 'CHANGE_LOCATION',
+					value: [...selectedDong.filter((i) => i !== target)],
+				});
 			}
 		}
 	};
@@ -35,16 +44,14 @@ const LocationFilter = (props: {
 	const resetRange = () => {
 		setSelectedGu((prev) => '');
 		setSelectedDong((prev) => []);
+		props.dispatch({
+			type: 'CHANGE_LOCATION',
+			value: ['* *', 'not location', 'not location'],
+		});
 	};
 
-	const applyFilter = () => {
-		const [location1, location2, location3] = selectedDong;
-		props.setFilter((prev) => ({
-			...prev,
-			location1: location1 ? location1 : '* *',
-			location2: location2 ? location2 : 'not location',
-			location3: location3 ? location3 : 'not location',
-		}));
+	const applyFilter = async () => {
+		props.getPosts();
 		props.closeFilter();
 	};
 
@@ -55,6 +62,7 @@ const LocationFilter = (props: {
 					{Object.keys(daejeon).map((gu, idx) => {
 						return (
 							<button
+								type="button"
 								key={idx}
 								name={gu}
 								className={classNames(
@@ -122,7 +130,7 @@ const LocationFilter = (props: {
 				</button>
 				<button
 					name="location"
-					type="submit"
+					type="button"
 					className="btn-primary text-sm"
 					onClick={applyFilter}
 				>

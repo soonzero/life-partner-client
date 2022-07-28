@@ -1,55 +1,25 @@
-import {
-	FormEvent,
-	MouseEvent,
-	useReducer,
-	useState,
-	Dispatch,
-	SetStateAction,
-} from 'react';
+import { MouseEvent, useState, Dispatch, FormEvent } from 'react';
 import { ReactComponent as ChevronDownSVG } from 'static/icons/chevron-down.svg';
 import { addCommasToNumber } from 'functions/common';
 import classNames from 'classnames';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { ActionChangeRange, Range, Condition } from 'types/types';
+import { ActionChangeRange } from 'types/types';
 import LocationFilter from './LocationFilter';
-
-const initialState = {
-	minPrice: 2000,
-	maxPeriod: 120,
-};
-
-const reducer = (state: Range, action: ActionChangeRange) => {
-	switch (action.type) {
-		case 'CHANGE_PRICE':
-			return {
-				...state,
-				minPrice: action.value,
-			};
-		case 'CHANGE_PERIOD':
-			return {
-				...state,
-				maxPeriod: action.value,
-			};
-		default:
-			return state;
-	}
-};
 
 const Filter = (props: {
 	price: number[];
 	period: number[];
-	setFilter: Dispatch<SetStateAction<Condition>>;
+	state: { minPrice: number; maxPeriod: number; location: string[] };
+	dispatch: Dispatch<ActionChangeRange>;
+	getPosts: () => void;
 }) => {
-	const [state, dispatch] = useReducer(reducer, initialState);
-	const { minPrice, maxPeriod } = state;
-
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [openedFilter, setOpenedFilter] = useState<string>('');
 
 	const changeRange = (data: number | number[]) => {
 		if (!Array.isArray(data)) {
-			dispatch({
+			props.dispatch({
 				type: openedFilter === 'price' ? 'CHANGE_PRICE' : 'CHANGE_PERIOD',
 				value: data,
 			});
@@ -79,36 +49,23 @@ const Filter = (props: {
 		}
 	};
 
+	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		props.getPosts();
+	};
+
 	const resetRange = (e: MouseEvent<HTMLButtonElement>) => {
 		const target = e.currentTarget.getAttribute('name');
 		if (target === 'price') {
-			dispatch({ type: 'CHANGE_PRICE', value: 2000 });
+			props.dispatch({ type: 'CHANGE_PRICE', value: 2000 });
 		} else if (target === 'period') {
-			dispatch({ type: 'CHANGE_PERIOD', value: 120 });
+			props.dispatch({ type: 'CHANGE_PERIOD', value: 120 });
 		}
 	};
 
 	const closeFilter = () => {
 		setIsOpen((prev) => !prev);
 		setOpenedFilter((prev) => '');
-	};
-
-	const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const target = e.currentTarget.getAttribute('name');
-		if (target === 'price') {
-			console.log(minPrice);
-			props.setFilter((prev) => ({
-				...prev,
-				minprice: minPrice,
-			}));
-		} else if (target === 'period') {
-			console.log(maxPeriod);
-			props.setFilter((prev) => ({
-				...prev,
-				maxperiod: maxPeriod,
-			}));
-		}
 	};
 
 	return (
@@ -134,11 +91,11 @@ const Filter = (props: {
 						visible: isOpen && openedFilter === 'location',
 						hidden: !isOpen || openedFilter !== 'location',
 					})}
-					onSubmit={submitHandler}
 				>
 					<LocationFilter
 						closeFilter={closeFilter}
-						setFilter={props.setFilter}
+						dispatch={props.dispatch}
+						getPosts={props.getPosts}
 					/>
 				</form>
 			</li>
@@ -164,18 +121,18 @@ const Filter = (props: {
 						visible: isOpen && openedFilter === 'price',
 						hidden: !isOpen || openedFilter !== 'price',
 					})}
-					onSubmit={submitHandler}
+					onSubmit={onSubmit}
 				>
 					<fieldset className="w-full text-center space-y-3">
 						<legend className="text-sm inline-block">
-							{`최저 ${addCommasToNumber(minPrice)}원부터`}
+							{`최저 ${addCommasToNumber(props.state.minPrice)}원부터`}
 						</legend>
 						<Slider
 							// range
 							min={2000}
 							max={30000}
 							step={1000}
-							value={minPrice}
+							value={props.state.minPrice}
 							defaultValue={props.price[0]}
 							allowCross={true}
 							onChange={changeRange}
@@ -223,18 +180,18 @@ const Filter = (props: {
 						visible: isOpen && openedFilter === 'period',
 						hidden: !isOpen || openedFilter !== 'period',
 					})}
-					onSubmit={submitHandler}
+					onSubmit={onSubmit}
 				>
 					<fieldset className="w-full text-center space-y-2">
 						<legend className="text-sm inline-block">
-							{`최장 ${maxPeriod}분 소요`}
+							{`최장 ${props.state.maxPeriod}분 소요`}
 						</legend>
 						<Slider
 							// range
 							min={10}
 							max={120}
 							step={10}
-							value={maxPeriod}
+							value={props.state.maxPeriod}
 							defaultValue={props.period[1]}
 							allowCross={true}
 							onChange={changeRange}
