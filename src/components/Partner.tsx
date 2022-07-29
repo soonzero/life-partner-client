@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState, Dispatch } from 'react';
+import { useEffect, useState, Dispatch, MouseEvent } from 'react';
 import ReactModal from 'react-modal';
 import { ReactComponent as CloseSVG } from 'static/icons/close.svg';
 
@@ -24,6 +24,31 @@ const Partner = (props: {
 			setList((prev) => partners);
 		} catch (e) {
 			console.log(e);
+		}
+	};
+
+	const selectPartner = async (e: MouseEvent<HTMLButtonElement>) => {
+		const nickname = e.currentTarget.value;
+		if (window.confirm(`${nickname}을 파트너로 선택하시겠습니까?`)) {
+			try {
+				const { data } = await axios({
+					method: 'PATCH',
+					url: `http://15.164.225.61/api/articles/${props.articleId}/partners`,
+					headers: {
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					},
+					data: {
+						nickname,
+					},
+				});
+				if (data.result) {
+					props.setIsOpen(false);
+				}
+			} catch (e) {
+				console.log(e);
+			}
+		} else {
+			props.setIsOpen(false);
 		}
 	};
 
@@ -62,6 +87,8 @@ const Partner = (props: {
 						<button
 							key={id}
 							className="px-4 py-1 border-1 border-main rounded-full hover:bg-main hover:text-white transition"
+							onClick={selectPartner}
+							value={p}
 						>
 							{p}
 						</button>
