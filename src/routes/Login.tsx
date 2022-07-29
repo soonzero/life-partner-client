@@ -39,7 +39,7 @@ const Login = () => {
 	};
 
 	return (
-		<Layout>
+		<Layout pageTitle="로그인">
 			<section className="max-w-md">
 				<h1 className="text-2xl md:text-3xl">로그인</h1>
 				<form onSubmit={handleSubmit(onSubmit)} className="auth-form">

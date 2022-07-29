@@ -157,7 +157,7 @@ const WriteNewPost = () => {
 	}, [isOpen]);
 
 	return (
-		<Layout>
+		<Layout pageTitle="파트너 구하기">
 			<section>
 				<h1 className="text-2xl md:text-3xl">파트너 구하기</h1>
 				{info && (

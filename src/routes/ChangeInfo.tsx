@@ -185,7 +185,15 @@ const ChangeInfo = () => {
 	}, [isOpen]);
 
 	return (
-		<Layout>
+		<Layout
+			pageTitle={
+				mode === 'phone'
+					? '휴대폰 번호 변경'
+					: mode === 'address'
+					? '주소 변경'
+					: '계좌 변경'
+			}
+		>
 			<section className="mypage-layout">
 				<SideBar currentMenu="회원정보 수정" />
 				<MyPageLayout>

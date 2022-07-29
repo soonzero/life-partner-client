@@ -53,7 +53,7 @@ const History = () => {
 	}, [isOpen]);
 
 	return (
-		<Layout noShadow>
+		<Layout noShadow pageTitle="나의 이용 내역">
 			<section className="mypage-layout">
 				<Sidebar currentMenu="나의 이용 내역" />
 				<MyPageLayout>

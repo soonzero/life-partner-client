@@ -1,9 +1,11 @@
 import { ReactNode, useState } from 'react';
 import Floating from 'components/Floating';
 import Header from 'components/Header';
+import { Helmet } from 'react-helmet';
 
 const Layout = (props: {
 	children: ReactNode;
+	pageTitle: string;
 	noShadow?: boolean;
 	sideMenu?: boolean;
 	floating?: boolean;
@@ -15,6 +17,9 @@ const Layout = (props: {
 	return (
 		<>
 			<Header noShadow={props.noShadow} sideMenu={props.sideMenu} />
+			<Helmet>
+				<title>{props.pageTitle} | 라이프파트너</title>
+			</Helmet>
 			<main>{props.children}</main>
 			{props.floating && <Floating isLogin={isLogin} />}
 		</>

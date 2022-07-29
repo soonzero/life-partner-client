@@ -105,7 +105,7 @@ const PostDetail = () => {
 	}, []);
 
 	return (
-		<Layout sideMenu>
+		<Layout sideMenu pageTitle={data?.title || '상세 페이지'}>
 			{data && (
 				<section>
 					<h1 className="text-2xl md:text-3xl">

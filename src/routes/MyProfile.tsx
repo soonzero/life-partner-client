@@ -33,7 +33,7 @@ const MyProfile = () => {
 	}, []);
 
 	return (
-		<Layout noShadow>
+		<Layout noShadow pageTitle="내 정보">
 			<section className="mypage-layout">
 				<Sidebar currentMenu="내 정보" />
 				{data && (

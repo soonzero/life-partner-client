@@ -44,7 +44,7 @@ const ChangePassword = () => {
 	};
 
 	return (
-		<Layout>
+		<Layout pageTitle="비밀번호 변경">
 			<section className="mypage-layout">
 				<Sidebar currentMenu="비밀번호 변경" />
 				<MyPageLayout>

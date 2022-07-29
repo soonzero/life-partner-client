@@ -42,7 +42,7 @@ const Main = () => {
 	}, []);
 
 	return (
-		<Layout noShadow floating sideMenu>
+		<Layout noShadow floating sideMenu pageTitle="메인">
 			<section>
 				{isUser && (
 					<>
