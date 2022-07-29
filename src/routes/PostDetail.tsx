@@ -108,10 +108,20 @@ const PostDetail = () => {
 		<Layout>
 			{data && (
 				<section>
-					<h1 className="mb-3">파트너를 구하고 있어요</h1>
+					<h1 className="text-2xl md:text-3xl">
+						{data.status === 'waiting'
+							? '파트너를 구하고 있어요'
+							: data.status === 'matching'
+							? '파트너가 정해졌어요'
+							: data.status === 'complete'
+							? '거래가 완료되었어요!'
+							: '삭제된 글이에요'}
+					</h1>
 					<article className="flex vertical border-1 p-4 mb-3 divide-y-1 sm:p-6">
 						<div>
-							<h2 className="pb-3 mb-3 border-b-1">{data.title}</h2>
+							<h2 className="pb-3 border-b-1 text-lg md:text-xl">
+								{data.title}
+							</h2>
 							<p className="min-h-[20vh] text-sm sm:text-base">
 								{data.contents}
 							</p>
@@ -136,7 +146,8 @@ const PostDetail = () => {
 								파트너로 지원하기
 							</button>
 						) : (
-							data.status !== 'deleted' && (
+							data.status !== 'deleted' &&
+							data.status !== 'complete' && (
 								<button className="btn-primary" onClick={deletePost}>
 									삭제
 								</button>
