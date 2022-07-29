@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { PasswordChangeForm } from 'types/types';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import useCapsLock from 'hooks/useCapsLock';
 
 const ChangePassword = () => {
 	const navigate = useNavigate();
@@ -16,6 +17,7 @@ const ChangePassword = () => {
 	} = useForm<PasswordChangeForm>({
 		mode: 'onChange',
 	});
+	const { capsLockIsActive, onKey } = useCapsLock();
 
 	const onSubmit: SubmitHandler<PasswordChangeForm> = async (data) => {
 		try {
@@ -77,13 +79,14 @@ const ChangePassword = () => {
 									</label>
 									<span
 										className={classNames('guide-msg', {
-											error: errors.newPassword,
+											error: errors.newPassword || capsLockIsActive,
 										})}
 									>
 										{errors.newPassword &&
 											(errors.newPassword.type === 'pattern'
 												? '한글을 포함할 수 없습니다.'
 												: '한글을 제외하고 8-12자로 입력해주세요.')}
+										{capsLockIsActive && 'Caps Lock이 켜져 있어요.'}
 									</span>
 								</div>
 								<input
@@ -99,6 +102,8 @@ const ChangePassword = () => {
 										maxLength: 12,
 										pattern: /^[^ㄱ-ㅎ가-힣]*$/,
 									})}
+									onKeyDown={onKey}
+									onKeyUp={onKey}
 								/>
 							</fieldset>
 							<fieldset className="space-y-1">
@@ -108,13 +113,14 @@ const ChangePassword = () => {
 									</label>
 									<span
 										className={classNames('guide-msg', {
-											error: errors.newPasswordConfirm,
+											error: errors.newPasswordConfirm || capsLockIsActive,
 										})}
 									>
 										{errors.newPasswordConfirm &&
 											(errors.newPasswordConfirm.type === 'validate'
 												? '비밀번호가 다릅니다.'
 												: '한글을 제외하고 8-12자로 입력해주세요.')}
+										{capsLockIsActive && 'Caps Lock이 켜져 있어요.'}
 									</span>
 								</div>
 								<input
@@ -127,6 +133,8 @@ const ChangePassword = () => {
 										maxLength: 12,
 										validate: (value: string) => value === watch('newPassword'),
 									})}
+									onKeyDown={onKey}
+									onKeyUp={onKey}
 								/>
 							</fieldset>
 						</div>

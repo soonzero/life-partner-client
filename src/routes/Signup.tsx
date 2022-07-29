@@ -9,6 +9,7 @@ import PostCode from 'components/PostCode';
 import { leaveOnlyNumber } from 'functions/dashes';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import useCapsLock from 'hooks/useCapsLock';
 
 const NewSignup = () => {
 	const navigate = useNavigate();
@@ -24,6 +25,7 @@ const NewSignup = () => {
 	const [gu, setGu] = useState<string>('');
 	const [dong, setDong] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const { capsLockIsActive, onKey } = useCapsLock();
 
 	const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
 		if (address.length > 0) {
@@ -126,16 +128,19 @@ const NewSignup = () => {
 								minLength: 8,
 								pattern: /^[^ㄱ-ㅎ가-힣]*$/,
 							})}
+							onKeyUp={onKey}
+							onKeyDown={onKey}
 						/>
 						<span
 							className={classNames('guide-msg', {
-								error: errors.password,
+								error: errors.password || capsLockIsActive,
 							})}
 						>
 							{errors.password &&
 								(errors.password.type === 'pattern'
 									? '비밀번호에 한글이 포함되어 있어요.'
 									: '비밀번호는 8-12자로 입력해주세요.')}
+							{capsLockIsActive && 'Caps Lock이 켜져 있습니다.'}
 						</span>
 						<label htmlFor="passwordConfirm" className="auth-label mandatory">
 							비밀번호 확인
@@ -151,13 +156,16 @@ const NewSignup = () => {
 								minLength: 8,
 								validate: (value: string) => value === watch('password'),
 							})}
+							onKeyUp={onKey}
+							onKeyDown={onKey}
 						/>
 						<span
 							className={classNames('guide-msg', {
-								error: errors.passwordConfirm,
+								error: errors.passwordConfirm || capsLockIsActive,
 							})}
 						>
 							{errors.passwordConfirm && '비밀번호를 다시 한 번 확인해주세요.'}
+							{capsLockIsActive && 'Caps Lock이 켜져 있습니다.'}
 						</span>
 						<label htmlFor="phone" className="auth-label mandatory">
 							휴대폰 번호

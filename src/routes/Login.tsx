@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginForm } from 'types/types';
 import classNames from 'classnames';
-import { emit } from 'process';
+import useCapsLock from 'hooks/useCapsLock';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -15,6 +15,7 @@ const Login = () => {
 	} = useForm<LoginForm>({
 		mode: 'onChange',
 	});
+	const { capsLockIsActive, onKey } = useCapsLock();
 
 	const onSubmit: SubmitHandler<LoginForm> = async (data) => {
 		try {
@@ -80,12 +81,13 @@ const Login = () => {
 							</label>
 							<span
 								className={classNames('guide-msg', {
-									error: errors.password,
+									error: errors.password || capsLockIsActive,
 								})}
 							>
 								{errors.password &&
 									errors.password.type === 'pattern' &&
 									'한글을 포함할 수 없습니다.'}
+								{capsLockIsActive && 'Caps Lock이 켜져 있습니다.'}
 							</span>
 						</div>
 						<input
@@ -101,6 +103,8 @@ const Login = () => {
 								maxLength: 12,
 								pattern: /^[^ㄱ-ㅎ가-힣]*$/,
 							})}
+							onKeyDown={onKey}
+							onKeyUp={onKey}
 						/>
 					</fieldset>
 					<button type="submit" className="btn-primary">
