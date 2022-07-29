@@ -5,6 +5,7 @@ import Header from 'components/Header';
 const Layout = (props: {
 	children: ReactNode;
 	noShadow?: boolean;
+	sideMenu?: boolean;
 	floating?: boolean;
 }) => {
 	const [isLogin, setIsLogin] = useState(
@@ -13,7 +14,7 @@ const Layout = (props: {
 
 	return (
 		<>
-			<Header noShadow={props.noShadow} />
+			<Header noShadow={props.noShadow} sideMenu={props.sideMenu} />
 			<main>{props.children}</main>
 			{props.floating && <Floating isLogin={isLogin} />}
 		</>

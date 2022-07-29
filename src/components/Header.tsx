@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import classNames from 'classnames';
 
-const Header = (props: { noShadow?: boolean }) => {
+const Header = (props: { noShadow?: boolean; sideMenu?: boolean }) => {
 	const [shadow, setShadow] = useState(false);
 
 	const handleScroll = () => {
@@ -24,7 +24,7 @@ const Header = (props: { noShadow?: boolean }) => {
 	return (
 		<header
 			className={classNames(
-				'mx-auto sticky top-0 xs:px-4 sm:px-8 transition z-[5]',
+				'mx-auto sticky top-0 xs:px-4 sm:px-8 transition z-[10]',
 				{
 					'shadow-main bg-main': shadow && !props.noShadow,
 					'border-b bg-white': !shadow,
@@ -32,7 +32,11 @@ const Header = (props: { noShadow?: boolean }) => {
 				}
 			)}
 		>
-			<NavBar shadow={shadow} noShadow={props.noShadow} />
+			<NavBar
+				shadow={shadow}
+				noShadow={props.noShadow}
+				sideMenu={props.sideMenu}
+			/>
 		</header>
 	);
 };

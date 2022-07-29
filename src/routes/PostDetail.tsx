@@ -105,7 +105,7 @@ const PostDetail = () => {
 	}, []);
 
 	return (
-		<Layout>
+		<Layout sideMenu>
 			{data && (
 				<section>
 					<h1 className="text-2xl md:text-3xl">

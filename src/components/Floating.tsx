@@ -19,7 +19,7 @@ const Floating = (props: { isLogin: boolean }) => {
 	};
 
 	return (
-		<div className="fixed bottom-5 right-5 shadow-main rounded-full transition z-10 sm:bottom-10 sm:right-10">
+		<div className="fixed bottom-5 right-5 shadow-main rounded-full transition z-10 sm:bottom-10 sm:right-10 visible md:invisible">
 			<span
 				className="group w-12 h-12 flex center rounded-full hover:bg-white border-transparent fill-white border-1 hover:border-main bg-main cursor-pointer transition"
 				onClick={() => setSubMenu((prev) => !prev)}
