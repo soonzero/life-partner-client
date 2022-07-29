@@ -28,7 +28,7 @@ const History = () => {
 				data: { articles },
 			} = await axios({
 				method: 'GET',
-				url: 'http://15.164.225.61/api/articles',
+				url: `http://15.164.225.61/api/articles/search?minprice=2000&maxperiod=120&location1=* *&location2=not location&location3=not location`,
 				headers: {
 					authorization,
 				},
@@ -50,7 +50,7 @@ const History = () => {
 
 	useEffect(() => {
 		getList();
-	}, []);
+	}, [isOpen]);
 
 	return (
 		<Layout noShadow>
@@ -76,11 +76,12 @@ const History = () => {
 											key={i.id}
 											item={i}
 											selectPartner={selectPartner}
+											getList={getList}
 										/>
 									))
 								) : (
 									<tr>
-										<td colSpan={6} className="p-2 font-medium">
+										<td colSpan={5} className="p-2 font-medium">
 											내역 없음
 										</td>
 									</tr>

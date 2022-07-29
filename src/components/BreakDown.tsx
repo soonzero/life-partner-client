@@ -5,6 +5,7 @@ import { Post } from 'types/types';
 const BreakDown = (props: {
 	item: Post;
 	selectPartner: (articleId: number) => void;
+	getList: () => Promise<void>;
 }) => {
 	const deselectPartner = async (articleId: number) => {
 		try {
@@ -42,6 +43,7 @@ const BreakDown = (props: {
 						status,
 					},
 				});
+				props.getList();
 			} catch (e) {
 				console.log(e);
 			}
@@ -101,6 +103,7 @@ const BreakDown = (props: {
 						거래 확정
 					</button>
 				)}
+				{props.item.status === 'complete' && '거래 완료'}
 			</td>
 		</tr>
 	);
