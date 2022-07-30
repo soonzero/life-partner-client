@@ -144,6 +144,14 @@
 	.mypage-label {
 		@apply text-sm md:text-base font-medium;
 	}
+
+	.dark-mode {
+		@apply px-2 py-1 horizontal text-sm font-semibold items-center space-x-2 dark:hover:bg-black hover:bg-main hover:text-white;
+	}
+
+	.sidemenu-btn {
+		@apply w-2/3 btn-primary rounded-full text-center cursor-pointer;
+	}
 }
 
 body {

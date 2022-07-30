@@ -12,8 +12,13 @@ const SideMenu = (props: {
 }) => {
 	const navigate = useNavigate();
 	const [modeOpen, setModeOpen] = useState<boolean>(false);
-	const [mode, setMode] = useState<string>('light');
-	const [systemMode, setSystemMode] = useState<string>('light');
+	const [mode, setMode] = useState<string>(
+		sessionStorage.theme === 'dark' ||
+			(!('theme' in sessionStorage) &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches)
+			? 'dark'
+			: 'light'
+	);
 
 	const logout = () => {
 		props.setIsOpen(false);
@@ -21,7 +26,22 @@ const SideMenu = (props: {
 		navigate('/logout');
 	};
 
-	const changeTheme = () => {
+	const changeMode = (e: MouseEvent<HTMLLIElement>) => {
+		const target = e.currentTarget.id;
+		if (target === 'light') {
+			setMode('light');
+			sessionStorage.setItem('theme', 'light');
+		} else if (target === 'dark') {
+			setMode('dark');
+			sessionStorage.setItem('theme', 'dark');
+		} else if (target === 'system') {
+			setMode('system');
+			sessionStorage.removeItem('theme');
+		}
+		setModeOpen(false);
+	};
+
+	useEffect(() => {
 		if (
 			sessionStorage.theme === 'dark' ||
 			(!('theme' in sessionStorage) &&
@@ -31,32 +51,7 @@ const SideMenu = (props: {
 		} else {
 			document.documentElement.classList.remove('dark');
 		}
-	};
-
-	const changeMode = (e: MouseEvent<HTMLLIElement>) => {
-		const target = e.currentTarget.id;
-		if (target === 'light') {
-			setMode('light');
-			sessionStorage.theme = target;
-		} else if (target === 'dark') {
-			setMode('dark');
-			sessionStorage.theme = target;
-		} else if (target === 'system') {
-			setMode('system');
-			sessionStorage.removeItem('theme');
-			setMode(systemMode);
-		}
-		changeTheme();
-	};
-
-	useEffect(() => {
-		changeTheme();
-		window
-			.matchMedia('(prefers-color-scheme: dark)')
-			.addEventListener('change', (e) => {
-				setSystemMode(e.matches ? 'dark' : 'light');
-			});
-	});
+	}, [mode]);
 
 	return (
 		<aside
@@ -107,27 +102,15 @@ const SideMenu = (props: {
 							}
 						)}
 					>
-						<li
-							className="px-2 py-1 horizontal items-center space-x-2 hover:bg-black"
-							id="dark"
-							onClick={changeMode}
-						>
+						<li className="dark-mode" id="dark" onClick={changeMode}>
 							<DarkSVG />
 							<span>다크 모드</span>
 						</li>
-						<li
-							className="px-2 py-1 horizontal items-center space-x-2 hover:bg-black"
-							id="light"
-							onClick={changeMode}
-						>
+						<li className="dark-mode" id="light" onClick={changeMode}>
 							<LightSVG />
 							<span>라이트 모드</span>
 						</li>
-						<li
-							className="px-2 py-1 horizontal items-center space-x-2 hover:bg-black"
-							id="system"
-							onClick={changeMode}
-						>
+						<li className="dark-mode" id="system" onClick={changeMode}>
 							<SystemSVG />
 							<span>시스템 설정</span>
 						</li>
@@ -135,26 +118,17 @@ const SideMenu = (props: {
 				</div>
 				{!sessionStorage.getItem('token') ? (
 					<ul className="vertical items-center space-y-2">
-						<li
-							className="w-2/3 btn-primary rounded-full text-center cursor-pointer"
-							onClick={() => navigate('/login')}
-						>
+						<li className="sidemenu-btn" onClick={() => navigate('/login')}>
 							로그인
 						</li>
-						<li
-							className="w-2/3 btn-primary rounded-full text-center cursor-pointer"
-							onClick={() => navigate('/signup')}
-						>
+						<li className="sidemenu-btn" onClick={() => navigate('/signup')}>
 							회원가입
 						</li>
 					</ul>
 				) : (
-					<div className="vertical">
+					<div className="vertical text-dark dark:text-white">
 						<ul className="vertical pb-6 items-center space-y-2">
-							<li
-								className="w-2/3 btn-primary rounded-full text-center cursor-pointer"
-								onClick={logout}
-							>
+							<li className="sidemenu-btn" onClick={logout}>
 								로그아웃
 							</li>
 						</ul>
