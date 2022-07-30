@@ -11,9 +11,11 @@ module.exports = {
 			'2xl': '1920px',
 			'4xl': '2560px',
 		},
+		darkMode: 'class',
 		extend: {
 			colors: {
 				main: '#69C4E1',
+				dark: '#1F2937',
 			},
 			borderWidth: {
 				1: '1px',

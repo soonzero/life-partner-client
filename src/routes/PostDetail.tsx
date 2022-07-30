@@ -117,7 +117,7 @@ const PostDetail = () => {
 							? '거래가 완료되었어요!'
 							: '삭제된 글이에요'}
 					</h1>
-					<article className="flex vertical border-1 p-4 mb-3 divide-y-1 sm:p-6">
+					<article className="flex vertical border-1 p-4 mb-3 divide-y-1 sm:p-6 dark:text-white">
 						<div>
 							<h2 className="pb-3 border-b-1 text-lg md:text-xl">
 								{data.title}

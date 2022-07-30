@@ -4,27 +4,27 @@
 
 @layer base {
 	main {
-		@apply mx-auto px-2 xs:px-4 sm:px-8;
+		@apply mx-auto px-2 xs:px-4 sm:px-8 dark:bg-dark;
 	}
 
 	section {
-		@apply max-w-screen-2xl mx-auto my-6;
+		@apply max-w-screen-2xl mx-auto py-6 dark:bg-dark;
 	}
 
 	h1 {
-		@apply text-lg font-bold md:text-xl mb-3 md:mb-6;
+		@apply text-lg font-bold md:text-xl mb-3 md:mb-6 dark:text-white;
 	}
 
 	h2 {
-		@apply font-bold mb-3 md:mb-6;
+		@apply font-bold mb-3 md:mb-6 dark:text-white;
 	}
 
 	h3 {
-		@apply text-lg font-semibold md:text-xl;
+		@apply text-lg font-semibold md:text-xl dark:text-white;
 	}
 
 	h4 {
-		@apply text-base font-medium md:text-lg;
+		@apply text-base font-medium md:text-lg dark:text-white;
 	}
 
 	a {
@@ -42,7 +42,7 @@
 
 @layer components {
 	.auth-label {
-		@apply mb-1 text-sm md:text-base;
+		@apply mb-1 text-sm md:text-base dark:bg-dark dark:text-white;
 	}
 
 	.mandatory {
@@ -50,7 +50,7 @@
 	}
 
 	.auth-input {
-		@apply border-1 grow enabled:hover:border-gray-400 transition p-2 outline-none font-medium last:mb-0 text-xs md:text-base;
+		@apply border-1 grow enabled:hover:border-gray-400 transition p-2 outline-none font-medium last:mb-0 text-xs md:text-base dark:bg-dark dark:text-white;
 	}
 
 	.guide-msg {
@@ -102,11 +102,11 @@
 	}
 
 	.post-label {
-		@apply font-medium text-xs md:text-sm lg:text-base;
+		@apply font-medium text-xs md:text-sm lg:text-base dark:bg-dark dark:text-white;
 	}
 
 	.post-input {
-		@apply p-1 border-1 w-20 text-xs md:w-32 md:text-sm lg:text-base;
+		@apply p-1 border-1 w-20 text-xs md:w-32 md:text-sm lg:text-base dark:bg-dark dark:text-white;
 	}
 
 	.post-btn {
@@ -134,11 +134,11 @@
 	}
 
 	.filter-form {
-		@apply absolute top-12 z-[3] rounded-lg border-1 w-72 h-max bg-white vertical px-12 py-6 justify-center space-y-6 sm:w-96;
+		@apply absolute top-12 z-[3] rounded-lg border-1 w-72 h-max bg-white vertical px-12 py-6 justify-center space-y-6 sm:w-96 dark:bg-dark dark:text-white;
 	}
 
 	.auth-form {
-		@apply vertical bg-white rounded-lg border-1 border-gray-200 p-8;
+		@apply vertical bg-white rounded-lg border-1 border-gray-200 p-8 dark:bg-dark dark:text-white;
 	}
 
 	.mypage-label {

@@ -24,7 +24,7 @@ const Header = (props: { noShadow?: boolean; sideMenu?: boolean }) => {
 	return (
 		<header
 			className={classNames(
-				'mx-auto sticky top-0 xs:px-4 sm:px-8 transition z-[10]',
+				'mx-auto sticky top-0 xs:px-4 sm:px-8 transition z-[10] dark:bg-dark dark:text-white dark:border-b-black',
 				{
 					'shadow-main bg-main': shadow && !props.noShadow,
 					'border-b bg-white': !shadow,

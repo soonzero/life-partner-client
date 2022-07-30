@@ -69,7 +69,7 @@ const Filter = (props: {
 	};
 
 	return (
-		<ul className="flex mb-3 space-x-3 sticky top-[64px] py-3 bg-white z-[5] border-b-1">
+		<ul className="flex mb-3 space-x-3 sticky top-[64px] py-3 bg-white z-[5] border-b-1 dark:bg-dark dark:border-b-dark dark:text-dark">
 			<li className="relative">
 				<button
 					type="button"

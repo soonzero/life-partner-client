@@ -7,17 +7,17 @@ const Card = ({ item, detail }: MapInPost) => {
 	const navigate = useNavigate();
 	return (
 		<article
-			className="group vertical w-full h-72 rounded-xl border-1 cursor-pointer hover:opacity-90 transition overflow-hidden bg-white"
+			className="group vertical w-full h-72 rounded-xl border-1 cursor-pointer hover:opacity-90 transition overflow-hidden bg-white dark:bg-dark dark:text-white"
 			onClick={() => navigate(`/articles/${item.id}`)}
 		>
 			<map className="block w-full h-1/2 z-[2] shrink-0">
 				<NaverMap id={item.id} location={item.location} detail={detail} />
 			</map>
 			<figcaption className="vertical grow m-3 overflow-hidden">
-				<h4 className="text-lg font-bold truncate shrink-0 group-hover:animate-marquee group-hover:w-max">
+				<h4 className="text-lg font-bold truncate shrink-0 group-hover:animate-marquee group-hover:w-max ">
 					{item.title}
 				</h4>
-				<p className="relative text-sm grow overflow-hidden after:content-[''] after:absolute after:top-0 after:bottom-0 after:left-0 after:right-0 after:bg-gradient-to-b after:from-transparent after:via-transparent after:to-white">
+				<p className="relative text-sm grow overflow-hidden after:content-[''] after:absolute after:top-0 after:bottom-0 after:left-0 after:right-0 after:bg-gradient-to-b after:from-transparent after:via-transparent after:to-white dark:after:to-dark">
 					<span className="inline-block break-normal">
 						<span>{item.location.split(',')[0]}</span>
 					</span>

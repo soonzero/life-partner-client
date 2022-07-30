@@ -62,7 +62,7 @@ const DeleteAccount = () => {
 								maxLength={5}
 								value={word}
 								placeholder="회원 탈퇴"
-								className="text-center border-1 px-3 py-1 outline-none font-extrabold text-base md:text-2xl"
+								className="text-center border-1 px-3 py-1 outline-none font-extrabold text-base md:text-2xl dark:bg-dark dark:text-white"
 								onChange={(e) => setWord((prev) => e.target.value)}
 							/>
 							<button

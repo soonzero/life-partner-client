@@ -173,7 +173,7 @@ const WriteNewPost = () => {
 								type="text"
 								maxLength={15}
 								placeholder="제목을 입력하세요. (공백 포함 최대 15자)"
-								className="font-semibold text-sm border-b-1 px-2 py-1 mb-3 sm:text-base md:text-lg"
+								className="font-semibold text-sm border-b-1 px-2 py-1 mb-3 sm:text-base md:text-lg dark:bg-dark dark:text-white"
 								{...register('title', {
 									required: true,
 								})}
@@ -182,7 +182,7 @@ const WriteNewPost = () => {
 							<textarea
 								id="contents"
 								placeholder="요청 업무를 상세히 입력해주세요."
-								className="border-1 p-2 h-[25vh] resize-none outline-none mb-3 text-xs sm:text-sm md:text-base"
+								className="border-1 p-2 h-[25vh] resize-none outline-none mb-3 text-xs sm:text-sm md:text-base dark:bg-dark dark:text-white"
 								{...register('contents', {
 									required: true,
 								})}
@@ -354,7 +354,7 @@ const WriteNewPost = () => {
 											className="hidden"
 										/>
 										<select
-											className="inline-block outline-none w-full border-1 p-1 mr-6 text-xs md:text-sm lg:text-base lg:w-1/3"
+											className="inline-block outline-none w-full border-1 p-1 mr-6 text-xs md:text-sm lg:text-base lg:w-1/3 dark:bg-dark dark:text-white"
 											disabled={!accountChangeMode}
 											{...register('post_bank', {
 												required: true,

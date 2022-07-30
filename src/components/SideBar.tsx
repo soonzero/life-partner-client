@@ -5,7 +5,7 @@ import { CurrentMenu } from 'types/types';
 
 const Sidebar = ({ currentMenu }: CurrentMenu) => {
 	return (
-		<aside className="bg-white border-b-1 w-full md:w-48 shrink-0 h-max md:rounded-xl md:border-2 md:border-main sticky top-[64px] md:top-[89px] overflow-hidden">
+		<aside className="bg-white border-b-1 w-full md:w-48 shrink-0 h-max md:rounded-xl md:border-2 md:border-main sticky top-[64px] md:top-[89px] overflow-hidden dark:bg-dark dark:text-white">
 			<h3 className="pt-3 md:text-white md:bg-main md:px-6 md:py-3">
 				마이페이지
 			</h3>
