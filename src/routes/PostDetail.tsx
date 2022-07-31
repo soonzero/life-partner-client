@@ -60,15 +60,32 @@ const PostDetail = () => {
 	const applyForPartner = async () => {
 		try {
 			if (window.confirm('파트너로 지원하시겠습니까?')) {
-				const response = await axios({
-					method: 'POST',
-					url: `http://15.164.225.61/api/partners/${params.id}/post`,
+				const {
+					data: { partners },
+				} = await axios({
+					method: 'GET',
+					url: `http://15.164.225.61/api/partners/${params.id}/list`,
 					headers: {
 						authorization: `Bearer ${sessionStorage.getItem('token')}`,
 					},
 				});
-				if (response.status === 200) {
-					alert('파트너로 지원하셨습니다.');
+				if (partners.length >= 5) {
+					alert('지원 가능한 파트너의 수를 초과했습니다.');
+				} else {
+					if (partners.includes(nickname)) {
+						alert('이미 지원하셨습니다.');
+					} else {
+						const { status } = await axios({
+							method: 'POST',
+							url: `http://15.164.225.61/api/partners/${params.id}/post`,
+							headers: {
+								authorization: `Bearer ${sessionStorage.getItem('token')}`,
+							},
+						});
+						if (status === 200) {
+							alert('파트너로 지원하셨습니다.');
+						}
+					}
 				}
 			}
 		} catch (e) {
