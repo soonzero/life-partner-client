@@ -20,7 +20,7 @@ const NavBar = (props: {
 						<Link to="/">
 							<LogoSVG
 								className={classNames(
-									'w-10 h-10 inline-block md:w-12 md:h-12',
+									'w-10 h-10 inline-block md:w-12 md:h-12 dark:text-main',
 									{
 										'text-white': props.shadow && !props.noShadow,
 										'text-main': !props.shadow || props.noShadow,
