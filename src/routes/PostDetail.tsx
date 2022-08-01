@@ -1,59 +1,49 @@
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Layout from 'components/Layout';
 import NaverMap from 'components/NaverMap';
+import token from 'data/token';
 import { addCommasToNumber } from 'functions/common';
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Post } from 'types/types';
 
 const PostDetail = () => {
 	const navigate = useNavigate();
 	const params = useParams();
-	const [data, setData] = useState<Post>();
-	const [writer, setWriter] = useState<string>('');
-	const [nickname, setNickname] = useState<string>('');
 
-	// 로그인한 유저 정보 조회 + 게시글 상세 내역 조회
-	const getDetail = async () => {
-		try {
-			// 로그인한 유저 정보 조회
-			let nickname;
-			if (window.sessionStorage.getItem('token')) {
-				const { data } = await axios({
-					method: 'GET',
-					url: 'http://15.164.225.61/api/users/user-info',
-					headers: {
-						authorization: `Bearer ${sessionStorage.getItem('token')}`,
-					},
-				});
-				nickname = data.nickname;
-				setNickname((prev) => data.nickname);
-			}
-
-			// 게시글 상세 내역 조회
+	// 로그인한 유저 정보 조회
+	const getNickname = async () => {
+		if (token) {
 			const { data } = await axios({
 				method: 'GET',
-				url: `http://15.164.225.61/api/articles/detail/${params.id}`,
+				url: 'http://15.164.225.61/api/users/user-info',
 				headers: {
-					authorization: sessionStorage.getItem('token')
-						? `Bearer ${sessionStorage.getItem('token')}`
-						: 'NOT user',
+					authorization: `Bearer ${token}`,
 				},
 			});
-			// 게시글 상태가 waiting이 아닌 경우, 작성자만 확인할 수 있음
-			if (
-				data.article[0].status !== 'waiting' &&
-				data.article[0].writer !== nickname
-			) {
-				alert('접근할 수 없는 게시글입니다.');
-				navigate('/');
-			} else {
-				setWriter((prev) => data.article[0].writer);
-				setData((prev) => data.article[0]);
-			}
-		} catch (e) {
-			console.log(e);
+			return data.nickname;
 		}
+	};
+
+	// 게시글 상세 내역 조회
+	const getDetail = async () => {
+		// 게시글 상세 내역 조회
+		const { data } = await axios({
+			method: 'GET',
+			url: `http://15.164.225.61/api/articles/detail/${params.id}`,
+			headers: {
+				authorization: token ? `Bearer ${token}` : 'NOT user',
+			},
+		});
+		// 게시글 상태가 waiting이 아닌 경우, 작성자만 확인할 수 있음
+		if (
+			data.article[0].status !== 'waiting' &&
+			data.article[0].writer !== nickname
+		) {
+			alert('접근할 수 없는 게시글입니다.');
+			navigate('/');
+			return;
+		}
+		return data.article[0];
 	};
 
 	// 파트너 지원 api
@@ -66,7 +56,7 @@ const PostDetail = () => {
 					method: 'GET',
 					url: `http://15.164.225.61/api/partners/${params.id}/list`,
 					headers: {
-						authorization: `Bearer ${sessionStorage.getItem('token')}`,
+						authorization: `Bearer ${token}`,
 					},
 				});
 				if (partners.length >= 5) {
@@ -79,7 +69,7 @@ const PostDetail = () => {
 							method: 'POST',
 							url: `http://15.164.225.61/api/partners/${params.id}/post`,
 							headers: {
-								authorization: `Bearer ${sessionStorage.getItem('token')}`,
+								authorization: `Bearer ${token}`,
 							},
 						});
 						if (status === 200) {
@@ -101,7 +91,7 @@ const PostDetail = () => {
 					method: 'PATCH',
 					url: `http://15.164.225.61/api/articles/${params.id}`,
 					headers: {
-						authorization: `Bearer ${sessionStorage.getItem('token')}`,
+						authorization: `Bearer ${token}`,
 					},
 					data: {
 						status: 'deleted',
@@ -117,9 +107,12 @@ const PostDetail = () => {
 		}
 	};
 
-	useEffect(() => {
-		getDetail();
-	}, []);
+	const nickname = useQuery(['nickname'], getNickname);
+
+	const { isLoading, isError, data } = useQuery(['post'], getDetail, {
+		cacheTime: 0,
+		enabled: !!nickname,
+	});
 
 	return (
 		<Layout sideMenu pageTitle={data?.title || '상세 페이지'}>
@@ -158,7 +151,7 @@ const PostDetail = () => {
 						</div>
 					</article>
 					<div className="flex justify-end space-x-3">
-						{writer !== nickname ? (
+						{data.writer !== nickname ? (
 							<button className="btn-primary" onClick={applyForPartner}>
 								파트너로 지원하기
 							</button>
