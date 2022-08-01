@@ -2,32 +2,24 @@ import axios from 'axios';
 import Layout, { MyPageLayout } from 'components/Layout';
 import Sidebar from 'components/SideBar';
 import { addCommasToNumber } from 'functions/common';
-import convertTime from 'functions/convertTime';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import token from 'data/token';
 import { Link } from 'react-router-dom';
-import { PointInfo } from 'types/types';
+import { PointHistory } from 'types/types';
 
 const Point = () => {
-	const [data, setData] = useState<PointInfo>();
-
 	const getData = async () => {
-		try {
-			const result = await axios({
-				method: 'GET',
-				url: 'http://15.164.225.61/api/point',
-				headers: {
-					authorization: `Bearer ${sessionStorage.getItem('token')}`,
-				},
-			});
-			setData((prev) => result.data);
-		} catch (e) {
-			console.log(e);
-		}
+		const { data } = await axios({
+			method: 'GET',
+			url: 'http://15.164.225.61/api/point',
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+		});
+		return data;
 	};
 
-	useEffect(() => {
-		getData();
-	}, []);
+	const { data } = useQuery(['point'], getData);
 
 	return (
 		<Layout pageTitle="포인트 상세 내역">
@@ -71,7 +63,7 @@ const Point = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{data.history.map((i) => {
+								{data.history.map((i: PointHistory) => {
 									return (
 										<tr key={i.id} className="text-center">
 											<td className="border-1 py-2 md:py-3">{i.date}</td>

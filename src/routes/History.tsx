@@ -1,46 +1,40 @@
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import BreakDown from 'components/BreakDown';
 import Layout, { MyPageLayout } from 'components/Layout';
 import Partner from 'components/Partner';
 import Sidebar from 'components/SideBar';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Post } from 'types/types';
+import token from 'data/token';
 
 const History = () => {
-	const [list, setList] = useState<Post[]>();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [articleId, setArticleId] = useState<number>();
 
 	const getList = async () => {
-		try {
-			const authorization = `Bearer ${sessionStorage.getItem('token')}`;
-			let nickname: string;
-			const response = await axios({
-				method: 'GET',
-				url: 'http://15.164.225.61/api/users/user-info',
-				headers: {
-					authorization,
-				},
-			});
-			nickname = response.data.nickname;
+		const {
+			data: { nickname },
+		} = await axios({
+			method: 'GET',
+			url: 'http://15.164.225.61/api/users/user-info',
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+		});
 
-			const {
-				data: { articles },
-			} = await axios({
-				method: 'GET',
-				url: `http://15.164.225.61/api/articles/search?minprice=2000&maxperiod=120&location1=* *&location2=not location&location3=not location`,
-				headers: {
-					authorization,
-				},
-			});
-			setList((prev) =>
-				articles.filter(
-					(i: Post) => i.writer === nickname && i.status !== 'deleted'
-				)
-			);
-		} catch (e) {
-			console.log(e);
-		}
+		const {
+			data: { articles },
+		} = await axios({
+			method: 'GET',
+			url: `http://15.164.225.61/api/articles/search?minprice=2000&maxperiod=120&location1=* *&location2=not location&location3=not location`,
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+		});
+		return articles.filter(
+			(i: Post) => i.writer === nickname && i.status !== 'deleted'
+		);
 	};
 
 	const selectPartner = (articleId: number) => {
@@ -48,9 +42,7 @@ const History = () => {
 		setArticleId((prev) => articleId);
 	};
 
-	useEffect(() => {
-		getList();
-	}, [isOpen]);
+	const { data } = useQuery(['list'], getList);
 
 	return (
 		<Layout noShadow pageTitle="나의 이용 내역">
@@ -58,7 +50,7 @@ const History = () => {
 				<Sidebar currentMenu="나의 이용 내역" />
 				<MyPageLayout>
 					<h1>나의 이용 내역</h1>
-					{list && (
+					{data && (
 						<table className="w-full text-sm text-center table-auto">
 							<thead className="border-b-1">
 								<tr className="font-medium">
@@ -70,8 +62,8 @@ const History = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{list.length > 0 ? (
-									list.map((i) => (
+								{data.length > 0 ? (
+									data.map((i: Post) => (
 										<BreakDown
 											key={i.id}
 											item={i}

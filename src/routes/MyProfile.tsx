@@ -5,32 +5,24 @@ import Layout, { MyPageLayout } from 'components/Layout';
 import { addDashes } from 'functions/dashes';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { AccountInfo } from 'types/types';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import token from 'data/token';
 
 const MyProfile = () => {
-	const [data, setData] = useState<AccountInfo | null>(null);
-
 	const getInfo = async () => {
-		try {
-			if (window.sessionStorage.getItem('token')) {
-				const response = await axios({
-					method: 'GET',
-					url: 'http://15.164.225.61/api/users/user-info',
-					headers: {
-						authorization: `Bearer ${sessionStorage.getItem('token')}`,
-					},
-				});
-				setData((prev) => response.data);
-			}
-		} catch (e) {
-			console.log(e);
+		if (token) {
+			const { data } = await axios({
+				method: 'GET',
+				url: 'http://15.164.225.61/api/users/user-info',
+				headers: {
+					authorization: `Bearer ${token}`,
+				},
+			});
+			return data;
 		}
 	};
 
-	useEffect(() => {
-		getInfo();
-	}, []);
+	const { data } = useQuery(['profile'], getInfo);
 
 	return (
 		<Layout noShadow pageTitle="내 정보">
