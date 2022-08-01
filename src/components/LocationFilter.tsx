@@ -69,7 +69,7 @@ const LocationFilter = (props: {
 									'p-2 cursor-pointer text-sm sm:text-base',
 									{
 										'bg-main text-white font-semibold': selectedGu === gu,
-										'hover:bg-gray-100': selectedGu !== gu,
+										'hover:bg-gray-300': selectedGu !== gu,
 									}
 								)}
 								onClick={onClickHandler}
@@ -91,7 +91,7 @@ const LocationFilter = (props: {
 										'bg-main text-white font-semibold': selectedDong.includes(
 											`${selectedGu} ${g}`
 										),
-										'hover:bg-gray-100': !selectedDong.includes(
+										'hover:bg-gray-300': !selectedDong.includes(
 											`${selectedGu} ${g}`
 										),
 									}

@@ -82,13 +82,13 @@ const SideMenu = (props: {
 				)}
 			>
 				<span
-					className="absolute top-5 left-5 cursor-pointer"
+					className="absolute top-5 left-5 cursor-pointer dark:text-white text-dark"
 					onClick={() => props.setIsOpen(false)}
 				>
 					<CloseSVG />
 				</span>
 				<div
-					className="absolute top-5 right-5 cursor-pointer pb-2"
+					className="absolute top-5 right-5 cursor-pointer pb-2 dark:text-white text-dark"
 					onMouseEnter={() => setModeOpen((prev) => !prev)}
 					onMouseLeave={() => setModeOpen((prev) => false)}
 				>
