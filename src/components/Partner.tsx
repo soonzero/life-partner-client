@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useEffect, useState, Dispatch, MouseEvent } from 'react';
+import token from 'data/token';
+import { Dispatch, MouseEvent } from 'react';
 import ReactModal from 'react-modal';
 import { ReactComponent as CloseSVG } from 'static/icons/close.svg';
 
@@ -8,24 +10,20 @@ const Partner = (props: {
 	setIsOpen: Dispatch<React.SetStateAction<boolean>>;
 	articleId: number | undefined;
 }) => {
-	const [list, setList] = useState<string[]>([]);
-
 	const getPartnersList = async () => {
-		try {
-			const {
-				data: { partners },
-			} = await axios({
-				method: 'GET',
-				url: `http://15.164.225.61/api/partners/${props.articleId}/list`,
-				headers: {
-					authorization: `Bearer ${sessionStorage.getItem('token')}`,
-				},
-			});
-			setList((prev) => partners);
-		} catch (e) {
-			console.log(e);
-		}
+		const {
+			data: { partners },
+		} = await axios({
+			method: 'GET',
+			url: `http://15.164.225.61/api/partners/${props.articleId}/list`,
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+		});
+		return partners;
 	};
+
+	const { data } = useQuery(['partners'], getPartnersList);
 
 	const selectPartner = async (e: MouseEvent<HTMLButtonElement>) => {
 		const nickname = e.currentTarget.value;
@@ -35,7 +33,7 @@ const Partner = (props: {
 					method: 'PATCH',
 					url: `http://15.164.225.61/api/articles/${props.articleId}/partners`,
 					headers: {
-						authorization: `Bearer ${sessionStorage.getItem('token')}`,
+						authorization: `Bearer ${token}`,
 					},
 					data: {
 						nickname,
@@ -51,10 +49,6 @@ const Partner = (props: {
 			props.setIsOpen(false);
 		}
 	};
-
-	useEffect(() => {
-		getPartnersList();
-	}, []);
 
 	return (
 		<ReactModal
@@ -81,9 +75,9 @@ const Partner = (props: {
 				</span>
 			</div>
 
-			{list && (
+			{data && (
 				<p className="flex space-x-2">
-					{list.map((p, id) => (
+					{data.map((p: string, id: number) => (
 						<button
 							key={id}
 							className="px-4 py-1 border-1 border-main rounded-full hover:bg-main hover:text-white transition"
