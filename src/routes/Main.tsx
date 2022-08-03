@@ -1,4 +1,4 @@
-import Card from 'components/Card';
+import Card, { LoadingCard } from 'components/Card';
 import Filter from 'components/Filter';
 import Layout from 'components/Layout';
 import { Link } from 'react-router-dom';
@@ -29,11 +29,15 @@ const Main = () => {
 		}
 	};
 
-	const { data } = useQuery(['posts', state], () => getPostsFiltered(state), {
-		staleTime: 10000,
-		refetchOnWindowFocus: true,
-		cacheTime: 20000,
-	});
+	const { isFetching, data } = useQuery(
+		['posts', state],
+		() => getPostsFiltered(state),
+		{
+			staleTime: 5000,
+			refetchOnWindowFocus: true,
+			cacheTime: 10000,
+		}
+	);
 
 	const getPosts = () => {
 		getPostsFiltered(state);
@@ -62,10 +66,21 @@ const Main = () => {
 							dispatch={dispatch}
 							getPosts={getPosts}
 						/>
-						<article className="grid gap-3 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8">
-							{data?.map((i: Post) => (
-								<Card key={i.id} item={i} detail={false} />
-							))}
+						<article className="grid gap-3 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 min-h-screen">
+							{data &&
+								data?.map((i: Post) => (
+									<Card key={i.id} item={i} detail={false} />
+								))}
+							{isFetching && (
+								<>
+									<LoadingCard />
+									<LoadingCard />
+									<LoadingCard />
+									<LoadingCard />
+									<LoadingCard />
+									<LoadingCard />
+								</>
+							)}
 						</article>
 					</>
 				)}

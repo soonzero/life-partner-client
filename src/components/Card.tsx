@@ -2,6 +2,7 @@ import NaverMap from './NaverMap';
 import { MapInPost } from 'types/types';
 import { addCommasToNumber } from 'functions/common';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as MapLoadingSVG } from 'static/icons/map-loading.svg';
 
 const Card = ({ item, detail }: MapInPost) => {
 	const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Card = ({ item, detail }: MapInPost) => {
 			className="group vertical w-full h-72 rounded-xl border-1 cursor-pointer hover:opacity-90 transition overflow-hidden bg-white dark:bg-dark dark:text-white"
 			onClick={() => navigate(`/articles/${item.id}`)}
 		>
-			<map className="block w-full h-1/2 z-[2] shrink-0">
+			<map className="map">
 				<NaverMap id={item.id} location={item.location} detail={detail} />
 			</map>
 			<figcaption className="vertical grow m-3 overflow-hidden">
@@ -27,6 +28,26 @@ const Card = ({ item, detail }: MapInPost) => {
 					<span className="font-medium">{addCommasToNumber(item.price)}원</span>
 				</p>
 			</figcaption>
+		</article>
+	);
+};
+
+export const LoadingCard = () => {
+	return (
+		<article className="vertical w-full h-72 rounded-xl border-1 overflow-hidden bg-white dark:bg-dark dark:text-white animate-pulse">
+			<div className="map flex justify-center items-center text-gray-200 dark:text-gray-600 bg-gray-300 dark:bg-gray-700">
+				<MapLoadingSVG />
+			</div>
+			<div className="grow vertical p-3">
+				<div className="skeleton-text w-2/3 h-5 mb-3"></div>
+				<div className="grow mb-2">
+					<div className="skeleton-text w-3/4 h-3"></div>
+				</div>
+				<div className="horizontal space-between">
+					<div className="skeleton-text w-20 h-4"></div>
+					<div className="skeleton-text w-16 h-4"></div>
+				</div>
+			</div>
 		</article>
 	);
 };

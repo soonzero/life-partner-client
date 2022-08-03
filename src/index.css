@@ -152,6 +152,14 @@
 	.sidemenu-btn {
 		@apply w-2/3 btn-primary rounded-full text-center cursor-pointer;
 	}
+
+	.map {
+		@apply block w-full h-1/2 z-[2] shrink-0;
+	}
+
+	.skeleton-text {
+		@apply bg-gray-200 rounded-full dark:bg-gray-700;
+	}
 }
 
 body {
