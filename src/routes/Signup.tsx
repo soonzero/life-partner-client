@@ -10,6 +10,7 @@ import { leaveOnlyNumber } from 'functions/dashes';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useCapsLock from 'hooks/useCapsLock';
+import { useMutation } from '@tanstack/react-query';
 
 const NewSignup = () => {
 	const navigate = useNavigate();
@@ -27,44 +28,53 @@ const NewSignup = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const { capsLockIsActive, onKey } = useCapsLock();
 
-	const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
+	const signup = async (form: SignUpForm) => {
 		if (address.length > 0) {
 			if (
-				(data.bank === '--은행 선택--' &&
-					(data.holder.length > 0 || data.account.length > 0)) ||
-				(data.bank !== '--은행 선택--' &&
-					(data.holder.length === 0 || data.account.length === 0))
+				(form.bank === '--은행 선택--' &&
+					(form.holder.length > 0 || form.account.length > 0)) ||
+				(form.bank !== '--은행 선택--' &&
+					(form.holder.length === 0 || form.account.length === 0))
 			) {
 				alert('선택 항목은 모두 입력되거나 모두 비워져있어야 합니다.');
 			} else {
-				try {
-					const result = await axios({
-						method: 'POST',
-						url: 'http://15.164.225.61/api/users/signup',
-						data: {
-							nickname: data.nickname,
-							password: data.password,
-							phone: leaveOnlyNumber(data.phone),
-							address: address,
-							detail_address: data.detail_address,
-							gu: gu,
-							dong: dong,
-							bank: data.bank === '--은행 선택--' ? '' : data.bank,
-							account: data.account,
-							holder: data.holder,
-						},
-					});
-					if (result) {
-						navigate('/login');
-					}
-				} catch (e) {
-					console.log(e);
+				const { statusText } = await axios({
+					method: 'POST',
+					url: 'http://15.164.225.61/api/users/signup',
+					data: {
+						nickname: form.nickname,
+						password: form.password,
+						phone: leaveOnlyNumber(form.phone),
+						address: address,
+						detail_address: form.detail_address,
+						gu: gu,
+						dong: dong,
+						bank: form.bank === '--은행 선택--' ? '' : form.bank,
+						account: form.account,
+						holder: form.holder,
+					},
+				});
+				if (statusText === 'Created') {
+					navigate('/login');
 				}
 			}
 		} else {
 			alert('주소를 입력해주세요');
 		}
 	};
+
+	const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
+		mutateAsync(data);
+	};
+
+	const { mutateAsync } = useMutation(signup, {
+		onError: (error) => {
+			if (error)
+				alert(
+					'입력하신 닉네임, 휴대폰 번호 혹은 주소 정보를 가진 회원이 이미 존재합니다.'
+				);
+		},
+	});
 
 	const completeHandler = async (data: any) => {
 		const [lng, lat] = await getLatLng(data.roadAddress);

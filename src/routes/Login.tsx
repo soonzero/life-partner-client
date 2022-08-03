@@ -1,10 +1,11 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Layout from 'components/Layout';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { LoginForm } from 'types/types';
 import classNames from 'classnames';
 import useCapsLock from 'hooks/useCapsLock';
+import { useMutation } from '@tanstack/react-query';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -17,26 +18,33 @@ const Login = () => {
 	});
 	const { capsLockIsActive, onKey } = useCapsLock();
 
-	const onSubmit: SubmitHandler<LoginForm> = async (data) => {
-		try {
-			const result = await axios({
-				method: 'POST',
-				url: 'http://15.164.225.61/api/users/login',
-				data,
-			});
-			if (result.data.result) {
-				window.sessionStorage.setItem('token', result.data.token);
-				navigate('/');
-			}
-		} catch (e) {
-			console.log(e);
-			if (e instanceof Error) {
-				if (e.message === 'Network Error') alert('존재하지 않는 아이디입니다.');
-				else if (e.message === 'Request failed with status code 400')
+	const login = async (form: LoginForm) => {
+		const { data } = await axios({
+			method: 'POST',
+			url: 'http://15.164.225.61/api/users/login',
+			data: form,
+		});
+		if (data.result) {
+			window.sessionStorage.setItem('token', data.token);
+			navigate('/');
+		}
+		return data;
+	};
+
+	const onSubmit: SubmitHandler<LoginForm> = async (form: LoginForm) => {
+		mutateAsync(form);
+	};
+
+	const { mutateAsync } = useMutation(login, {
+		onError: (error) => {
+			if (error instanceof Error) {
+				if (error.message === 'Network Error')
+					alert('존재하지 않는 아이디입니다.');
+				else if (error.message === 'Request failed with status code 400')
 					alert('비밀번호가 틀립니다.');
 			}
-		}
-	};
+		},
+	});
 
 	return (
 		<Layout pageTitle="로그인">
