@@ -6,7 +6,6 @@ import Partner from 'components/Partner';
 import Sidebar from 'components/SideBar';
 import { useState } from 'react';
 import { Post } from 'types/types';
-import token from 'data/token';
 
 const History = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -19,7 +18,7 @@ const History = () => {
 			method: 'GET',
 			url: 'http://15.164.225.61/api/users/user-info',
 			headers: {
-				authorization: `Bearer ${token}`,
+				authorization: `Bearer ${sessionStorage.getItem('token')}`,
 			},
 		});
 
@@ -29,7 +28,7 @@ const History = () => {
 			method: 'GET',
 			url: `http://15.164.225.61/api/articles/search?minprice=2000&maxperiod=120&location1=* *&location2=not location&location3=not location`,
 			headers: {
-				authorization: `Bearer ${token}`,
+				authorization: `Bearer ${sessionStorage.getItem('token')}`,
 			},
 		});
 		return articles.filter(

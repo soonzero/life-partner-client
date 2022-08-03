@@ -1,5 +1,4 @@
 import axios from 'axios';
-import token from 'data/token';
 import { Link } from 'react-router-dom';
 import { Post } from 'types/types';
 
@@ -14,7 +13,7 @@ const BreakDown = (props: {
 				method: 'PATCH',
 				url: `http://15.164.225.61/api/articles/${articleId}`,
 				headers: {
-					authorization: `Bearer ${token}`,
+					authorization: `Bearer ${sessionStorage.getItem('token')}`,
 				},
 				data: {
 					status: 'waiting',
@@ -38,7 +37,7 @@ const BreakDown = (props: {
 					method: 'PATCH',
 					url: `http://15.164.225.61/api/articles/${articleId}`,
 					headers: {
-						authorization: `Bearer ${token}`,
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
 					},
 					data: {
 						status,

@@ -3,7 +3,6 @@ import Layout, { MyPageLayout } from 'components/Layout';
 import Sidebar from 'components/SideBar';
 import { addCommasToNumber } from 'functions/common';
 import { useQuery } from '@tanstack/react-query';
-import token from 'data/token';
 import { Link } from 'react-router-dom';
 import { PointHistory } from 'types/types';
 
@@ -13,7 +12,7 @@ const Point = () => {
 			method: 'GET',
 			url: 'http://15.164.225.61/api/point',
 			headers: {
-				authorization: `Bearer ${token}`,
+				authorization: `Bearer ${sessionStorage.getItem('token')}`,
 			},
 		});
 		return data;

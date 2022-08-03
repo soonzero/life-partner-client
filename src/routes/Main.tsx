@@ -7,21 +7,20 @@ import axios from 'axios';
 import { Condition, Post } from 'types/types';
 import { conditionReducer, initialCondition } from 'reducer/conditionReducer';
 import { useQuery } from '@tanstack/react-query';
-import token from 'data/token';
 
 const Main = () => {
-	const [isUser, setIsUser] = useState(token);
+	const [isUser, setIsUser] = useState(sessionStorage.getItem('token'));
 	const [state, dispatch] = useReducer(conditionReducer, initialCondition);
 
 	const getPostsFiltered = async (condition: Condition) => {
-		if (token) {
+		if (sessionStorage.getItem('token')) {
 			const {
 				data: { articles },
 			} = await axios({
 				method: 'GET',
 				url: `http://15.164.225.61/api/articles/search?minprice=${condition.minPrice}&maxperiod=${condition.maxPeriod}&location1=${condition.location[0]}&location2=${condition.location[1]}&location3=${condition.location[2]}`,
 				headers: {
-					authorization: `Bearer ${token}`,
+					authorization: `Bearer ${sessionStorage.getItem('token')}`,
 				},
 			});
 			return articles.filter((a: Post) => a.status === 'waiting');

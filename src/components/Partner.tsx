@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import token from 'data/token';
 import { Dispatch, MouseEvent } from 'react';
 import ReactModal from 'react-modal';
 import { ReactComponent as CloseSVG } from 'static/icons/close.svg';
@@ -17,7 +16,7 @@ const Partner = (props: {
 			method: 'GET',
 			url: `http://15.164.225.61/api/partners/${props.articleId}/list`,
 			headers: {
-				authorization: `Bearer ${token}`,
+				authorization: `Bearer ${sessionStorage.getItem('token')}`,
 			},
 		});
 		return partners;
@@ -33,7 +32,7 @@ const Partner = (props: {
 					method: 'PATCH',
 					url: `http://15.164.225.61/api/articles/${props.articleId}/partners`,
 					headers: {
-						authorization: `Bearer ${token}`,
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
 					},
 					data: {
 						nickname,

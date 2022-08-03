@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Layout from 'components/Layout';
 import NaverMap from 'components/NaverMap';
-import token from 'data/token';
 import { addCommasToNumber } from 'functions/common';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -12,12 +11,12 @@ const PostDetail = () => {
 
 	// 로그인한 유저 정보 조회
 	const getNickname = async () => {
-		if (token) {
+		if (sessionStorage.getItem('token')) {
 			const { data } = await axios({
 				method: 'GET',
 				url: 'http://15.164.225.61/api/users/user-info',
 				headers: {
-					authorization: `Bearer ${token}`,
+					authorization: `Bearer ${sessionStorage.getItem('token')}`,
 				},
 			});
 			return data.nickname;
@@ -31,7 +30,9 @@ const PostDetail = () => {
 			method: 'GET',
 			url: `http://15.164.225.61/api/articles/detail/${params.id}`,
 			headers: {
-				authorization: token ? `Bearer ${token}` : 'NOT user',
+				authorization: sessionStorage.getItem('token')
+					? `Bearer ${sessionStorage.getItem('token')}`
+					: 'NOT user',
 			},
 		});
 		// 게시글 상태가 waiting이 아닌 경우, 작성자만 확인할 수 있음
@@ -56,7 +57,7 @@ const PostDetail = () => {
 					method: 'GET',
 					url: `http://15.164.225.61/api/partners/${params.id}/list`,
 					headers: {
-						authorization: `Bearer ${token}`,
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
 					},
 				});
 				if (partners.length >= 5) {
@@ -69,7 +70,7 @@ const PostDetail = () => {
 							method: 'POST',
 							url: `http://15.164.225.61/api/partners/${params.id}/post`,
 							headers: {
-								authorization: `Bearer ${token}`,
+								authorization: `Bearer ${sessionStorage.getItem('token')}`,
 							},
 						});
 						if (status === 200) {
@@ -91,7 +92,7 @@ const PostDetail = () => {
 					method: 'PATCH',
 					url: `http://15.164.225.61/api/articles/${params.id}`,
 					headers: {
-						authorization: `Bearer ${token}`,
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
 					},
 					data: {
 						status: 'deleted',
