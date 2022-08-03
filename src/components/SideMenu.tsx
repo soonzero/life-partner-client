@@ -71,6 +71,7 @@ const SideMenu = (props: {
 						'bg-transparent bg-opacity-100': !props.isOpen,
 					}
 				)}
+				onClick={() => props.setIsOpen(false)}
 			/>
 			<div
 				className={classNames(
