@@ -8,6 +8,7 @@ import { AccountInfo, NewPost } from 'types/types';
 import { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import useInfoQuery from 'hooks/useInfoQuery';
 
 const WriteNewPost = () => {
 	const navigate = useNavigate();
@@ -118,34 +119,19 @@ const WriteNewPost = () => {
 		}
 	};
 
-	const getInfo = async () => {
-		try {
-			const result = await axios({
-				method: 'GET',
-				url: 'http://15.164.225.61/api/users/user-info',
-				headers: {
-					authorization: `Bearer ${sessionStorage.getItem('token')}`,
-				},
-			});
-			setInfo((prev) => result.data);
-			setAddress((prev) => result.data.address);
-			setDong((prev) => result.data.dong);
-			setValue('detail_location', result.data.detail_address);
-			setValue(
-				'post_bank',
-				result.data.bank === '' ? '--은행 선택--' : result.data.bank
-			);
-			setAccountChangeMode((prev) => (result.data.bank === '' ? true : false));
-			setValue('post_account', result.data.account);
-			setValue('post_holder', result.data.holder);
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
-	useEffect(() => {
-		getInfo();
-	}, []);
+	const { data } = useInfoQuery({
+		refetchOnWindowFocus: false,
+		onSuccess: (result: AccountInfo) => {
+			setInfo((prev) => result);
+			setAddress((prev) => result.address);
+			setDong((prev) => result.dong);
+			setValue('detail_location', result.detail_address);
+			setValue('post_bank', result.bank === '' ? '--은행 선택--' : result.bank);
+			setAccountChangeMode((prev) => (result.bank === '' ? true : false));
+			setValue('post_account', result.account);
+			setValue('post_holder', result.holder);
+		},
+	});
 
 	useEffect(() => {
 		if (isOpen) {
@@ -160,7 +146,7 @@ const WriteNewPost = () => {
 		<Layout pageTitle="파트너 구하기">
 			<section>
 				<h1 className="text-2xl md:text-3xl">파트너 구하기</h1>
-				{info && (
+				{data && (
 					<form
 						className="auth-form p-2 sm:p-4"
 						onSubmit={handleSubmit(onSubmit)}
@@ -233,7 +219,7 @@ const WriteNewPost = () => {
 										type="text"
 										className="post-input"
 										disabled
-										value={`${addCommasToNumber(info.current_point)}점`}
+										value={`${addCommasToNumber(data.current_point)}점`}
 									/>
 								</div>
 								{/* 사용 포인트 */}
@@ -248,7 +234,7 @@ const WriteNewPost = () => {
 										placeholder="10점 단위"
 										min={0}
 										step={10}
-										max={Math.min(...[watch('price'), info.current_point])}
+										max={Math.min(...[watch('price'), data.current_point])}
 										{...register('use_point', {
 											required: false,
 											valueAsNumber: true,
@@ -323,7 +309,7 @@ const WriteNewPost = () => {
 											{...register('detail_location', {
 												required: true,
 											})}
-											defaultValue={info.detail_address}
+											defaultValue={data.detail_address}
 										/>
 									</div>
 								</div>
@@ -335,9 +321,9 @@ const WriteNewPost = () => {
 							<div className="space-between mb-3 lg:w-1/2">
 								<h4 className="font-bold">환불 계좌</h4>
 								<label htmlFor="change-account-mode" className="post-btn">
-									{info.bank !== '' && accountChangeMode
+									{data.bank !== '' && accountChangeMode
 										? '기존 계좌 사용'
-										: info.bank !== '' && !accountChangeMode
+										: data.bank !== '' && !accountChangeMode
 										? '다른 계좌 사용'
 										: '계좌를 입력하세요'}
 								</label>
@@ -360,7 +346,7 @@ const WriteNewPost = () => {
 												required: true,
 											})}
 											defaultValue={
-												info.bank === '' ? '--은행 선택--' : info.bank
+												data.bank === '' ? '--은행 선택--' : data.bank
 											}
 										>
 											<option>--은행 선택--</option>
@@ -380,7 +366,7 @@ const WriteNewPost = () => {
 											{...register('post_holder', {
 												required: true,
 											})}
-											defaultValue={info.holder}
+											defaultValue={data.holder}
 										/>
 										<label htmlFor="post_account" className="post-label mr-3">
 											계좌번호
@@ -395,7 +381,7 @@ const WriteNewPost = () => {
 												required: true,
 												pattern: /\d*$/,
 											})}
-											defaultValue={info.account}
+											defaultValue={data.account}
 										/>
 									</div>
 								</div>

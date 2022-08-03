@@ -4,25 +4,10 @@ import { addCommasToNumber } from 'functions/common';
 import Layout, { MyPageLayout } from 'components/Layout';
 import { addDashes } from 'functions/dashes';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
-import token from 'data/token';
+import useInfoQuery from 'hooks/useInfoQuery';
 
 const MyProfile = () => {
-	const getInfo = async () => {
-		if (token) {
-			const { data } = await axios({
-				method: 'GET',
-				url: 'http://15.164.225.61/api/users/user-info',
-				headers: {
-					authorization: `Bearer ${token}`,
-				},
-			});
-			return data;
-		}
-	};
-
-	const { data } = useQuery(['profile'], getInfo);
+	const { data } = useInfoQuery();
 
 	return (
 		<Layout noShadow pageTitle="내 정보">

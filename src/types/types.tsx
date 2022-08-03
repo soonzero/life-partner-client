@@ -99,6 +99,7 @@ export interface AccountInfo {
 	phone: string;
 	address: string;
 	detail_address: string;
+	dong: string;
 	bank: string;
 	account: string;
 	holder: string;
