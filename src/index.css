@@ -142,7 +142,7 @@
 	}
 
 	.filter-form {
-		@apply absolute top-12 z-[3] rounded-lg border-1 w-72 h-max bg-white vertical px-12 py-6 justify-center space-y-6 sm:w-96 dark:bg-dark dark:text-white;
+		@apply absolute top-12 z-[3] rounded-lg border-1 w-72 h-max bg-white vertical px-12 py-6 justify-center space-y-6 sm:w-96 dark:bg-dark dark:text-white transition;
 	}
 
 	.auth-form {

@@ -88,8 +88,8 @@ const Filter = (props: {
 				</button>
 				<form
 					className={classNames('filter-form w-64 p-3 space-y-3 sm:w-80', {
-						visible: isOpen && openedFilter === 'location',
-						hidden: !isOpen || openedFilter !== 'location',
+						'opacity-100 visible': isOpen && openedFilter === 'location',
+						'opacity-0 invisible': !isOpen || openedFilter !== 'location',
 					})}
 				>
 					<LocationFilter
@@ -118,8 +118,8 @@ const Filter = (props: {
 				<form
 					name="price"
 					className={classNames('filter-form -left-[5.5rem]', {
-						visible: isOpen && openedFilter === 'price',
-						hidden: !isOpen || openedFilter !== 'price',
+						'opacity-100 visible': isOpen && openedFilter === 'price',
+						'opacity-0 invisible': !isOpen || openedFilter !== 'price',
 					})}
 					onSubmit={onSubmit}
 				>
@@ -177,8 +177,8 @@ const Filter = (props: {
 				<form
 					name="period"
 					className={classNames('filter-form -left-[11rem]', {
-						visible: isOpen && openedFilter === 'period',
-						hidden: !isOpen || openedFilter !== 'period',
+						'opacity-100 visible': isOpen && openedFilter === 'period',
+						'opacity-0 invisible': !isOpen || openedFilter !== 'period',
 					})}
 					onSubmit={onSubmit}
 				>
