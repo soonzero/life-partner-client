@@ -10,7 +10,7 @@ const MyProfile = () => {
 	const { data } = useInfoQuery();
 
 	return (
-		<Layout noShadow pageTitle="내 정보">
+		<Layout pageTitle="내 정보">
 			<section className="mypage-layout">
 				<Sidebar currentMenu="내 정보" />
 				{data && (

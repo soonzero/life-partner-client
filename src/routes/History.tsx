@@ -44,7 +44,7 @@ const History = () => {
 	const { data } = useQuery(['list'], getList);
 
 	return (
-		<Layout noShadow pageTitle="나의 이용 내역">
+		<Layout pageTitle="나의 이용 내역">
 			<section className="mypage-layout">
 				<Sidebar currentMenu="나의 이용 내역" />
 				<MyPageLayout>
