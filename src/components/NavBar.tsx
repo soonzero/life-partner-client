@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import SideMenu from 'components/SideMenu';
 import { ReactComponent as LogoSVG } from 'static/icons/logo.svg';
 import { ReactComponent as MenuSVG } from 'static/icons/menu.svg';
+import ThemeChanger from './ThemeChanger';
 
 const NavBar = (props: {
 	shadow: boolean;
@@ -32,7 +33,7 @@ const NavBar = (props: {
 					{props.sideMenu && (
 						<li>
 							<span
-								className="cursor-pointer invisible md:visible"
+								className="cursor-pointer xs:hidden md:block"
 								onClick={() => setIsOpen(true)}
 							>
 								<MenuSVG
@@ -44,6 +45,9 @@ const NavBar = (props: {
 							</span>
 						</li>
 					)}
+					<li className="md:hidden absolute right-8">
+						<ThemeChanger />
+					</li>
 				</ul>
 			</nav>
 			<SideMenu isOpen={isOpen} setIsOpen={setIsOpen} />

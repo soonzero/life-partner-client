@@ -2,56 +2,19 @@ import classNames from 'classnames';
 import { Dispatch, MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CloseSVG } from 'static/icons/close.svg';
-import { ReactComponent as LightSVG } from 'static/icons/light.svg';
-import { ReactComponent as DarkSVG } from 'static/icons/dark.svg';
-import { ReactComponent as SystemSVG } from 'static/icons/system.svg';
+import ThemeChanger from './ThemeChanger';
 
 const SideMenu = (props: {
 	isOpen: boolean;
 	setIsOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
 	const navigate = useNavigate();
-	const [modeOpen, setModeOpen] = useState<boolean>(false);
-	const [mode, setMode] = useState<string>(
-		sessionStorage.theme === 'dark' ||
-			(!('theme' in sessionStorage) &&
-				window.matchMedia('(prefers-color-scheme: dark)').matches)
-			? 'dark'
-			: 'light'
-	);
 
 	const logout = () => {
 		props.setIsOpen(false);
 		sessionStorage.removeItem('token');
 		navigate('/logout');
 	};
-
-	const changeMode = (e: MouseEvent<HTMLLIElement>) => {
-		const target = e.currentTarget.id;
-		if (target === 'light') {
-			setMode('light');
-			sessionStorage.setItem('theme', 'light');
-		} else if (target === 'dark') {
-			setMode('dark');
-			sessionStorage.setItem('theme', 'dark');
-		} else if (target === 'system') {
-			setMode('system');
-			sessionStorage.removeItem('theme');
-		}
-		setModeOpen(false);
-	};
-
-	useEffect(() => {
-		if (
-			sessionStorage.theme === 'dark' ||
-			(!('theme' in sessionStorage) &&
-				window.matchMedia('(prefers-color-scheme: dark)').matches)
-		) {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
-		}
-	}, [mode]);
 
 	return (
 		<aside
@@ -88,35 +51,7 @@ const SideMenu = (props: {
 				>
 					<CloseSVG />
 				</span>
-				<div
-					className="absolute top-5 right-5 cursor-pointer pb-2 dark:text-white text-dark"
-					onMouseEnter={() => setModeOpen((prev) => !prev)}
-					onMouseLeave={() => setModeOpen((prev) => false)}
-				>
-					{mode === 'dark' ? <DarkSVG /> : <LightSVG />}
-					<ul
-						className={classNames(
-							'py-1 rounded absolute top-full right-0 w-max border-2 dark:bg-dark dark:text-white bg-white text-dark',
-							{
-								visible: modeOpen,
-								hidden: !modeOpen,
-							}
-						)}
-					>
-						<li className="dark-mode" id="dark" onClick={changeMode}>
-							<DarkSVG />
-							<span>다크 모드</span>
-						</li>
-						<li className="dark-mode" id="light" onClick={changeMode}>
-							<LightSVG />
-							<span>라이트 모드</span>
-						</li>
-						<li className="dark-mode" id="system" onClick={changeMode}>
-							<SystemSVG />
-							<span>시스템 설정</span>
-						</li>
-					</ul>
-				</div>
+				<ThemeChanger sidemenu />
 				{!sessionStorage.getItem('token') ? (
 					<ul className="vertical items-center space-y-2">
 						<li className="sidemenu-btn" onClick={() => navigate('/login')}>

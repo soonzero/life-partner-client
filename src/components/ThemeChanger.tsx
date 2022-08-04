@@ -1,0 +1,94 @@
+import { useState, useEffect, MouseEvent } from 'react';
+import classNames from 'classnames';
+import { ReactComponent as LightSVG } from 'static/icons/light.svg';
+import { ReactComponent as DarkSVG } from 'static/icons/dark.svg';
+import { ReactComponent as SystemSVG } from 'static/icons/system.svg';
+
+const ThemeChanger = (props: { sidemenu?: boolean }) => {
+	const [modeOpen, setModeOpen] = useState<boolean>(false);
+	const [mode, setMode] = useState<string>(
+		sessionStorage.theme === 'dark' ||
+			(!('theme' in sessionStorage) &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches)
+			? 'dark'
+			: 'light'
+	);
+
+	const changeMode = (e: MouseEvent<HTMLLIElement>) => {
+		const target = e.currentTarget.id;
+		if (target === 'light') {
+			setMode('light');
+			sessionStorage.setItem('theme', 'light');
+		} else if (target === 'dark') {
+			setMode('dark');
+			sessionStorage.setItem('theme', 'dark');
+		} else if (target === 'system') {
+			setMode('system');
+			sessionStorage.removeItem('theme');
+		}
+		setModeOpen(false);
+	};
+
+	useEffect(() => {
+		if (
+			sessionStorage.theme === 'dark' ||
+			(!('theme' in sessionStorage) &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches)
+		) {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	}, [mode]);
+
+	return (
+		<div
+			className={classNames('cursor-pointer dark:text-white text-dark', {
+				'absolute top-5 right-5 pb-2': props.sidemenu,
+			})}
+			onMouseEnter={() => setModeOpen((prev) => !prev)}
+			onMouseLeave={() => setModeOpen((prev) => false)}
+		>
+			{mode === 'dark' ? (
+				<DarkSVG
+					className={classNames({
+						'w-6 h-6': !props.sidemenu,
+						'w-5 h-5': props.sidemenu,
+					})}
+				/>
+			) : (
+				<LightSVG
+					className={classNames({
+						'w-6 h-6': !props.sidemenu,
+						'w-5 h-5': props.sidemenu,
+					})}
+				/>
+			)}
+			<ul
+				className={classNames(
+					'absolute right-0 py-1 rounded w-max border-2 dark:bg-dark dark:text-white bg-white text-dark',
+					{
+						visible: modeOpen,
+						hidden: !modeOpen,
+						'top-full': props.sidemenu,
+						'top-6': !props.sidemenu,
+					}
+				)}
+			>
+				<li className="dark-mode" id="dark" onClick={changeMode}>
+					<DarkSVG />
+					<span>다크 모드</span>
+				</li>
+				<li className="dark-mode" id="light" onClick={changeMode}>
+					<LightSVG />
+					<span>라이트 모드</span>
+				</li>
+				<li className="dark-mode" id="system" onClick={changeMode}>
+					<SystemSVG />
+					<span>시스템 설정</span>
+				</li>
+			</ul>
+		</div>
+	);
+};
+export default ThemeChanger;
