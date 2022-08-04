@@ -11,10 +11,12 @@ import ChangeInfo from './ChangeInfo';
 import ChangePassword from './ChangePassword';
 import DeleteAccount from './DeleteAccount';
 import History from './History';
+import ScrollToTop from 'components/ScrollToTop';
 
 const AppRouter = () => {
 	return (
 		<BrowserRouter>
+			<ScrollToTop />
 			<Routes>
 				<Route path="/" element={<Main />} />
 				<Route path="/signup" element={<Signup />} />
@@ -28,6 +30,7 @@ const AppRouter = () => {
 				<Route path="/mypage/change/password" element={<ChangePassword />} />
 				<Route path="/mypage/delete-account" element={<DeleteAccount />} />
 				<Route path="/mypage/history" element={<History />} />
+				<Route path="*" element={<Main />} />
 			</Routes>
 		</BrowserRouter>
 	);
