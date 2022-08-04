@@ -66,22 +66,26 @@ const Main = () => {
 							dispatch={dispatch}
 							getPosts={getPosts}
 						/>
-						<article className="grid gap-3 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 min-h-screen">
-							{data &&
-								data?.map((i: Post) => (
+						{data && data.length > 0 ? (
+							<article className="grid gap-3 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 min-h-[50vh]">
+								{data.map((i: Post) => (
 									<Card key={i.id} item={i} detail={false} />
 								))}
-							{isFetching && (
-								<>
-									<LoadingCard />
-									<LoadingCard />
-									<LoadingCard />
-									<LoadingCard />
-									<LoadingCard />
-									<LoadingCard />
-								</>
-							)}
-						</article>
+							</article>
+						) : isFetching ? (
+							<article className="grid gap-3 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 min-h-[50vh]">
+								<LoadingCard />
+								<LoadingCard />
+								<LoadingCard />
+								<LoadingCard />
+								<LoadingCard />
+								<LoadingCard />
+							</article>
+						) : (
+							<div className="w-full horizontal center text-center h-72 font-semibold dark:text-white">
+								선택하신 조건에 해당하는 게시글이 없습니다.
+							</div>
+						)}
 					</>
 				)}
 			</section>
