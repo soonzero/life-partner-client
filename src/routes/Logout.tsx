@@ -14,7 +14,7 @@ const Logout = () => {
 	});
 
 	return (
-		<Layout pageTitle="로그아웃">
+		<Layout pageTitle="로그아웃" noFooter>
 			<section className="flex h-[calc(100vh-89px)] vertical center mt-0">
 				<h1>로그아웃이 완료되었습니다.</h1>
 				<h2 className="text-sm md:text-base">

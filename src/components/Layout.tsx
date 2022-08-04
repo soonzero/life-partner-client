@@ -2,6 +2,7 @@ import { ReactNode, useState } from 'react';
 import Floating from 'components/Floating';
 import Header from 'components/Header';
 import { Helmet } from 'react-helmet';
+import Footer from './Footer';
 
 const Layout = (props: {
 	children: ReactNode;
@@ -9,6 +10,7 @@ const Layout = (props: {
 	noShadow?: boolean;
 	sideMenu?: boolean;
 	floating?: boolean;
+	noFooter?: boolean;
 }) => {
 	const [isLogin, setIsLogin] = useState(
 		sessionStorage.getItem('token') ? true : false
@@ -22,6 +24,7 @@ const Layout = (props: {
 			<Header noShadow={props.noShadow} sideMenu={props.sideMenu} />
 			<main>{props.children}</main>
 			{props.floating && <Floating isLogin={isLogin} />}
+			{!props.noFooter && <Footer />}
 		</>
 	);
 };
