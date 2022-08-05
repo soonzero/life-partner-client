@@ -3,29 +3,16 @@ import axios from 'axios';
 import Layout from 'components/Layout';
 import NaverMap from 'components/NaverMap';
 import { addCommasToNumber } from 'functions/common';
+import useInfoQuery from 'hooks/useInfoQuery';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const PostDetail = () => {
 	const navigate = useNavigate();
 	const params = useParams();
-
-	// 로그인한 유저 정보 조회
-	const getNickname = async () => {
-		if (sessionStorage.getItem('token')) {
-			const { data } = await axios({
-				method: 'GET',
-				url: 'http://15.164.225.61/api/users/user-info',
-				headers: {
-					authorization: `Bearer ${sessionStorage.getItem('token')}`,
-				},
-			});
-			return data.nickname;
-		}
-	};
+	const profile = useInfoQuery();
 
 	// 게시글 상세 내역 조회
 	const getDetail = async () => {
-		// 게시글 상세 내역 조회
 		const { data } = await axios({
 			method: 'GET',
 			url: `http://15.164.225.61/api/articles/detail/${params.id}`,
@@ -38,7 +25,7 @@ const PostDetail = () => {
 		// 게시글 상태가 waiting이 아닌 경우, 작성자만 확인할 수 있음
 		if (
 			data.article[0].status !== 'waiting' &&
-			data.article[0].writer !== nickname
+			data.article[0].writer !== profile.data?.nickname
 		) {
 			alert('접근할 수 없는 게시글입니다.');
 			navigate('/');
@@ -63,7 +50,7 @@ const PostDetail = () => {
 				if (partners.length >= 5) {
 					alert('지원 가능한 파트너의 수를 초과했습니다.');
 				} else {
-					if (partners.includes(nickname)) {
+					if (partners.includes(profile.data?.nickname)) {
 						alert('이미 지원하셨습니다.');
 					} else {
 						const { status } = await axios({
@@ -73,11 +60,11 @@ const PostDetail = () => {
 								authorization: `Bearer ${sessionStorage.getItem('token')}`,
 							},
 						});
-						if (status === 200) {
-							alert('파트너로 지원하셨습니다.');
-						}
+						if (status === 200) alert('파트너로 지원하셨습니다.');
 					}
 				}
+			} else {
+				return;
 			}
 		} catch (e) {
 			console.log(e);
@@ -108,11 +95,9 @@ const PostDetail = () => {
 		}
 	};
 
-	const nickname = useQuery(['nickname'], getNickname);
-
 	const { data } = useQuery(['post'], getDetail, {
 		cacheTime: 0,
-		enabled: !!nickname.data,
+		enabled: !!profile.data?.nickname,
 	});
 
 	return (
@@ -152,7 +137,7 @@ const PostDetail = () => {
 						</div>
 					</article>
 					<div className="flex justify-end space-x-3">
-						{data.writer !== nickname.data ? (
+						{data.writer !== profile.data?.nickname ? (
 							<button className="btn-primary" onClick={applyForPartner}>
 								파트너로 지원하기
 							</button>
