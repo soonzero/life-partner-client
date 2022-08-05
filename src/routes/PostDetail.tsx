@@ -110,9 +110,9 @@ const PostDetail = () => {
 
 	const nickname = useQuery(['nickname'], getNickname);
 
-	const { isLoading, isError, data } = useQuery(['post'], getDetail, {
+	const { data } = useQuery(['post'], getDetail, {
 		cacheTime: 0,
-		enabled: !!nickname,
+		enabled: !!nickname.data,
 	});
 
 	return (
@@ -152,13 +152,12 @@ const PostDetail = () => {
 						</div>
 					</article>
 					<div className="flex justify-end space-x-3">
-						{data.writer !== nickname ? (
+						{data.writer !== nickname.data ? (
 							<button className="btn-primary" onClick={applyForPartner}>
 								파트너로 지원하기
 							</button>
 						) : (
-							data.status !== 'deleted' &&
-							data.status !== 'complete' && (
+							(data.status == 'waiting' || data.status == 'matching') && (
 								<button className="btn-primary" onClick={deletePost}>
 									삭제
 								</button>
