@@ -16,7 +16,7 @@
 	}
 
 	footer {
-		@apply max-w-screen-2xl vertical justify-between mx-auto border-t-1 py-10 px-2 xs:px-4 sm:px-8 bg-[#fafafa] dark:bg-dark text-xs sm:text-sm min-h-[25vh];
+		@apply mx-auto border-t-1 px-2 xs:px-4 sm:px-8 bg-[#fafafa] dark:bg-dark text-xs sm:text-sm min-h-max;
 	}
 
 	h1 {
