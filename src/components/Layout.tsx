@@ -1,8 +1,9 @@
-import { ReactNode, useState } from 'react';
-import Floating from 'components/Floating';
+import { ReactNode, useState, useEffect } from 'react';
 import Header from 'components/Header';
 import { Helmet } from 'react-helmet';
 import Footer from './Footer';
+import { useLocation } from 'react-router-dom';
+import MobileNavBar from './MobileNavBar';
 
 const Layout = (props: {
 	children: ReactNode;
@@ -12,9 +13,15 @@ const Layout = (props: {
 	floating?: boolean;
 	noFooter?: boolean;
 }) => {
+	const { pathname } = useLocation();
+
 	const [isLogin, setIsLogin] = useState(
 		sessionStorage.getItem('token') ? true : false
 	);
+
+	useEffect(() => {
+		setIsLogin((prev) => (sessionStorage.getItem('token') ? true : false));
+	}, [pathname]);
 
 	return (
 		<>
@@ -23,8 +30,8 @@ const Layout = (props: {
 			</Helmet>
 			<Header noShadow={props.noShadow} sideMenu={props.sideMenu} />
 			<main>{props.children}</main>
-			{props.floating && <Floating isLogin={isLogin} />}
 			{!props.noFooter && <Footer />}
+			<MobileNavBar isLogin={isLogin} />
 		</>
 	);
 };
