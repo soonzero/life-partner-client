@@ -4,7 +4,11 @@ import { ReactComponent as LightSVG } from 'static/icons/light.svg';
 import { ReactComponent as DarkSVG } from 'static/icons/dark.svg';
 import { ReactComponent as SystemSVG } from 'static/icons/system.svg';
 
-const ThemeChanger = (props: { sidemenu?: boolean }) => {
+const ThemeChanger = (props: {
+	shadow?: boolean;
+	noShadow?: boolean | undefined;
+	sidemenu?: boolean;
+}) => {
 	const [modeOpen, setModeOpen] = useState<boolean>(false);
 	const [mode, setMode] = useState<string>(
 		sessionStorage.theme === 'dark' ||
@@ -45,6 +49,8 @@ const ThemeChanger = (props: { sidemenu?: boolean }) => {
 		<div
 			className={classNames('cursor-pointer dark:text-white text-dark', {
 				'absolute top-5 right-5 pb-2': props.sidemenu,
+				'text-white': props.shadow && !props.noShadow,
+				'text-main': !props.shadow || props.noShadow,
 			})}
 			onMouseEnter={() => setModeOpen((prev) => !prev)}
 			onMouseLeave={() => setModeOpen((prev) => false)}

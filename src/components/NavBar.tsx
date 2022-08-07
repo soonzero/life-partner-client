@@ -45,8 +45,8 @@ const NavBar = (props: {
 							</span>
 						</li>
 					)}
-					<li className="md:hidden absolute right-8">
-						<ThemeChanger />
+					<li className="md:hidden absolute right-8 xs:right-4">
+						<ThemeChanger shadow={props.shadow} noShadow={props.noShadow} />
 					</li>
 				</ul>
 			</nav>
