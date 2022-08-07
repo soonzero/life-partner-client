@@ -44,7 +44,12 @@ const NaverMap = ({ id, location, detail }: Map) => {
 		initMap();
 	}, []);
 
-	return <div id={`map${id}`} style={{ width: '100%', height: '100%' }} />;
+	return (
+		<div
+			id={`map${id}`}
+			style={{ width: '100%', height: '100%', zIndex: '5' }}
+		/>
+	);
 };
 
 export default NaverMap;
