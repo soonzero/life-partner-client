@@ -16,7 +16,7 @@
 	}
 
 	footer {
-		@apply mx-auto border-t-1 px-2 xs:px-4 sm:px-8 bg-[#fafafa] dark:bg-dark text-xs sm:text-sm min-h-max;
+		@apply border-t-1 py-10 px-2 xs:px-4 sm:px-8 bg-[#fafafa] dark:bg-dark text-xs sm:text-sm h-[25vh] min-h-max;
 	}
 
 	h1 {

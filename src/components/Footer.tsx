@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
 	return (
 		<footer>
-			<div className="py-10 mx-auto max-w-screen-2xl w-full vertical justify-between">
+			<div className="max-w-screen-2xl mx-auto w-full h-full vertical justify-between">
 				<ul className="vertical space-y-6 md:horizontal md:items-center md:space-x-6 md:space-y-0">
 					<li className="dark:text-white font-bold text-lg">
 						<Link to="/" className="transition text-main">
@@ -26,7 +26,7 @@ const Footer = () => {
 						</Link>
 					</li>
 				</ul>
-				<span className="text-xs text-gray-400 mt-24">
+				<span className="inline-block text-gray-400">
 					Copyright© 라이프파트너 All rights reserved.
 				</span>
 			</div>
