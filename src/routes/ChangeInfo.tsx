@@ -186,6 +186,7 @@ const ChangeInfo = () => {
 
 	return (
 		<Layout
+			noShadow
 			pageTitle={
 				mode === 'phone'
 					? '휴대폰 번호 변경'

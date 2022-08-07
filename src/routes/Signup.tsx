@@ -95,7 +95,7 @@ const NewSignup = () => {
 	}, [isOpen]);
 
 	return (
-		<Layout pageTitle="회원가입">
+		<Layout noFooter pageTitle="회원가입">
 			<section className="max-w-md">
 				<h1 className="text-2xl md:text-3xl">회원가입</h1>
 				<form className="auth-form" onSubmit={handleSubmit(onSubmit)}>

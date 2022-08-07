@@ -21,7 +21,7 @@ const Point = () => {
 	const { data } = useQuery(['point'], getData);
 
 	return (
-		<Layout pageTitle="포인트 상세 내역">
+		<Layout noShadow pageTitle="포인트 상세 내역">
 			<section className="mypage-layout">
 				<Sidebar currentMenu="포인트 상세 내역" />
 				{data && (

@@ -39,7 +39,7 @@ const DeleteAccount = () => {
 	};
 
 	return (
-		<Layout pageTitle="회원 탈퇴">
+		<Layout noShadow pageTitle="회원 탈퇴">
 			<section className="mypage-layout">
 				<Sidebar currentMenu="회원 탈퇴" />
 				<MyPageLayout>
