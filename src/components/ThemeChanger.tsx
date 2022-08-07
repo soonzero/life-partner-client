@@ -55,7 +55,9 @@ const ThemeChanger = (props: {
 			onMouseEnter={() => setModeOpen((prev) => !prev)}
 			onMouseLeave={() => setModeOpen((prev) => false)}
 		>
-			{mode === 'dark' ? (
+			{sessionStorage.theme === 'dark' ||
+			(!('theme' in sessionStorage) &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches) ? (
 				<DarkSVG
 					className={classNames({
 						'w-6 h-6': !props.sidemenu,
