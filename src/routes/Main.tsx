@@ -50,11 +50,8 @@ const Main = () => {
 					<>
 						<div className="flex mb-3 justify-between items-center">
 							<h1 className="text-2xl md:text-3xl mb-0">파트너를 구해요</h1>
-							<Link to="/posts/write" className="hover:no-underline">
-								<button
-									type="button"
-									className="btn-primary hidden sm:block hover:no-underline"
-								>
+							<Link to="/posts/write">
+								<button type="button" className="btn-primary hidden sm:block">
 									파트너 구하기
 								</button>
 							</Link>

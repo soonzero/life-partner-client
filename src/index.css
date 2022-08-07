@@ -35,10 +35,6 @@
 		@apply text-base font-medium md:text-lg dark:text-white;
 	}
 
-	a {
-		@apply hover:underline;
-	}
-
 	input {
 		@apply outline-none;
 	}
