@@ -81,11 +81,16 @@ const MobileNavBar = (props: { isLogin: boolean }) => {
 				)}
 				<li
 					className={classNames('flex-1 text-xs h-16 vertical center', {
-						'text-gray-300 fill-gray-300': pathname !== '/',
-						'text-main fill-main font-bold': pathname === '/',
+						'text-gray-300 fill-gray-300':
+							pathname !== (sessionStorage.getItem('token') ? '/main' : '/'),
+						'text-main fill-main font-bold':
+							pathname === (sessionStorage.getItem('token') ? '/main' : '/'),
 					})}
 				>
-					<Link to="/" className="w-max cursor-pointer vertical center">
+					<Link
+						to={sessionStorage.getItem('token') ? '/main' : '/'}
+						className="w-max cursor-pointer vertical center"
+					>
 						<span className="mb-1">
 							<HomeSVG className="w-5 h-5" />
 						</span>

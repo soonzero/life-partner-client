@@ -164,6 +164,18 @@
 	.skeleton-text {
 		@apply bg-gray-200 rounded-full dark:bg-gray-700;
 	}
+
+	.landing-h1 {
+		@apply text-xl text-center sm:text-3xl md:text-4xl;
+	}
+
+	.landing-h2 {
+		@apply text-xs sm:text-xl md:text-3xl mb-0;
+	}
+
+	.landing-article {
+		@apply bg-[#fbfbfd] dark:bg-dark;
+	}
 }
 
 body {

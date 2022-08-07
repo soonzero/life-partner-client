@@ -64,7 +64,7 @@ const Main = () => {
 							getPosts={getPosts}
 						/>
 						{data && data.length > 0 ? (
-							<article className="grid gap-3 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 min-h-[50vh]">
+							<article className="grid gap-3 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 min-h-max">
 								{data.map((i: Post) => (
 									<Card key={i.id} item={i} detail={false} />
 								))}

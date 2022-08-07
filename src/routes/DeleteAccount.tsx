@@ -26,7 +26,7 @@ const DeleteAccount = () => {
 					});
 					if (result.status === 200) {
 						sessionStorage.removeItem('token');
-						alert('회원 탈퇴되었습니다. 메인 페이지로 이동합니다.');
+						alert('회원 탈퇴되었습니다. 홈으로 이동합니다.');
 						navigate('/');
 					}
 				} catch (e) {

@@ -71,7 +71,10 @@ const SideMenu = (props: {
 						<div className="vertical space-y-3 py-6 border-b-1">
 							<h3>파트너</h3>
 							<ul className="vertical space-y-1">
-								<li className="cursor-pointer" onClick={() => navigate('/')}>
+								<li
+									className="cursor-pointer"
+									onClick={() => navigate('/main')}
+								>
 									게시글 탐색
 								</li>
 								<li

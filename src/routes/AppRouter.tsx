@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Landing from './Landing';
 import Main from './Main';
 import Login from './Login';
 import Signup from './Signup';
@@ -18,7 +19,8 @@ const AppRouter = () => {
 		<BrowserRouter>
 			<ScrollToTop />
 			<Routes>
-				<Route path="/" element={<Main />} />
+				<Route path="/" element={<Landing />} />
+				<Route path="/main" element={<Main />} />
 				<Route path="/signup" element={<Signup />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />

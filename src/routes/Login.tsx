@@ -26,7 +26,7 @@ const Login = () => {
 		});
 		if (data.result) {
 			window.sessionStorage.setItem('token', data.token);
-			navigate('/');
+			navigate('/main');
 		}
 		return data;
 	};

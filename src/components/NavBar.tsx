@@ -18,7 +18,7 @@ const NavBar = (props: {
 			<nav className="max-w-screen-2xl mx-auto w-full h-16 flex items-center">
 				<ul className="w-full horizontal space-between">
 					<li>
-						<Link to="/">
+						<Link to={sessionStorage.getItem('token') ? '/main' : '/'}>
 							<LogoSVG
 								className={classNames(
 									'w-10 h-10 inline-block md:w-12 md:h-12 dark:text-main',

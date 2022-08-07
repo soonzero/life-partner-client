@@ -28,7 +28,7 @@ const PostDetail = () => {
 			data.article[0].writer !== profile.data?.nickname
 		) {
 			alert('접근할 수 없는 게시글입니다.');
-			navigate('/');
+			navigate(sessionStorage.getItem('token') ? '/main' : '/');
 			return;
 		}
 		return data.article[0];
@@ -87,7 +87,7 @@ const PostDetail = () => {
 				});
 				if (data.result) {
 					alert('게시글이 삭제되었습니다!');
-					navigate('/');
+					navigate('/main');
 				}
 			}
 		} catch (e) {
@@ -150,7 +150,7 @@ const PostDetail = () => {
 						)}
 						<button
 							className="btn-secondary hover:bg-opacity-90 active:scale-95 transition"
-							onClick={() => navigate('/')}
+							onClick={() => navigate('/main')}
 						>
 							목록
 						</button>

@@ -69,7 +69,7 @@ const WriteNewPost = () => {
 			});
 			if (response.data.result) {
 				alert('게시글이 등록되었어요!');
-				navigate('/');
+				navigate('/main');
 			}
 		} catch (e) {
 			console.log(e);
