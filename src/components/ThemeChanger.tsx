@@ -10,13 +10,7 @@ const ThemeChanger = (props: {
 	sidemenu?: boolean;
 }) => {
 	const [modeOpen, setModeOpen] = useState<boolean>(false);
-	const [mode, setMode] = useState<string>(
-		sessionStorage.theme === 'dark' ||
-			(!('theme' in sessionStorage) &&
-				window.matchMedia('(prefers-color-scheme: dark)').matches)
-			? 'dark'
-			: 'light'
-	);
+	const [mode, setMode] = useState<string>('system');
 
 	const changeMode = (e: MouseEvent<HTMLLIElement>) => {
 		const target = e.currentTarget.id;
@@ -33,16 +27,27 @@ const ThemeChanger = (props: {
 		setModeOpen(false);
 	};
 
-	useEffect(() => {
-		if (
-			sessionStorage.theme === 'dark' ||
-			(!('theme' in sessionStorage) &&
-				window.matchMedia('(prefers-color-scheme: dark)').matches)
-		) {
+	const changeTheme = () => {
+		const themeNow = sessionStorage.getItem('theme');
+		const deviceTheme = window.matchMedia('(prefers-color-scheme: dark)')
+			.matches
+			? 'dark'
+			: 'light';
+		if (mode === 'system') {
+			if (deviceTheme === 'dark') {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		} else if (mode === 'dark' && themeNow === 'dark') {
 			document.documentElement.classList.add('dark');
-		} else {
+		} else if (mode === 'light' && themeNow === 'light') {
 			document.documentElement.classList.remove('dark');
 		}
+	};
+
+	useEffect(() => {
+		changeTheme();
 	}, [mode]);
 
 	return (
