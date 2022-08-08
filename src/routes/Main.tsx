@@ -29,7 +29,7 @@ const Main = () => {
 		}
 	};
 
-	const { isFetching, data } = useQuery(
+	const { isLoading, data } = useQuery(
 		['posts', state],
 		() => getPostsFiltered(state),
 		{
@@ -44,7 +44,7 @@ const Main = () => {
 	};
 
 	return (
-		<Layout noShadow floating sideMenu pageTitle="메인">
+		<Layout noShadow sideMenu pageTitle="메인">
 			<section>
 				{isUser && (
 					<>
@@ -69,7 +69,7 @@ const Main = () => {
 									<Card key={i.id} item={i} detail={false} />
 								))}
 							</article>
-						) : isFetching ? (
+						) : isLoading ? (
 							<article className="grid gap-3 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 min-h-[50vh]">
 								<LoadingCard />
 								<LoadingCard />

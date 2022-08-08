@@ -1,14 +1,4 @@
 const menuList = {
-	floatingMenu: {
-		isUser: [
-			['내 정보', '/mypage/profile'],
-			['파트너 구하기', '/posts/write'],
-		],
-		isNotUser: [
-			['로그인', '/login'],
-			['회원가입', '/signup'],
-		],
-	},
 	sideBarMenu: [
 		['내 정보', '/mypage/profile'],
 		['나의 이용 내역', '/mypage/history'],

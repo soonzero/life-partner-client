@@ -3,13 +3,19 @@ import { MapInPost } from 'types/types';
 import { addCommasToNumber } from 'functions/common';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as MapLoadingSVG } from 'static/icons/map-loading.svg';
+import classNames from 'classnames';
 
-const Card = ({ item, detail }: MapInPost) => {
+const Card = ({ item, detail, preview }: MapInPost) => {
 	const navigate = useNavigate();
 	return (
 		<article
-			className="group vertical w-full h-72 rounded-xl border-1 cursor-pointer hover:opacity-90 transition overflow-hidden bg-white dark:bg-dark dark:text-white"
-			onClick={() => navigate(`/articles/${item.id}`)}
+			className={classNames(
+				'group vertical w-full h-72 rounded-xl border-1 hover:opacity-90 transition overflow-hidden bg-white dark:bg-dark dark:text-white',
+				{
+					'cursor-pointer': !preview,
+				}
+			)}
+			onClick={() => !preview && navigate(`/articles/${item.id}`)}
 		>
 			<map className="map">
 				<NaverMap id={item.id} location={item.location} detail={detail} />

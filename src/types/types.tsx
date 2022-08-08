@@ -28,6 +28,7 @@ export interface Map {
 export interface MapInPost {
 	item: Post;
 	detail: boolean;
+	preview?: boolean | undefined;
 }
 
 export interface LoginForm {

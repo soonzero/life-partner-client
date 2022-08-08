@@ -10,7 +10,6 @@ const Layout = (props: {
 	pageTitle: string;
 	noShadow?: boolean;
 	sideMenu?: boolean;
-	floating?: boolean;
 	noFooter?: boolean;
 }) => {
 	const { pathname } = useLocation();

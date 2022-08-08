@@ -166,15 +166,15 @@
 	}
 
 	.landing-h1 {
-		@apply text-xl text-center sm:text-3xl md:text-4xl;
+		@apply text-xl text-center sm:text-3xl md:text-4xl font-semibold;
 	}
 
 	.landing-h2 {
-		@apply text-xs sm:text-xl md:text-3xl mb-0;
+		@apply text-xs sm:text-xl md:text-3xl mb-0 font-semibold;
 	}
 
 	.landing-article {
-		@apply bg-[#fbfbfd] dark:bg-dark;
+		@apply bg-[#fbfbfd] dark:bg-dark my-3;
 	}
 }
 
