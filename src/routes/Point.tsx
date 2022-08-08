@@ -62,7 +62,7 @@ const Point = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{data.history.map((i: PointHistory) => {
+								{data.history?.map((i: PointHistory) => {
 									return (
 										<tr key={i.id} className="text-center">
 											<td className="border-1 py-2 md:py-3">{i.date}</td>
@@ -77,7 +77,9 @@ const Point = () => {
 									);
 								})}
 								<tr className="text-center">
-									<td className="border-1 py-2 md:py-3">회원가입</td>
+									<td className="border-1 py-2 md:py-3">
+										{data.date || '회원가입'}
+									</td>
 									<td className="border-1 py-2 md:py-3">회원가입</td>
 									<td className="border-1 py-2 md:py-3 pr-3 text-right font-semibold">
 										+ {addCommasToNumber(1000)}
