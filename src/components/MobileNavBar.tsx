@@ -66,9 +66,8 @@ const MobileNavBar = (props: { isLogin: boolean }) => {
 				) : (
 					<li
 						className={classNames('flex-1 text-xs h-16 vertical center', {
-							'text-gray-300 fill-gray-300': pathname.split('/')[1] !== 'posts',
-							'text-main fill-main font-bold':
-								pathname.split('/')[1] === 'signup',
+							'text-gray-300 fill-gray-300': pathname !== '/signup',
+							'text-main fill-main font-bold': pathname === '/signup',
 						})}
 					>
 						<Link to="/signup" className="w-max cursor-pointer vertical center">
@@ -102,7 +101,7 @@ const MobileNavBar = (props: { isLogin: boolean }) => {
 						<li
 							className={classNames('flex-1 text-xs h-16 vertical center', {
 								'text-gray-300 fill-gray-300':
-									pathname.split('/')[1] !== 'mypage' ||
+									pathname.split('/')[1] !== 'mypage' &&
 									pathname.split('/')[2] !== 'history',
 								'text-main fill-main font-bold':
 									pathname.split('/')[1] === 'mypage' &&
