@@ -8,10 +8,11 @@ const Floating = (props: { display: boolean }) => {
 	return (
 		<div
 			className={classNames(
-				'fixed bottom-5 right-5 shadow-lg rounded-full transition z-10 bg-main w-16 h-16 flex center text-white cursor-pointer font-bold',
+				'fixed bottom-0 right-5 shadow-lg rounded-full transition z-10 bg-main w-16 h-16 flex center text-white cursor-pointer font-bold',
 				{
-					'invisible md:visible md:opacity-100': props.display,
-					hidden: !props.display,
+					'invisible md:-translate-y-5 md:visible md:opacity-100':
+						props.display,
+					'invisible opacity-0': !props.display,
 				}
 			)}
 			onClick={() => navigate('/login')}

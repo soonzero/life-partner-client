@@ -11,6 +11,7 @@ const Layout = (props: {
 	noShadow?: boolean;
 	sideMenu?: boolean;
 	noFooter?: boolean;
+	noPadding?: boolean;
 }) => {
 	const { pathname } = useLocation();
 
@@ -28,7 +29,9 @@ const Layout = (props: {
 				<title>{props.pageTitle} | 라이프파트너</title>
 			</Helmet>
 			<Header noShadow={props.noShadow} sideMenu={props.sideMenu} />
-			<main>{props.children}</main>
+			<main className={props.noPadding ? 'padding-none' : ''}>
+				{props.children}
+			</main>
 			{!props.noFooter && <Footer />}
 			<MobileNavBar isLogin={isLogin} />
 		</>

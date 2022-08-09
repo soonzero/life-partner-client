@@ -45,6 +45,10 @@
 }
 
 @layer components {
+	.padding-none {
+		@apply p-0;
+	}
+
 	.auth-label {
 		@apply mb-1 text-sm md:text-base dark:bg-dark dark:text-white;
 	}
@@ -166,15 +170,15 @@
 	}
 
 	.landing-h1 {
-		@apply text-xl text-center sm:text-3xl md:text-4xl font-semibold;
+		@apply text-xl text-center sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium;
 	}
 
 	.landing-h2 {
-		@apply text-xs sm:text-xl md:text-3xl mb-0 font-semibold;
+		@apply text-xs sm:text-xl md:text-3xl mb-0 font-medium;
 	}
 
 	.landing-article {
-		@apply bg-[#fbfbfd] dark:bg-dark my-3;
+		@apply bg-[#fbfbfd] dark:bg-dark mt-3;
 	}
 }
 

@@ -12,7 +12,9 @@ const Landing = () => {
 	const [display, setDisplay] = useState(false);
 
 	const getAllPosts = async () => {
-		const { data } = await axios({
+		const {
+			data: { articles },
+		} = await axios({
 			method: 'GET',
 			url: `http://15.164.225.61/api/articles`,
 			headers: {
@@ -21,12 +23,8 @@ const Landing = () => {
 					: `NOT user`,
 			},
 		});
-		return data.articles;
+		return articles;
 	};
-
-	useEffect(() => {
-		getAllPosts();
-	}, []);
 
 	const handleScroll = () => {
 		if (window.scrollY > 300) {
@@ -44,25 +42,38 @@ const Landing = () => {
 		};
 	}, []);
 
-	const { data } = useQuery(['preview'], getAllPosts);
+	const { isSuccess, data } = useQuery(['preview'], getAllPosts);
 
 	return (
-		<Layout sideMenu pageTitle="홈">
+		<Layout sideMenu noPadding pageTitle="홈">
 			<section className="dark:divide-y-1 pb-3 select-none">
-				<article className="landing-article md:h-[calc(100vh-90px)] h-[calc(100vh-145px)] flex center">
-					<h1 className="landing-h1 my-6 leading-relaxed">
+				<article className="relative landing-article md:h-max h-[calc(100vh-177px)] flex center overflow-hidden">
+					<h1 className="absolute landing-h1 my-6 leading-relaxed z-10 md:text-white">
 						번거로운 일은, <br />
 						문제 해결사{' '}
 						<Typing
-							Tag="span"
+							Tag="strong"
 							cursor
 							preDelay={1500}
-							className="landing-h1 text-main font-extrabold"
+							className="landing-h1 text-main font-bold"
 						>
 							라이프파트너
 						</Typing>
 						에게.
 					</h1>
+					<video
+						loop
+						muted
+						autoPlay
+						playsInline
+						className="invisible md:visible object-contain w-full"
+					>
+						<source
+							src="
+						https://user-images.githubusercontent.com/95613159/183584198-27dea6a9-1c75-41aa-ac54-1ee68487337a.mp4"
+							type="video/mp4"
+						/>
+					</video>
 				</article>
 				<article className="landing-article grid grid-cols-3 p-4 md:p-8">
 					<figure className="flex center col-span-2">
@@ -82,7 +93,7 @@ const Landing = () => {
 							스마트폰까지.
 							<br />
 							<br />
-							<span className="text-main font-extrabold">여러 기기</span>에서
+							<span className="text-main font-bold">여러 기기</span>에서
 							<br /> 사용할 수 있어요.
 						</h2>
 					</figcaption>
@@ -92,7 +103,7 @@ const Landing = () => {
 						<h2 className="landing-h2 text-right md:leading-relaxed">
 							지금 바로
 							<br />
-							<span className="text-main font-extrabold">대전광역시</span>에서
+							<span className="text-main font-bold">대전광역시</span>에서
 							<br />
 							만나보세요.
 							<br />
@@ -108,31 +119,33 @@ const Landing = () => {
 						이용 가능 지역은 추후 확대 예정입니다.
 					</span>
 				</article>
-				<article className="relative landing-article grid grid-cols-3 p-4 md:p-8 overflow-hidden">
-					<figure className="overflow-scroll w-full col-span-2 snap-x snap-mandatory">
-						<div className="flex center w-max space-x-3 snap-x snap-mandatory">
-							{data &&
-								data.slice(0, 6).map((d: Post) => (
-									<div key={d.id} className="w-60 snap-center snap-always">
-										<Card item={d} detail={false} preview />
-									</div>
-								))}
-						</div>
-					</figure>
-					<figcaption className="vertical center">
-						<h2 className="landing-h2 md:leading-relaxed">
-							<span className="text-gray-400">미리보기</span>
-							<br />
-							<br />
-							<Link to="/signup" className="text-main font-extrabold">
-								회원가입
-							</Link>{' '}
-							후
-							<br />
-							이용할 수 있어요.
-						</h2>
-					</figcaption>
-				</article>
+				{isSuccess && (
+					<article className="relative landing-article grid grid-cols-3 p-4 md:p-8 overflow-hidden">
+						<figure className="overflow-scroll w-full col-span-2 snap-x snap-mandatory">
+							<div className="flex center w-max space-x-3 snap-x snap-mandatory">
+								{data &&
+									data.slice(0, 6).map((d: Post) => (
+										<div key={d.id} className="w-60 snap-center snap-always">
+											<Card item={d} detail={false} preview />
+										</div>
+									))}
+							</div>
+						</figure>
+						<figcaption className="vertical center">
+							<h2 className="landing-h2 md:leading-relaxed">
+								<span className="text-gray-400">미리보기</span>
+								<br />
+								<br />
+								<Link to="/signup" className="text-main font-bold">
+									회원가입
+								</Link>{' '}
+								후
+								<br />
+								이용할 수 있어요.
+							</h2>
+						</figcaption>
+					</article>
+				)}
 			</section>
 			<Floating display={display} />
 		</Layout>
