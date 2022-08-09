@@ -1,5 +1,7 @@
 # 생활 도우미 플랫폼, 라이프파트너
 
+<img src="https://user-images.githubusercontent.com/95613159/183604302-ce1a856b-d5ae-4e43-8423-e1f30abd0670.gif" width="100%" />
+
 ### 💻 Front-End 구현 기능
 
 - 회원가입, 로그인
@@ -71,3 +73,7 @@
 ## api 오류
 
 - [Notion으로 이동해서 한 번에 보기](https://lifepartner.notion.site/api-7c4728fc53ad4c52960510a77f4507eb)
+
+## 시연
+
+- [시연 영상 확인](https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#f0add9b0b6a34a83950227d1210857a8)
