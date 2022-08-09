@@ -8,19 +8,22 @@ const BreakDown = (props: {
 	getList: () => Promise<void>;
 }) => {
 	const deselectPartner = async (articleId: number) => {
-		try {
-			const response = await axios({
-				method: 'PATCH',
-				url: `http://15.164.225.61/api/articles/${articleId}`,
-				headers: {
-					authorization: `Bearer ${sessionStorage.getItem('token')}`,
-				},
-				data: {
-					status: 'waiting',
-				},
-			});
-		} catch (e) {
-			console.log(e);
+		if (window.confirm('파트너 선택을 취소하시겠어요?')) {
+			try {
+				await axios({
+					method: 'PATCH',
+					url: `http://15.164.225.61/api/articles/${articleId}`,
+					headers: {
+						authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					},
+					data: {
+						status: 'waiting',
+					},
+				});
+				props.getList();
+			} catch (e) {
+				console.log(e);
+			}
 		}
 	};
 
@@ -33,7 +36,7 @@ const BreakDown = (props: {
 			)
 		) {
 			try {
-				const response = await axios({
+				await axios({
 					method: 'PATCH',
 					url: `http://15.164.225.61/api/articles/${articleId}`,
 					headers: {
