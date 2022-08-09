@@ -42,7 +42,7 @@ export const LoadingCard = () => {
 	return (
 		<article className="vertical w-full h-72 rounded-xl border-1 overflow-hidden bg-white dark:bg-dark dark:text-white animate-pulse">
 			<div className="map flex justify-center items-center text-gray-200 dark:text-gray-600 bg-gray-300 dark:bg-gray-700">
-				<MapLoadingSVG />
+				<MapLoadingSVG className="w-12 h-12" />
 			</div>
 			<div className="grow vertical p-3">
 				<div className="skeleton-text w-2/3 h-5 mb-3"></div>
