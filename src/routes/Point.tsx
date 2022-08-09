@@ -67,7 +67,7 @@ const Point = () => {
 										<tr key={i.id} className="text-center">
 											<td className="border-1 py-2 md:py-3">{i.date}</td>
 											<td className="border-1 py-2 md:py-3">
-												<Link to={`/articles/${i.id}`}>제목</Link>
+												<Link to={`/articles/${i.id}`}>게시글 작성</Link>
 											</td>
 											<td className="border-1 py-2 md:py-3 pr-3 text-right font-semibold">
 												{i.point_earned > 0 ? `+ ` : `- `}
