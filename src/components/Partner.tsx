@@ -59,7 +59,7 @@ const Partner = (props: {
 				},
 				content: {
 					margin: 'auto',
-					width: '35%',
+					width: '50vh',
 					height: 'max-content',
 				},
 			}}
@@ -79,7 +79,7 @@ const Partner = (props: {
 					{data.map((p: string, id: number) => (
 						<button
 							key={id}
-							className="px-4 py-1 border-1 border-main rounded-full hover:bg-main hover:text-white transition"
+							className="px-4 py-2 border-1 border-main rounded-full hover:bg-main hover:text-white transition text-sm"
 							onClick={selectPartner}
 							value={p}
 						>
