@@ -48,7 +48,7 @@ const Landing = () => {
 		<Layout sideMenu noPadding pageTitle="홈">
 			<section className="dark:divide-y-1 pb-3 select-none">
 				<article className="relative landing-article md:h-max h-[calc(100vh-177px)] flex center overflow-hidden">
-					<h1 className="absolute landing-h1 my-6 leading-relaxed z-10 md:text-white">
+					<h1 className="absolute landing-h1 my-6 leading-relaxed z-[3] md:text-white">
 						번거로운 일은, <br />
 						문제 해결사{' '}
 						<Typing

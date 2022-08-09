@@ -174,7 +174,7 @@
 	}
 
 	.landing-h2 {
-		@apply text-xs sm:text-xl md:text-3xl mb-0 font-medium;
+		@apply text-xs sm:text-xl md:text-2xl lg:text-3xl mb-0 font-medium;
 	}
 
 	.landing-article {
