@@ -49,24 +49,26 @@
 ## 트러블 슈팅
 
 - [Notion으로 이동해서 한 번에 보기](https://lifepartner.notion.site/Client-troubleshooting-f012e01129cc48dcaa0c397bd0bade60)
-- <a href="https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#7957775a8fa443b6b4e49ddf49cd8dba">form 유효성 검사 관련 -> <code>react-hook-form</code>
+- <a href="https://soonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#2fe830de4efb4fa8aa7ea7bc2fb725ee">form 유효성 검사 관련 -> <code>react-hook-form</code>
   </a>
-- <a href="https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#496c966080d34b3eb87f864459813db1">
+- <a href="https://soonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#f2313aad9028412f9c113b1c0036c2d5"><code>react-hook-form</code> 사용 중 <code>type</code> 문제
+  </a>
+- <a href="https://soonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#9db9d0866da94c40a42c5cd94df97d17">
   filter 컴포넌트 slider 적용 문제 -> <code>rc-slider</code>
   </a>
-- <a href="https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#3389b23b06524fd587978165ec7c8bb7">
+- <a href="https://sonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#3b80de5376bf481da2063cbe53b8190b">
   타입스크립트 객체에 <code>string</code> 타입의 <code>key</code>로 접근하는 방법에 대한 문제
   </a>
-- <a href="https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#90699ffa66f24e7583d3820f0986b5e2">
+- <a href="https://soonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#4386d246c6754e90af71eba00ea1f280">
   ERR_CONNECTION_REFUSED
   </a>
-- <a href="https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#78bb4420ff2546a280a958a64bf055fe">
+- <a href="https://soonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#6253d2102be34307a3417055f5946aaa">
   메인 페이지 필터링 조건 <code>useReducer</code>로 상태 관리 로직 분리 및 통합하기
   </a>
-- <a href="https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#075498a6b71b401880123dcc77aabadf">
+- <a href="https://soonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#a3287d4e1fe744af84bba6e6055bce84">
   <code>useCapsLock</code> 커스텀 훅 생성과 <code>onKeyDown</code>, <code>onKeyUp</code>
   </a>
-- <a href="https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#e6e7e3d9344340c9974e7c99d74e11ba">
+- <a href="https://soonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#f3271b71a7d64d338260ec83b89c0292">
   루트 변경 시 스크롤 위치 초기화 -> <code>ScrollToTop</code>
   </a>
 
@@ -76,4 +78,4 @@
 
 ## 시연
 
-- [시연 영상 확인](https://soonzero.notion.site/24b5257366604a279c73b99d5cf361d8#f0add9b0b6a34a83950227d1210857a8)
+- [시연 내용 확인](https://soonzero.notion.site/5881b10d3ea54755b9f9f267185373f2#5ad98e6eb9484b6a9debb77c70e50e61)
